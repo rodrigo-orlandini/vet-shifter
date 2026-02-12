@@ -1,0 +1,7 @@
+-- Create "companies" table
+CREATE TABLE companies (
+  id UUID PRIMARY KEY,
+  cnpj VARCHAR(14) NOT NULL UNIQUE,
+  name VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
