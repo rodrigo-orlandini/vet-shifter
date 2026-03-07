@@ -98,10 +98,6 @@ func getMigrationFiles() ([]Migration, error) {
 			return nil
 		}
 
-		if strings.Contains(path, "atlas.sum") {
-			return nil
-		}
-
 		filename := filepath.Base(path)
 		parts := strings.Split(filename, "_")
 		if len(parts) == 0 {
