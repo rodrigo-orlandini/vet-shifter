@@ -3,12 +3,9 @@ name: Build Android APK
 on:
   push:
     branches: [main]
-    paths:
-      - 'frontend/**'
   pull_request:
     branches: [main]
-    paths:
-      - 'frontend/**'
+  workflow_dispatch:
 
 defaults:
   run:
