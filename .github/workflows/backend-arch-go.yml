@@ -1,8 +1,12 @@
 name: Backend Arch-Go
 
 on:
-  push: {}
-  pull_request: {}
+  push:
+    paths:
+      - 'backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
 
 defaults:
   run:
