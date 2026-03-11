@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - 'backend/**'
+      - '.github/workflows/backend-arch-go.yml'
   pull_request:
     paths:
       - 'backend/**'
+      - '.github/workflows/backend-arch-go.yml'
 
 defaults:
   run:

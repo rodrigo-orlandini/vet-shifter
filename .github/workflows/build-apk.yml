@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - 'frontend/**'
+      - '.github/workflows/build-apk.yml'
   pull_request:
     branches: [main]
     paths:
       - 'frontend/**'
+      - '.github/workflows/build-apk.yml'
   workflow_dispatch:
 
 defaults:
@@ -18,6 +20,8 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout Source
@@ -53,4 +57,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vetshifter-debug.apk
-          path: android/app/build/outputs/apk/debug/vetshifter-debug.apk
+          path: frontend/android/app/build/outputs/apk/debug/app-debug.apk
