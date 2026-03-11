@@ -1,0 +1,49 @@
+---
+description: Backend conventions
+globs: backend/**/*
+alwaysApply: false
+---
+
+## Tech Stack
+- Golang 1.23.4
+- SQLC for database querying
+- Database migrations handled manually on `backend/internal/_shared/database/migrations`
+- JWT authentication
+- Docker and Docker Compose to handle development and testing databases
+- Postgres 18
+
+## Folder Organization
+- Access entry points: `backend/cmd`
+- API settings: `backend/cmd/api`
+- Modules: `backend/internal`
+- Shared content across different modules: `backend/internal/_shared`
+- Shared custom errors: `backend/internal/_shared/custom-error`
+- Database settings: `backend/internal/_shared/database`
+- Utilities: `backend/internal/_shared/utils`
+- Shared value objects: `backend/internal/_shared/value-objects`
+
+## Module Folders Structure
+- Located at `backend/internal`
+- Have at least one of these 3 folders: `application`, `domain` and `infrastructure`
+- They follow Clean Architecture and SOLID patterns
+- `domain` folder has `entities` and `value-objects`
+- Entities are identities with business rules
+- Value Objects are attributes with validation or extra resources. They must be immutable and avoid obsession by primitive types
+- `application` folder has `repositories` and `use-cases`
+- Repositories from `application` are only interfaces for methods used to query database
+- Use Cases are the business logic without any external concrete dependency
+- `infrastructure` folder has `controllers`, `factories`, `mappers` and `repositories`
+- Controllers are responsible to receive HTTP requests, parse payload, call Use Case and send response
+- Factories from `infrastructure` build dependency injection for Use Case to make it works on Controllers layer
+- Mappers take Use Case or Repository responses and convert it between different layers format data
+- Repositories from `infrastructure` are implementation of a real database of repository interface on `application` folder
+
+## Testing
+- All Use Cases, Entities, Value Objects either from _shared or domain must be tested with unit tests and injecting stub dependencies created on `backend/test/unit` folder.
+- All Controllers must be tested with integration tests carrying about clearing database between each running and preparing docker test database. You can implement extra resources in `backend/test/integration`.
+- With unit tests cover success situations and returns with reproducible custom errors. An example of non-reproducible error are RepositoryError.
+- With integration tests cover the success path and only the most one common error path.
+
+## Standards
+- Use structs like classes are used in OOP to create Use Cases, Controllers, Entities, Value Objects, etc
+- Any doubt about Domain, Entities, Value Objects, Use Cases, Controllers, etc, you can search about Clean Architecture and SOLID principles on web
