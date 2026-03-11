@@ -9,7 +9,6 @@ on:
       - '.github/workflows/frontend-typecheck.yml'
       - '.github/workflows/backend-unit-tests.yml'
       - '.github/workflows/backend-arch-go.yml'
-      - '.github/workflows/build-apk.yml'
   pull_request:
     paths:
       - 'frontend/**'
@@ -18,7 +17,6 @@ on:
       - '.github/workflows/frontend-typecheck.yml'
       - '.github/workflows/backend-unit-tests.yml'
       - '.github/workflows/backend-arch-go.yml'
-      - '.github/workflows/build-apk.yml'
   workflow_dispatch:
 
 jobs:
@@ -33,9 +31,3 @@ jobs:
   arch-go:
     name: Backend architecture
     uses: ./.github/workflows/backend-arch-go.yml
-
-  build-apk:
-    name: Build APK
-    needs: [typecheck, unit-tests, arch-go]
-    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
-    uses: ./.github/workflows/build-apk.yml

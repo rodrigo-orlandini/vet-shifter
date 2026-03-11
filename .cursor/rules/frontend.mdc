@@ -4,15 +4,13 @@ globs: frontend/**/*
 alwaysApply: false
 ---
 
-This application must be web first but also support mobile through capacitor portability.
+This application is web-first and delivered as a PWA (Progressive Web App).
 
 ## Tech Stack
 - Next 16.1.16
 - React 19.2.3
-- Capacitor 8.2.0
 - Tailwind 4
-- Typescript 5
-- Ionic React Components 8.8.1
+- TypeScript 5
 
 ## Standards
 - Always prefer to componentization
