@@ -1,0 +1,58 @@
+# Arch-Go configuration for backend (architecure validations)
+version: 1
+threshold:
+  compliance: 100
+  # Minimum required coverage
+  # This low percentage is due to folders without strict dependency patterns
+  # It's better to know that a small percentage is covered than force coverage just
+  # to increase percentage, causing an unreal sense of security
+  coverage: 50
+
+
+# Layer dependency rules (forbidden imports)
+dependenciesRules:
+  # Domain must not depend on application or infrastructure.
+  - package: "**.domain.**"
+    shouldNotDependsOn:
+      internal:
+        - "**.application.**"
+        - "**.infrastructure.**"
+
+  # Application must not depend on infrastructure.
+  - package: "**.application.**"
+    shouldNotDependsOn:
+      internal:
+        - "**.infrastructure.**"
+
+  # cmd: entrypoints may only depend on internal and golang std lib.
+  - package: "**.cmd.**"
+    shouldOnlyDependsOn:
+      internal:
+        - "**.internal.**"
+
+  # _shared: must not depend on domain, application or infrastructure.
+  - package: "**._shared.**"
+    shouldNotDependsOn:
+      internal:
+        - "**.domain.**"
+        - "**.application.**"
+        - "**.infrastructure.**"
+
+
+# Package content rules
+contentsRules:
+  # Application repositories: only interfaces following repository pattern.
+  - package: "**.application.repositories"
+    shouldOnlyContainInterfaces: true
+
+  # Infrastructure factories: only functions as factory constructors.
+  - package: "**.infrastructure.factories"
+    shouldOnlyContainFunctions: true
+
+
+# Naming: structs implementing repository interfaces must end with "Repository"
+namingRules:
+  - package: "**.infrastructure.repositories"
+    interfaceImplementationNamingRule:
+      structsThatImplement: "*Repository"
+      shouldHaveSimpleNameEndingWith: "Repository"

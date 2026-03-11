@@ -1,0 +1,45 @@
+name: Backend Arch-Go
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+
+defaults:
+  run:
+    working-directory: backend
+
+jobs:
+  arch-go:
+    name: Backend architecture validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            backend
+          key: ${{ runner.os }}-go-${{ hashFiles('backend/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Install arch-go
+        run: go install github.com/arch-go/arch-go@latest
+
+      - name: Run arch-go
+        run: arch-go --color no
+
+      - name: Run custom architecture tests
+        run: go test -v ./test/architecture/... -run TestArchitecture -count=1
