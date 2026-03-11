@@ -47,3 +47,4 @@ alwaysApply: false
 ## Standards
 - Use structs like classes are used in OOP to create Use Cases, Controllers, Entities, Value Objects, etc
 - Any doubt about Domain, Entities, Value Objects, Use Cases, Controllers, etc, you can search about Clean Architecture and SOLID principles on web
+- Always check related or similar existing implementations before suggest or implement new one to avoid code duplicity or break code patterns
