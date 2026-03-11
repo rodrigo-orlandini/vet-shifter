@@ -27,7 +27,14 @@ type RegisterCompanyRequest struct {
 	ConsentLgpd bool   `json:"consent_lgpd" binding:"required"`
 }
 
-type RegisterCompanyResponse struct{}
+type RegisterCompanyResponse struct {
+	CompanyId string `json:"company_id"`
+}
+
+type ErrorResponse struct {
+	Code  string `json:"code"`
+	Error string `json:"error"`
+}
 
 type RegisterCompanyController struct{}
 
@@ -35,6 +42,19 @@ func NewRegisterCompanyController() *RegisterCompanyController {
 	return &RegisterCompanyController{}
 }
 
+// RegisterCompany godoc
+//
+//	@Summary		Register a new company with owner
+//	@Description	Creates a company and its owner account. Requires LGPD consent.
+//	@Tags			companies
+//	@Accept			json
+//	@Produce		json
+//	@Param			body	body		RegisterCompanyRequest	true	"Company and owner data"
+//	@Success		201		{object}	RegisterCompanyResponse	"Created with company_id"
+//	@Failure		400		{object}	ErrorResponse	"Invalid request body or validation error"
+//	@Failure		409		{object}	ErrorResponse	"CNPJ or email already exists"
+//	@Failure		500		{object}	ErrorResponse	"Internal server error"
+//	@Router			/companies [post]
 func (c *RegisterCompanyController) Handle(ctx *gin.Context) {
 	var body RegisterCompanyRequest
 

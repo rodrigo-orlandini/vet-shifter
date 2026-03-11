@@ -1,0 +1,91 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API for veterinary clinics and shifters.",
+    "title": "Vet Shifter API",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "API Support",
+      "url": "http://www.vetshifter.io/support"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "paths": {
+    "/companies": {
+      "post": {
+        "description": "Creates a company and its owner account. Requires LGPD consent.",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "summary": "Register a new company with owner",
+        "operationId": "registerCompany",
+        "tags": ["companies"],
+        "parameters": [
+          {
+            "description": "Company and owner data",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RegisterCompanyRequest" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created with company_id",
+            "schema": { "$ref": "#/definitions/RegisterCompanyResponse" }
+          },
+          "400": {
+            "description": "Invalid request body or validation error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "409": {
+            "description": "CNPJ or email already exists",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "RegisterCompanyRequest": {
+      "type": "object",
+      "required": ["cnpj", "company_name", "owner_name", "email", "phone", "password", "consent_lgpd"],
+      "properties": {
+        "cnpj": { "type": "string" },
+        "company_name": { "type": "string" },
+        "owner_name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "password": { "type": "string" },
+        "street": { "type": "string" },
+        "number": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "zip_code": { "type": "string" },
+        "consent_lgpd": { "type": "boolean" }
+      }
+    },
+    "RegisterCompanyResponse": {
+      "type": "object",
+      "properties": {
+        "company_id": { "type": "string" }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "error": { "type": "string" }
+      }
+    }
+  }
+}

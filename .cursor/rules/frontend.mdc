@@ -1,0 +1,22 @@
+---
+description: Frontend conventions
+globs: frontend/**/*
+alwaysApply: false
+---
+
+This application must be web first but also support mobile through capacitor portability.
+
+## Tech Stack
+- Next 16.1.16
+- React 19.2.3
+- Capacitor 8.2.0
+- Tailwind 4
+- Typescript 5
+- Ionic React Components 8.8.1
+
+## Standards
+- Always prefer to componentization
+- Always check related or similar existing implementations before suggest or implement new one to avoid code duplicity or break code patterns
+- Generic functions must be treated as utils and reutilized across the project
+- Work modularized, grouping screens like backend domain separations
+- API integration is done via orval and axios: use the orval-generated client (e.g. getVetShifterAPI()) where needed; do not add a separate API service layer

@@ -41,10 +41,12 @@ alwaysApply: false
 ## Testing
 - All Use Cases, Entities, Value Objects either from _shared or domain must be tested with unit tests and injecting stub dependencies created on `backend/test/unit` folder.
 - All Controllers must be tested with integration tests carrying about clearing database between each running and preparing docker test database. You can implement extra resources in `backend/test/integration`.
-- With unit tests cover success situations and returns with reproducible custom errors. An example of non-reproducible error are RepositoryError.
+- With unit tests cover success situations and returns with reproducible custom errors. An example of non-reproducible error are RepositoryError. Here, use always stub external services.
 - With integration tests cover the success path and only the most one common error path.
 
 ## Standards
 - Use structs like classes are used in OOP to create Use Cases, Controllers, Entities, Value Objects, etc
 - Any doubt about Domain, Entities, Value Objects, Use Cases, Controllers, etc, you can search about Clean Architecture and SOLID principles on web
 - Always check related or similar existing implementations before suggest or implement new one to avoid code duplicity or break code patterns
+- Always document endpoints with swagger to be integrated with frontend through orval
+- Regenerate Swagger docs after changing API: run `swag init -g cmd/api/main.go --parseDependency` from `backend/` (requires `go install github.com/swaggo/swag/cmd/swag@latest`). Then run `npm run generate:api` in `frontend/` to update the API client.
