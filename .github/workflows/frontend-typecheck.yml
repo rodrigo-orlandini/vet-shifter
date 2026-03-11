@@ -1,6 +1,7 @@
 name: Frontend TypeScript Check
 
 on:
+  workflow_call:
   push:
     paths:
       - 'frontend/**'

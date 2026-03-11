@@ -1,6 +1,7 @@
 name: Backend Arch-Go
 
 on:
+  workflow_call:
   push:
     paths:
       - 'backend/**'

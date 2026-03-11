@@ -1,6 +1,7 @@
 name: Build Android APK
 
 on:
+  workflow_call:
   push:
     branches: [main]
     paths:
@@ -19,10 +20,10 @@ defaults:
 
 jobs:
   build:
+    name: Build APK
     runs-on: ubuntu-latest
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4

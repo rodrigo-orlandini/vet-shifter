@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
+      - '.github/workflows/ci.yml'
+      - '.github/workflows/frontend-typecheck.yml'
+      - '.github/workflows/backend-unit-tests.yml'
+      - '.github/workflows/backend-arch-go.yml'
+      - '.github/workflows/build-apk.yml'
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
+      - '.github/workflows/ci.yml'
+      - '.github/workflows/frontend-typecheck.yml'
+      - '.github/workflows/backend-unit-tests.yml'
+      - '.github/workflows/backend-arch-go.yml'
+      - '.github/workflows/build-apk.yml'
+  workflow_dispatch:
+
+jobs:
+  typecheck:
+    name: Frontend TypeScript
+    uses: ./.github/workflows/frontend-typecheck.yml
+
+  unit-tests:
+    name: Backend unit tests
+    uses: ./.github/workflows/backend-unit-tests.yml
+
+  arch-go:
+    name: Backend architecture
+    uses: ./.github/workflows/backend-arch-go.yml
+
+  build-apk:
+    name: Build APK
+    needs: [typecheck, unit-tests, arch-go]
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/build-apk.yml
