@@ -35,7 +35,7 @@ func CompanyFromPersistence(company queries.Company) (*entities.Company, error) 
 		City:           nullStringToStr(company.City),
 		State:          nullStringToStr(company.State),
 		ZipCode:        nullStringToStr(company.ZipCode),
-		ApprovalStatus: company.ApprovalStatus,
+		ApprovalStatus: string(company.ApprovalStatus),
 		CreatedAt:      &company.CreatedAt,
 	}, nil
 }

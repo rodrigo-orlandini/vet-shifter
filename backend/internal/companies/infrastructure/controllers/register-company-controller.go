@@ -75,6 +75,7 @@ func (c *RegisterCompanyController) Handle(ctx *gin.Context) {
 		State:       body.State,
 		ZipCode:     body.ZipCode,
 	})
+
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"code":  "INVALID_COMPANY",
@@ -88,11 +89,12 @@ func (c *RegisterCompanyController) Handle(ctx *gin.Context) {
 		t := time.Now()
 		consentAt = &t
 	}
-	owner, err := mappers.OwnerFromHttp(mappers.OwnerFromHttpInput{
+
+	companyOwner, err := mappers.CompanyOwnerFromHttp(mappers.CompanyOwnerFromHttpInput{
 		Email:         body.Email,
 		Phone:         body.Phone,
-		Password:     body.Password,
-		CompanyId:    company.Id,
+		Password:      body.Password,
+		CompanyId:     company.Id,
 		ConsentLgpdAt: consentAt,
 	})
 	if err != nil {
@@ -104,14 +106,20 @@ func (c *RegisterCompanyController) Handle(ctx *gin.Context) {
 	}
 
 	input := usecases.RegisterCompanyUseCaseInput{
-		Company: *company,
-		Owner:   *owner,
+		Company:      *company,
+		CompanyOwner: *companyOwner,
 	}
 
 	useCase := factories.NewRegisterCompanyFactory()
 	out, err := useCase.Execute(&input)
 	if err != nil {
 		switch e := err.(type) {
+		case *customerror.InvalidValueObjectError:
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"code":  "INVALID_INPUT",
+				"error": e.Error(),
+			})
+			return
 		case *customerror.AlreadyExistsError:
 			ctx.JSON(http.StatusConflict, gin.H{
 				"code":  "ALREADY_EXISTS",

@@ -21,5 +21,10 @@ func NewCpf(value string) (*Cpf, error) {
 	return &Cpf{value: value, masked: masked}, nil
 }
 
-func (c *Cpf) GetValue() string  { return c.value }
-func (c *Cpf) GetMasked() string { return c.masked }
+func (c *Cpf) GetValue() string {
+	return c.value
+}
+
+func (c *Cpf) GetMasked() string {
+	return c.masked
+}

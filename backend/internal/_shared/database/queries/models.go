@@ -6,10 +6,159 @@ package queries
 
 import (
 	"database/sql"
+	"database/sql/driver"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 )
+
+type AccountStatus string
+
+const (
+	AccountStatusPending                 AccountStatus = "pending"
+	AccountStatusApproved                AccountStatus = "approved"
+	AccountStatusRejected                AccountStatus = "rejected"
+	AccountStatusPendingDocumentApproval AccountStatus = "pending_document_approval"
+	AccountStatusComplete                AccountStatus = "complete"
+)
+
+func (e *AccountStatus) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = AccountStatus(s)
+	case string:
+		*e = AccountStatus(s)
+	default:
+		return fmt.Errorf("unsupported scan type for AccountStatus: %T", src)
+	}
+	return nil
+}
+
+type NullAccountStatus struct {
+	AccountStatus AccountStatus `json:"account_status"`
+	Valid         bool          `json:"valid"` // Valid is true if AccountStatus is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullAccountStatus) Scan(value interface{}) error {
+	if value == nil {
+		ns.AccountStatus, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.AccountStatus.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullAccountStatus) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.AccountStatus), nil
+}
+
+type UserType string
+
+const (
+	UserTypeCompanyOwner    UserType = "company_owner"
+	UserTypeShiftVeterinary UserType = "shift_veterinary"
+)
+
+func (e *UserType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = UserType(s)
+	case string:
+		*e = UserType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for UserType: %T", src)
+	}
+	return nil
+}
+
+type NullUserType struct {
+	UserType UserType `json:"user_type"`
+	Valid    bool     `json:"valid"` // Valid is true if UserType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullUserType) Scan(value interface{}) error {
+	if value == nil {
+		ns.UserType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.UserType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullUserType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.UserType), nil
+}
+
+type VeterinarySpecialty string
+
+const (
+	VeterinarySpecialtyGeneralPractice  VeterinarySpecialty = "general_practice"
+	VeterinarySpecialtyFelines          VeterinarySpecialty = "felines"
+	VeterinarySpecialtyWildlife         VeterinarySpecialty = "wildlife"
+	VeterinarySpecialtyDermatology      VeterinarySpecialty = "dermatology"
+	VeterinarySpecialtyCardiology       VeterinarySpecialty = "cardiology"
+	VeterinarySpecialtyNephrology       VeterinarySpecialty = "nephrology"
+	VeterinarySpecialtyUrology          VeterinarySpecialty = "urology"
+	VeterinarySpecialtyEndocrinology    VeterinarySpecialty = "endocrinology"
+	VeterinarySpecialtyGastroenterology VeterinarySpecialty = "gastroenterology"
+	VeterinarySpecialtyNeurology        VeterinarySpecialty = "neurology"
+	VeterinarySpecialtyOrthopedics      VeterinarySpecialty = "orthopedics"
+	VeterinarySpecialtyDentistry        VeterinarySpecialty = "dentistry"
+	VeterinarySpecialtyOphthalmology    VeterinarySpecialty = "ophthalmology"
+	VeterinarySpecialtyUltrasound       VeterinarySpecialty = "ultrasound"
+	VeterinarySpecialtyPathology        VeterinarySpecialty = "pathology"
+	VeterinarySpecialtyAnesthesiology   VeterinarySpecialty = "anesthesiology"
+	VeterinarySpecialtyIcu              VeterinarySpecialty = "icu"
+	VeterinarySpecialtyOncology         VeterinarySpecialty = "oncology"
+	VeterinarySpecialtyPhysiotherapy    VeterinarySpecialty = "physiotherapy"
+	VeterinarySpecialtyBehavioral       VeterinarySpecialty = "behavioral"
+)
+
+func (e *VeterinarySpecialty) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = VeterinarySpecialty(s)
+	case string:
+		*e = VeterinarySpecialty(s)
+	default:
+		return fmt.Errorf("unsupported scan type for VeterinarySpecialty: %T", src)
+	}
+	return nil
+}
+
+type NullVeterinarySpecialty struct {
+	VeterinarySpecialty VeterinarySpecialty `json:"veterinary_specialty"`
+	Valid               bool                `json:"valid"` // Valid is true if VeterinarySpecialty is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullVeterinarySpecialty) Scan(value interface{}) error {
+	if value == nil {
+		ns.VeterinarySpecialty, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.VeterinarySpecialty.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullVeterinarySpecialty) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.VeterinarySpecialty), nil
+}
 
 type Company struct {
 	ID             uuid.UUID      `json:"id"`
@@ -20,7 +169,7 @@ type Company struct {
 	City           sql.NullString `json:"city"`
 	State          sql.NullString `json:"state"`
 	ZipCode        sql.NullString `json:"zip_code"`
-	ApprovalStatus string         `json:"approval_status"`
+	ApprovalStatus AccountStatus  `json:"approval_status"`
 	CreatedAt      time.Time      `json:"created_at"`
 }
 
@@ -34,52 +183,27 @@ type CompanyOwner struct {
 	CreatedAt     time.Time    `json:"created_at"`
 }
 
-type Rating struct {
-	ID            uuid.UUID      `json:"id"`
-	ShiftID       uuid.UUID      `json:"shift_id"`
-	FromCompanyID uuid.NullUUID  `json:"from_company_id"`
-	FromVetID     uuid.NullUUID  `json:"from_vet_id"`
-	ToCompanyID   uuid.NullUUID  `json:"to_company_id"`
-	ToVetID       uuid.NullUUID  `json:"to_vet_id"`
-	Score         int32          `json:"score"`
-	Comment       sql.NullString `json:"comment"`
-	CreatedAt     time.Time      `json:"created_at"`
+type PasswordResetToken struct {
+	ID        uuid.UUID    `json:"id"`
+	Token     string       `json:"token"`
+	Email     string       `json:"email"`
+	UserType  UserType     `json:"user_type"`
+	ExpiresAt time.Time    `json:"expires_at"`
+	UsedAt    sql.NullTime `json:"used_at"`
+	CreatedAt time.Time    `json:"created_at"`
 }
 
-type Shift struct {
-	ID                uuid.UUID      `json:"id"`
-	CompanyID         uuid.UUID      `json:"company_id"`
-	StartsAt          time.Time      `json:"starts_at"`
-	EndsAt            time.Time      `json:"ends_at"`
-	Type              string         `json:"type"`
-	OfferedValueCents int64          `json:"offered_value_cents"`
-	Requirements      sql.NullString `json:"requirements"`
-	Description       sql.NullString `json:"description"`
-	Location          sql.NullString `json:"location"`
-	Status            string         `json:"status"`
-	CreatedAt         time.Time      `json:"created_at"`
-}
-
-type ShiftCandidacy struct {
-	ID              uuid.UUID `json:"id"`
-	ShiftID         uuid.UUID `json:"shift_id"`
-	ShiftVetID      uuid.UUID `json:"shift_vet_id"`
-	Status          string    `json:"status"`
-	InvitedByClinic bool      `json:"invited_by_clinic"`
-	CreatedAt       time.Time `json:"created_at"`
-}
-
-type ShiftVet struct {
-	ID             uuid.UUID    `json:"id"`
-	Email          string       `json:"email"`
-	Phone          string       `json:"phone"`
-	Password       string       `json:"password"`
-	FullName       string       `json:"full_name"`
-	Cpf            string       `json:"cpf"`
-	CrmvNumber     string       `json:"crmv_number"`
-	CrmvState      string       `json:"crmv_state"`
-	Specialties    []string     `json:"specialties"`
-	ApprovalStatus string       `json:"approval_status"`
-	ConsentLgpdAt  sql.NullTime `json:"consent_lgpd_at"`
-	CreatedAt      time.Time    `json:"created_at"`
+type ShiftVeterinary struct {
+	ID             uuid.UUID             `json:"id"`
+	Email          string                `json:"email"`
+	Phone          string                `json:"phone"`
+	Password       string                `json:"password"`
+	FullName       string                `json:"full_name"`
+	Cpf            string                `json:"cpf"`
+	CrmvNumber     string                `json:"crmv_number"`
+	CrmvState      string                `json:"crmv_state"`
+	Specialties    []VeterinarySpecialty `json:"specialties"`
+	ApprovalStatus AccountStatus         `json:"approval_status"`
+	ConsentLgpdAt  sql.NullTime          `json:"consent_lgpd_at"`
+	CreatedAt      time.Time             `json:"created_at"`
 }

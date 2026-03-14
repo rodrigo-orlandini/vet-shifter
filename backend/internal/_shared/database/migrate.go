@@ -49,6 +49,7 @@ func RunMigrations(db *sql.DB) error {
 		if err := applyMigration(db, migration); err != nil {
 			return fmt.Errorf("failed to apply migration %s: %w", migration.Version, err)
 		}
+
 		fmt.Printf("Applied migration: %s\n", migration.Version)
 	}
 
@@ -100,12 +101,14 @@ func getMigrationFiles() ([]Migration, error) {
 
 		filename := filepath.Base(path)
 		parts := strings.Split(filename, "_")
+
 		if len(parts) == 0 {
 			return nil
 		}
-		version := parts[0]
 
+		version := parts[0]
 		sql, err := os.ReadFile(path)
+
 		if err != nil {
 			return fmt.Errorf("failed to read migration file %s: %w", path, err)
 		}
@@ -133,17 +136,22 @@ func getMigrationFiles() ([]Migration, error) {
 func getAppliedMigrations(db *sql.DB) (map[string]bool, error) {
 	query := fmt.Sprintf("SELECT version FROM %s", migrationsTable)
 	rows, err := db.Query(query)
+
 	if err != nil {
 		return nil, err
 	}
+
 	defer rows.Close()
 
 	applied := make(map[string]bool)
+
 	for rows.Next() {
 		var version string
+
 		if err := rows.Scan(&version); err != nil {
 			return nil, err
 		}
+
 		applied[version] = true
 	}
 
@@ -152,11 +160,13 @@ func getAppliedMigrations(db *sql.DB) (map[string]bool, error) {
 
 func getPendingMigrations(migrations []Migration, applied map[string]bool) []Migration {
 	var pending []Migration
+
 	for _, migration := range migrations {
 		if !applied[migration.Version] {
 			pending = append(pending, migration)
 		}
 	}
+
 	return pending
 }
 

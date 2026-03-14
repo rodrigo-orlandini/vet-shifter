@@ -20,3 +20,6 @@ This application must be web first but also support mobile through capacitor por
 - Generic functions must be treated as utils and reutilized across the project
 - Work modularized, grouping screens like backend domain separations
 - API integration is done via orval and axios: use the orval-generated client (e.g. getVetShifterAPI()) where needed; do not add a separate API service layer
+- This is an application for animal health area, so use light theme and colors that correspond to this environment 
+- Prefer to use Ionic components for awesome interface on mobile after capacitor compilation
+- Be careful about capacitor mobile compilation specific implementation details to avoid implementing something that work on only one environment. Everything must work on both.

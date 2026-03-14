@@ -29,10 +29,10 @@ type CreateCompanyParams struct {
 	City           sql.NullString `json:"city"`
 	State          sql.NullString `json:"state"`
 	ZipCode        sql.NullString `json:"zip_code"`
-	ApprovalStatus string         `json:"approval_status"`
+	ApprovalStatus AccountStatus  `json:"approval_status"`
 }
 
-// Companies (with address and approval)
+// Companies
 func (q *Queries) CreateCompany(ctx context.Context, arg CreateCompanyParams) (Company, error) {
 	row := q.db.QueryRowContext(ctx, createCompany,
 		arg.ID,
@@ -61,158 +61,65 @@ func (q *Queries) CreateCompany(ctx context.Context, arg CreateCompanyParams) (C
 	return i, err
 }
 
-const createRating = `-- name: CreateRating :one
-INSERT INTO ratings (id, shift_id, from_company_id, from_vet_id, to_company_id, to_vet_id, score, comment)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-RETURNING id, shift_id, from_company_id, from_vet_id, to_company_id, to_vet_id, score, comment, created_at
-`
-
-type CreateRatingParams struct {
-	ID            uuid.UUID      `json:"id"`
-	ShiftID       uuid.UUID      `json:"shift_id"`
-	FromCompanyID uuid.NullUUID  `json:"from_company_id"`
-	FromVetID     uuid.NullUUID  `json:"from_vet_id"`
-	ToCompanyID   uuid.NullUUID  `json:"to_company_id"`
-	ToVetID       uuid.NullUUID  `json:"to_vet_id"`
-	Score         int32          `json:"score"`
-	Comment       sql.NullString `json:"comment"`
-}
-
-// Ratings
-func (q *Queries) CreateRating(ctx context.Context, arg CreateRatingParams) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, createRating,
-		arg.ID,
-		arg.ShiftID,
-		arg.FromCompanyID,
-		arg.FromVetID,
-		arg.ToCompanyID,
-		arg.ToVetID,
-		arg.Score,
-		arg.Comment,
-	)
-	var i Rating
-	err := row.Scan(
-		&i.ID,
-		&i.ShiftID,
-		&i.FromCompanyID,
-		&i.FromVetID,
-		&i.ToCompanyID,
-		&i.ToVetID,
-		&i.Score,
-		&i.Comment,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const createShift = `-- name: CreateShift :one
-INSERT INTO shifts (id, company_id, starts_at, ends_at, type, offered_value_cents, requirements, description, location, status)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-RETURNING id, company_id, starts_at, ends_at, type, offered_value_cents, requirements, description, location, status, created_at
-`
-
-type CreateShiftParams struct {
-	ID                uuid.UUID      `json:"id"`
-	CompanyID         uuid.UUID      `json:"company_id"`
-	StartsAt          time.Time      `json:"starts_at"`
-	EndsAt            time.Time      `json:"ends_at"`
-	Type              string         `json:"type"`
-	OfferedValueCents int64          `json:"offered_value_cents"`
-	Requirements      sql.NullString `json:"requirements"`
-	Description       sql.NullString `json:"description"`
-	Location          sql.NullString `json:"location"`
-	Status            string         `json:"status"`
-}
-
-// Shifts
-func (q *Queries) CreateShift(ctx context.Context, arg CreateShiftParams) (Shift, error) {
-	row := q.db.QueryRowContext(ctx, createShift,
-		arg.ID,
-		arg.CompanyID,
-		arg.StartsAt,
-		arg.EndsAt,
-		arg.Type,
-		arg.OfferedValueCents,
-		arg.Requirements,
-		arg.Description,
-		arg.Location,
-		arg.Status,
-	)
-	var i Shift
-	err := row.Scan(
-		&i.ID,
-		&i.CompanyID,
-		&i.StartsAt,
-		&i.EndsAt,
-		&i.Type,
-		&i.OfferedValueCents,
-		&i.Requirements,
-		&i.Description,
-		&i.Location,
-		&i.Status,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const createShiftCandidacy = `-- name: CreateShiftCandidacy :one
-INSERT INTO shift_candidacies (id, shift_id, shift_vet_id, status, invited_by_clinic)
+const createPasswordResetToken = `-- name: CreatePasswordResetToken :one
+INSERT INTO password_reset_tokens (id, token, email, user_type, expires_at)
 VALUES ($1, $2, $3, $4, $5)
-RETURNING id, shift_id, shift_vet_id, status, invited_by_clinic, created_at
+RETURNING id, token, email, user_type, expires_at, used_at, created_at
 `
 
-type CreateShiftCandidacyParams struct {
-	ID              uuid.UUID `json:"id"`
-	ShiftID         uuid.UUID `json:"shift_id"`
-	ShiftVetID      uuid.UUID `json:"shift_vet_id"`
-	Status          string    `json:"status"`
-	InvitedByClinic bool      `json:"invited_by_clinic"`
+type CreatePasswordResetTokenParams struct {
+	ID        uuid.UUID `json:"id"`
+	Token     string    `json:"token"`
+	Email     string    `json:"email"`
+	UserType  UserType  `json:"user_type"`
+	ExpiresAt time.Time `json:"expires_at"`
 }
 
-// Shift candidacies
-func (q *Queries) CreateShiftCandidacy(ctx context.Context, arg CreateShiftCandidacyParams) (ShiftCandidacy, error) {
-	row := q.db.QueryRowContext(ctx, createShiftCandidacy,
+// Password reset tokens
+func (q *Queries) CreatePasswordResetToken(ctx context.Context, arg CreatePasswordResetTokenParams) (PasswordResetToken, error) {
+	row := q.db.QueryRowContext(ctx, createPasswordResetToken,
 		arg.ID,
-		arg.ShiftID,
-		arg.ShiftVetID,
-		arg.Status,
-		arg.InvitedByClinic,
+		arg.Token,
+		arg.Email,
+		arg.UserType,
+		arg.ExpiresAt,
 	)
-	var i ShiftCandidacy
+	var i PasswordResetToken
 	err := row.Scan(
 		&i.ID,
-		&i.ShiftID,
-		&i.ShiftVetID,
-		&i.Status,
-		&i.InvitedByClinic,
+		&i.Token,
+		&i.Email,
+		&i.UserType,
+		&i.ExpiresAt,
+		&i.UsedAt,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
-const createShiftVet = `-- name: CreateShiftVet :one
-INSERT INTO shift_vets (id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at)
+const createShiftVeterinary = `-- name: CreateShiftVeterinary :one
+INSERT INTO shift_veterinaries (id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 RETURNING id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at
 `
 
-type CreateShiftVetParams struct {
-	ID             uuid.UUID    `json:"id"`
-	Email          string       `json:"email"`
-	Phone          string       `json:"phone"`
-	Password       string       `json:"password"`
-	FullName       string       `json:"full_name"`
-	Cpf            string       `json:"cpf"`
-	CrmvNumber     string       `json:"crmv_number"`
-	CrmvState      string       `json:"crmv_state"`
-	Specialties    []string     `json:"specialties"`
-	ApprovalStatus string       `json:"approval_status"`
-	ConsentLgpdAt  sql.NullTime `json:"consent_lgpd_at"`
+type CreateShiftVeterinaryParams struct {
+	ID             uuid.UUID             `json:"id"`
+	Email          string                `json:"email"`
+	Phone          string                `json:"phone"`
+	Password       string                `json:"password"`
+	FullName       string                `json:"full_name"`
+	Cpf            string                `json:"cpf"`
+	CrmvNumber     string                `json:"crmv_number"`
+	CrmvState      string                `json:"crmv_state"`
+	Specialties    []VeterinarySpecialty `json:"specialties"`
+	ApprovalStatus AccountStatus         `json:"approval_status"`
+	ConsentLgpdAt  sql.NullTime          `json:"consent_lgpd_at"`
 }
 
-// Shift vets (plantonistas)
-func (q *Queries) CreateShiftVet(ctx context.Context, arg CreateShiftVetParams) (ShiftVet, error) {
-	row := q.db.QueryRowContext(ctx, createShiftVet,
+// Shift veterinaries
+func (q *Queries) CreateShiftVeterinary(ctx context.Context, arg CreateShiftVeterinaryParams) (ShiftVeterinary, error) {
+	row := q.db.QueryRowContext(ctx, createShiftVeterinary,
 		arg.ID,
 		arg.Email,
 		arg.Phone,
@@ -225,7 +132,7 @@ func (q *Queries) CreateShiftVet(ctx context.Context, arg CreateShiftVetParams) 
 		arg.ApprovalStatus,
 		arg.ConsentLgpdAt,
 	)
-	var i ShiftVet
+	var i ShiftVeterinary
 	err := row.Scan(
 		&i.ID,
 		&i.Email,
@@ -238,61 +145,6 @@ func (q *Queries) CreateShiftVet(ctx context.Context, arg CreateShiftVetParams) 
 		pq.Array(&i.Specialties),
 		&i.ApprovalStatus,
 		&i.ConsentLgpdAt,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const existsRatingFromCompanyForShift = `-- name: ExistsRatingFromCompanyForShift :one
-SELECT EXISTS(SELECT 1 FROM ratings WHERE shift_id = $1 AND from_company_id = $2) AS exists
-`
-
-type ExistsRatingFromCompanyForShiftParams struct {
-	ShiftID       uuid.UUID     `json:"shift_id"`
-	FromCompanyID uuid.NullUUID `json:"from_company_id"`
-}
-
-func (q *Queries) ExistsRatingFromCompanyForShift(ctx context.Context, arg ExistsRatingFromCompanyForShiftParams) (bool, error) {
-	row := q.db.QueryRowContext(ctx, existsRatingFromCompanyForShift, arg.ShiftID, arg.FromCompanyID)
-	var exists bool
-	err := row.Scan(&exists)
-	return exists, err
-}
-
-const existsRatingFromVetForShift = `-- name: ExistsRatingFromVetForShift :one
-SELECT EXISTS(SELECT 1 FROM ratings WHERE shift_id = $1 AND from_vet_id = $2) AS exists
-`
-
-type ExistsRatingFromVetForShiftParams struct {
-	ShiftID   uuid.UUID     `json:"shift_id"`
-	FromVetID uuid.NullUUID `json:"from_vet_id"`
-}
-
-func (q *Queries) ExistsRatingFromVetForShift(ctx context.Context, arg ExistsRatingFromVetForShiftParams) (bool, error) {
-	row := q.db.QueryRowContext(ctx, existsRatingFromVetForShift, arg.ShiftID, arg.FromVetID)
-	var exists bool
-	err := row.Scan(&exists)
-	return exists, err
-}
-
-const findCandidacyByShiftAndVet = `-- name: FindCandidacyByShiftAndVet :one
-SELECT id, shift_id, shift_vet_id, status, invited_by_clinic, created_at FROM shift_candidacies WHERE shift_id = $1 AND shift_vet_id = $2
-`
-
-type FindCandidacyByShiftAndVetParams struct {
-	ShiftID    uuid.UUID `json:"shift_id"`
-	ShiftVetID uuid.UUID `json:"shift_vet_id"`
-}
-
-func (q *Queries) FindCandidacyByShiftAndVet(ctx context.Context, arg FindCandidacyByShiftAndVetParams) (ShiftCandidacy, error) {
-	row := q.db.QueryRowContext(ctx, findCandidacyByShiftAndVet, arg.ShiftID, arg.ShiftVetID)
-	var i ShiftCandidacy
-	err := row.Scan(
-		&i.ID,
-		&i.ShiftID,
-		&i.ShiftVetID,
-		&i.Status,
-		&i.InvitedByClinic,
 		&i.CreatedAt,
 	)
 	return i, err
@@ -346,6 +198,7 @@ const findCompanyOwnerByEmail = `-- name: FindCompanyOwnerByEmail :one
 SELECT id, email, phone, password, company_id, consent_lgpd_at, created_at FROM company_owners WHERE email = $1
 `
 
+// Company owners
 func (q *Queries) FindCompanyOwnerByEmail(ctx context.Context, email string) (CompanyOwner, error) {
 	row := q.db.QueryRowContext(ctx, findCompanyOwnerByEmail, email)
 	var i CompanyOwner
@@ -380,13 +233,13 @@ func (q *Queries) FindCompanyOwnerByID(ctx context.Context, id uuid.UUID) (Compa
 	return i, err
 }
 
-const findShiftVetByCpf = `-- name: FindShiftVetByCpf :one
-SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_vets WHERE cpf = $1
+const findShiftVeterinaryByCpf = `-- name: FindShiftVeterinaryByCpf :one
+SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_veterinaries WHERE cpf = $1
 `
 
-func (q *Queries) FindShiftVetByCpf(ctx context.Context, cpf string) (ShiftVet, error) {
-	row := q.db.QueryRowContext(ctx, findShiftVetByCpf, cpf)
-	var i ShiftVet
+func (q *Queries) FindShiftVeterinaryByCpf(ctx context.Context, cpf string) (ShiftVeterinary, error) {
+	row := q.db.QueryRowContext(ctx, findShiftVeterinaryByCpf, cpf)
+	var i ShiftVeterinary
 	err := row.Scan(
 		&i.ID,
 		&i.Email,
@@ -404,13 +257,13 @@ func (q *Queries) FindShiftVetByCpf(ctx context.Context, cpf string) (ShiftVet, 
 	return i, err
 }
 
-const findShiftVetByEmail = `-- name: FindShiftVetByEmail :one
-SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_vets WHERE email = $1
+const findShiftVeterinaryByEmail = `-- name: FindShiftVeterinaryByEmail :one
+SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_veterinaries WHERE email = $1
 `
 
-func (q *Queries) FindShiftVetByEmail(ctx context.Context, email string) (ShiftVet, error) {
-	row := q.db.QueryRowContext(ctx, findShiftVetByEmail, email)
-	var i ShiftVet
+func (q *Queries) FindShiftVeterinaryByEmail(ctx context.Context, email string) (ShiftVeterinary, error) {
+	row := q.db.QueryRowContext(ctx, findShiftVeterinaryByEmail, email)
+	var i ShiftVeterinary
 	err := row.Scan(
 		&i.ID,
 		&i.Email,
@@ -428,13 +281,13 @@ func (q *Queries) FindShiftVetByEmail(ctx context.Context, email string) (ShiftV
 	return i, err
 }
 
-const findShiftVetByID = `-- name: FindShiftVetByID :one
-SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_vets WHERE id = $1
+const findShiftVeterinaryByID = `-- name: FindShiftVeterinaryByID :one
+SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_veterinaries WHERE id = $1
 `
 
-func (q *Queries) FindShiftVetByID(ctx context.Context, id uuid.UUID) (ShiftVet, error) {
-	row := q.db.QueryRowContext(ctx, findShiftVetByID, id)
-	var i ShiftVet
+func (q *Queries) FindShiftVeterinaryByID(ctx context.Context, id uuid.UUID) (ShiftVeterinary, error) {
+	row := q.db.QueryRowContext(ctx, findShiftVeterinaryByID, id)
+	var i ShiftVeterinary
 	err := row.Scan(
 		&i.ID,
 		&i.Email,
@@ -452,218 +305,32 @@ func (q *Queries) FindShiftVetByID(ctx context.Context, id uuid.UUID) (ShiftVet,
 	return i, err
 }
 
-const getCandidacyByID = `-- name: GetCandidacyByID :one
-SELECT id, shift_id, shift_vet_id, status, invited_by_clinic, created_at FROM shift_candidacies WHERE id = $1
+const getPasswordResetTokenByToken = `-- name: GetPasswordResetTokenByToken :one
+SELECT id, token, email, user_type, expires_at, used_at, created_at FROM password_reset_tokens WHERE token = $1
 `
 
-func (q *Queries) GetCandidacyByID(ctx context.Context, id uuid.UUID) (ShiftCandidacy, error) {
-	row := q.db.QueryRowContext(ctx, getCandidacyByID, id)
-	var i ShiftCandidacy
+func (q *Queries) GetPasswordResetTokenByToken(ctx context.Context, token string) (PasswordResetToken, error) {
+	row := q.db.QueryRowContext(ctx, getPasswordResetTokenByToken, token)
+	var i PasswordResetToken
 	err := row.Scan(
 		&i.ID,
-		&i.ShiftID,
-		&i.ShiftVetID,
-		&i.Status,
-		&i.InvitedByClinic,
+		&i.Token,
+		&i.Email,
+		&i.UserType,
+		&i.ExpiresAt,
+		&i.UsedAt,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
-const getShiftByID = `-- name: GetShiftByID :one
-SELECT id, company_id, starts_at, ends_at, type, offered_value_cents, requirements, description, location, status, created_at FROM shifts WHERE id = $1
+const markPasswordResetTokenUsed = `-- name: MarkPasswordResetTokenUsed :exec
+UPDATE password_reset_tokens SET used_at = NOW() WHERE id = $1
 `
 
-func (q *Queries) GetShiftByID(ctx context.Context, id uuid.UUID) (Shift, error) {
-	row := q.db.QueryRowContext(ctx, getShiftByID, id)
-	var i Shift
-	err := row.Scan(
-		&i.ID,
-		&i.CompanyID,
-		&i.StartsAt,
-		&i.EndsAt,
-		&i.Type,
-		&i.OfferedValueCents,
-		&i.Requirements,
-		&i.Description,
-		&i.Location,
-		&i.Status,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const listCandidaciesByShift = `-- name: ListCandidaciesByShift :many
-SELECT id, shift_id, shift_vet_id, status, invited_by_clinic, created_at FROM shift_candidacies WHERE shift_id = $1 ORDER BY created_at DESC
-`
-
-func (q *Queries) ListCandidaciesByShift(ctx context.Context, shiftID uuid.UUID) ([]ShiftCandidacy, error) {
-	rows, err := q.db.QueryContext(ctx, listCandidaciesByShift, shiftID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []ShiftCandidacy
-	for rows.Next() {
-		var i ShiftCandidacy
-		if err := rows.Scan(
-			&i.ID,
-			&i.ShiftID,
-			&i.ShiftVetID,
-			&i.Status,
-			&i.InvitedByClinic,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const listRatingsByCompany = `-- name: ListRatingsByCompany :many
-SELECT id, shift_id, from_company_id, from_vet_id, to_company_id, to_vet_id, score, comment, created_at FROM ratings WHERE to_company_id = $1 ORDER BY created_at DESC
-`
-
-func (q *Queries) ListRatingsByCompany(ctx context.Context, toCompanyID uuid.NullUUID) ([]Rating, error) {
-	rows, err := q.db.QueryContext(ctx, listRatingsByCompany, toCompanyID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Rating
-	for rows.Next() {
-		var i Rating
-		if err := rows.Scan(
-			&i.ID,
-			&i.ShiftID,
-			&i.FromCompanyID,
-			&i.FromVetID,
-			&i.ToCompanyID,
-			&i.ToVetID,
-			&i.Score,
-			&i.Comment,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const listRatingsByVet = `-- name: ListRatingsByVet :many
-SELECT id, shift_id, from_company_id, from_vet_id, to_company_id, to_vet_id, score, comment, created_at FROM ratings WHERE to_vet_id = $1 ORDER BY created_at DESC
-`
-
-func (q *Queries) ListRatingsByVet(ctx context.Context, toVetID uuid.NullUUID) ([]Rating, error) {
-	rows, err := q.db.QueryContext(ctx, listRatingsByVet, toVetID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Rating
-	for rows.Next() {
-		var i Rating
-		if err := rows.Scan(
-			&i.ID,
-			&i.ShiftID,
-			&i.FromCompanyID,
-			&i.FromVetID,
-			&i.ToCompanyID,
-			&i.ToVetID,
-			&i.Score,
-			&i.Comment,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const listShifts = `-- name: ListShifts :many
-SELECT id, company_id, starts_at, ends_at, type, offered_value_cents, requirements, description, location, status, created_at FROM shifts
-WHERE
-  ($1 = '' OR status = $1)
-  AND ($2 = '' OR type = $2)
-  AND ($3 = '00000000-0000-0000-0000-000000000000' OR company_id = $3)
-  AND (starts_at >= $4)
-  AND (starts_at <= $5)
-ORDER BY starts_at ASC
-LIMIT $6 OFFSET $7
-`
-
-type ListShiftsParams struct {
-	Column1    interface{} `json:"column_1"`
-	Column2    interface{} `json:"column_2"`
-	Column3    interface{} `json:"column_3"`
-	StartsAt   time.Time   `json:"starts_at"`
-	StartsAt_2 time.Time   `json:"starts_at_2"`
-	Limit      int32       `json:"limit"`
-	Offset     int32       `json:"offset"`
-}
-
-func (q *Queries) ListShifts(ctx context.Context, arg ListShiftsParams) ([]Shift, error) {
-	rows, err := q.db.QueryContext(ctx, listShifts,
-		arg.Column1,
-		arg.Column2,
-		arg.Column3,
-		arg.StartsAt,
-		arg.StartsAt_2,
-		arg.Limit,
-		arg.Offset,
-	)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Shift
-	for rows.Next() {
-		var i Shift
-		if err := rows.Scan(
-			&i.ID,
-			&i.CompanyID,
-			&i.StartsAt,
-			&i.EndsAt,
-			&i.Type,
-			&i.OfferedValueCents,
-			&i.Requirements,
-			&i.Description,
-			&i.Location,
-			&i.Status,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+func (q *Queries) MarkPasswordResetTokenUsed(ctx context.Context, id uuid.UUID) error {
+	_, err := q.db.ExecContext(ctx, markPasswordResetTokenUsed, id)
+	return err
 }
 
 const registerCompanyOwner = `-- name: RegisterCompanyOwner :exec
@@ -680,7 +347,6 @@ type RegisterCompanyOwnerParams struct {
 	ConsentLgpdAt sql.NullTime `json:"consent_lgpd_at"`
 }
 
-// Company owners
 func (q *Queries) RegisterCompanyOwner(ctx context.Context, arg RegisterCompanyOwnerParams) error {
 	_, err := q.db.ExecContext(ctx, registerCompanyOwner,
 		arg.ID,
@@ -693,31 +359,30 @@ func (q *Queries) RegisterCompanyOwner(ctx context.Context, arg RegisterCompanyO
 	return err
 }
 
-const updateCandidacyStatus = `-- name: UpdateCandidacyStatus :exec
-UPDATE shift_candidacies SET status = $2 WHERE id = $1
+const updateCompanyOwnerPassword = `-- name: UpdateCompanyOwnerPassword :exec
+UPDATE company_owners SET password = $2 WHERE id = $1
 `
 
-type UpdateCandidacyStatusParams struct {
-	ID     uuid.UUID `json:"id"`
-	Status string    `json:"status"`
+type UpdateCompanyOwnerPasswordParams struct {
+	ID       uuid.UUID `json:"id"`
+	Password string    `json:"password"`
 }
 
-func (q *Queries) UpdateCandidacyStatus(ctx context.Context, arg UpdateCandidacyStatusParams) error {
-	_, err := q.db.ExecContext(ctx, updateCandidacyStatus, arg.ID, arg.Status)
+func (q *Queries) UpdateCompanyOwnerPassword(ctx context.Context, arg UpdateCompanyOwnerPasswordParams) error {
+	_, err := q.db.ExecContext(ctx, updateCompanyOwnerPassword, arg.ID, arg.Password)
 	return err
 }
 
-const updateShiftStatus = `-- name: UpdateShiftStatus :exec
-UPDATE shifts SET status = $2 WHERE id = $1
+const updateShiftVeterinaryPassword = `-- name: UpdateShiftVeterinaryPassword :exec
+UPDATE shift_veterinaries SET password = $2 WHERE id = $1
 `
 
-type UpdateShiftStatusParams struct {
-	ID     uuid.UUID `json:"id"`
-	Status string    `json:"status"`
+type UpdateShiftVeterinaryPasswordParams struct {
+	ID       uuid.UUID `json:"id"`
+	Password string    `json:"password"`
 }
 
-// When accepting a candidacy we need to update shift status
-func (q *Queries) UpdateShiftStatus(ctx context.Context, arg UpdateShiftStatusParams) error {
-	_, err := q.db.ExecContext(ctx, updateShiftStatus, arg.ID, arg.Status)
+func (q *Queries) UpdateShiftVeterinaryPassword(ctx context.Context, arg UpdateShiftVeterinaryPasswordParams) error {
+	_, err := q.db.ExecContext(ctx, updateShiftVeterinaryPassword, arg.ID, arg.Password)
 	return err
 }

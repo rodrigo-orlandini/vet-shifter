@@ -7,7 +7,6 @@ import (
 
 func NewRegisterCompanyFactory() *usecases.RegisterCompanyUseCase {
 	companyRepository := repositories.NewSqlcCompanyRepository()
-	useCase := usecases.NewRegisterCompanyUseCase(companyRepository)
 
-	return useCase
+	return usecases.NewRegisterCompanyUseCase(companyRepository)
 }

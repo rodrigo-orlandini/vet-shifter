@@ -2,6 +2,7 @@ package valueobjects
 
 import (
 	"regexp"
+
 	customerror "rodrigoorlandini/vet-shifter/internal/_shared/custom-error"
 )
 

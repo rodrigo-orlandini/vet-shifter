@@ -28,7 +28,8 @@ alwaysApply: false
 - They follow Clean Architecture and SOLID patterns
 - `domain` folder has `entities` and `value-objects`
 - Entities are identities with business rules
-- Value Objects are attributes with validation or extra resources. They must be immutable and avoid obsession by primitive types
+- Value Objects are attributes with validation or extra resources. They must be immutable and avoid obsession by primitive types.
+- Value Object access function must be named as GetValue. If need to add some different data access function, you can add a function with a different name started with Get.
 - `application` folder has `repositories` and `use-cases`
 - Repositories from `application` are only interfaces for methods used to query database
 - Use Cases are the business logic without any external concrete dependency
@@ -36,7 +37,9 @@ alwaysApply: false
 - Controllers are responsible to receive HTTP requests, parse payload, call Use Case and send response
 - Factories from `infrastructure` build dependency injection for Use Case to make it works on Controllers layer
 - Mappers take Use Case or Repository responses and convert it between different layers format data
+- Mappers functions must be named as SomethingFromPersistence (from database), SomethingFromHTTP (from controller or web api layer), etc. If it takes from entity layer ahead, use SomethingToPersistence (as example). 
 - Repositories from `infrastructure` are implementation of a real database of repository interface on `application` folder
+- Create repositories according aggregation instead of for specific functions
 
 ## Testing
 - All Use Cases, Entities, Value Objects either from _shared or domain must be tested with unit tests and injecting stub dependencies created on `backend/test/unit` folder.
@@ -50,3 +53,12 @@ alwaysApply: false
 - Always check related or similar existing implementations before suggest or implement new one to avoid code duplicity or break code patterns
 - Always document endpoints with swagger to be integrated with frontend through orval
 - Regenerate Swagger docs after changing API: run `swag init -g cmd/api/main.go --parseDependency` from `backend/` (requires `go install github.com/swaggo/swag/cmd/swag@latest`). Then run `npm run generate:api` in `frontend/` to update the API client.
+- Use pascalCase for variables and CamelCase for structs, functions, etc.
+- Use snake_case for database tables and columns.
+- Use dashes ("-") to separate file names and folder names. Example: request-reset-password-use-case.go.
+
+## Integration tests
+- Test environment: `backend/docker-compose.test.yml` (Postgres 18, no volumes).
+- Run with: `DATABASE_URL` and `JWT_SECRET` set, `go test -tags=integration ./internal/...` from `backend/`.
+- Each test uses a clear schema (truncate before run); tests can be parallelized (`t.Parallel()`).
+- Cover happy path and main fail path only. CI: `.github/workflows/backend-integration-tests.yml`.

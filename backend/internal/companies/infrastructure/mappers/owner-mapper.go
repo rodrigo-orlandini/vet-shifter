@@ -5,21 +5,21 @@ import (
 
 	"rodrigoorlandini/vet-shifter/internal/_shared/database/queries"
 	"rodrigoorlandini/vet-shifter/internal/companies/domain/entities"
-	valueobjects "rodrigoorlandini/vet-shifter/internal/companies/domain/value-objects"
+	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 )
 
-func OwnerFromPersistence(owner queries.CompanyOwner) (*entities.Owner, error) {
-	email, err := valueobjects.NewEmail(owner.Email)
+func CompanyOwnerFromPersistence(owner queries.CompanyOwner) (*entities.CompanyOwner, error) {
+	email, err := sharedvalueobjects.NewEmail(owner.Email)
 	if err != nil {
 		return nil, err
 	}
 
-	phone, err := valueobjects.NewPhone(owner.Phone)
+	phone, err := sharedvalueobjects.NewPhone(owner.Phone)
 	if err != nil {
 		return nil, err
 	}
 
-	o := &entities.Owner{
+	o := &entities.CompanyOwner{
 		Id:        owner.ID.String(),
 		Email:     *email,
 		Phone:     *phone,
@@ -29,10 +29,11 @@ func OwnerFromPersistence(owner queries.CompanyOwner) (*entities.Owner, error) {
 	if owner.ConsentLgpdAt.Valid {
 		o.ConsentLgpdAt = &owner.ConsentLgpdAt.Time
 	}
+
 	return o, nil
 }
 
-type OwnerFromHttpInput struct {
+type CompanyOwnerFromHttpInput struct {
 	Email         string
 	Phone         string
 	Password      string
@@ -40,14 +41,16 @@ type OwnerFromHttpInput struct {
 	ConsentLgpdAt *time.Time
 }
 
-func OwnerFromHttp(input OwnerFromHttpInput) (*entities.Owner, error) {
-	email, err := valueobjects.NewEmail(input.Email)
+func CompanyOwnerFromHttp(input CompanyOwnerFromHttpInput) (*entities.CompanyOwner, error) {
+	email, err := sharedvalueobjects.NewEmail(input.Email)
 	if err != nil {
 		return nil, err
 	}
-	phone, err := valueobjects.NewPhone(input.Phone)
+
+	phone, err := sharedvalueobjects.NewPhone(input.Phone)
 	if err != nil {
 		return nil, err
 	}
-	return entities.NewOwner(*email, *phone, input.Password, input.CompanyId, input.ConsentLgpdAt)
+
+	return entities.NewCompanyOwner(*email, *phone, input.Password, input.CompanyId, input.ConsentLgpdAt)
 }

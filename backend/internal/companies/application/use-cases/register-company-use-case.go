@@ -12,17 +12,15 @@ type RegisterCompanyUseCase struct {
 }
 
 type RegisterCompanyUseCaseInput struct {
-	Company entities.Company
-	Owner   entities.Owner
+	Company      entities.Company
+	CompanyOwner entities.CompanyOwner
 }
 
 type RegisterCompanyUseCaseOutput struct {
 	CompanyId string
 }
 
-func NewRegisterCompanyUseCase(
-	companyRepository repositories.CompanyRepository,
-) *RegisterCompanyUseCase {
+func NewRegisterCompanyUseCase(companyRepository repositories.CompanyRepository) *RegisterCompanyUseCase {
 	return &RegisterCompanyUseCase{
 		companyRepository: companyRepository,
 	}
@@ -31,6 +29,13 @@ func NewRegisterCompanyUseCase(
 func (u *RegisterCompanyUseCase) Execute(
 	input *RegisterCompanyUseCaseInput,
 ) (*RegisterCompanyUseCaseOutput, error) {
+	if len(input.CompanyOwner.Password) < utils.MinPasswordLength {
+		return nil, &customerror.InvalidValueObjectError{
+			Key:   "Password",
+			Value: "must be at least 8 characters",
+		}
+	}
+
 	companyWithSameCnpj, err := u.companyRepository.FindByCnpj(input.Company.Cnpj)
 
 	if err != nil {
@@ -45,21 +50,20 @@ func (u *RegisterCompanyUseCase) Execute(
 		}
 	}
 
-	ownerWithSameEmail, err := u.companyRepository.FindOwnerByEmail(input.Owner.Email)
-
+	existingOwner, err := u.companyRepository.FindCompanyOwnerByEmail(input.CompanyOwner.Email)
 	if err != nil {
 		return nil, &customerror.RepositoryError{
-			Entity: "Owner",
+			Entity: "CompanyOwner",
 			Field:  "Email",
 			Err:    err,
 		}
 	}
 
-	if ownerWithSameEmail != nil {
+	if existingOwner != nil {
 		return nil, &customerror.AlreadyExistsError{
-			Entity: "Owner",
+			Entity: "CompanyOwner",
 			Field:  "Email",
-			Value:  input.Owner.Email.GetValue(),
+			Value:  input.CompanyOwner.Email.GetValue(),
 		}
 	}
 
@@ -69,13 +73,14 @@ func (u *RegisterCompanyUseCase) Execute(
 		return nil, err
 	}
 
-	passwordHash := utils.Argon2Hash(input.Owner.Password)
-	input.Owner.Password = passwordHash
-	input.Owner.CompanyId = company.Id
+	passwordHash := utils.Argon2Hash(input.CompanyOwner.Password)
+	input.CompanyOwner.Password = passwordHash
+	input.CompanyOwner.CompanyId = company.Id
 
-	err = u.companyRepository.RegisterOwner(input.Owner)
+	err = u.companyRepository.RegisterCompanyOwner(input.CompanyOwner)
 	if err != nil {
 		return nil, err
 	}
+
 	return &RegisterCompanyUseCaseOutput{CompanyId: company.Id}, nil
 }

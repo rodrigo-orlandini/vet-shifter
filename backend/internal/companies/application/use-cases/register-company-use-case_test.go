@@ -5,6 +5,7 @@ import (
 	usecases "rodrigoorlandini/vet-shifter/internal/companies/application/use-cases"
 	"rodrigoorlandini/vet-shifter/internal/companies/domain/entities"
 	valueobjects "rodrigoorlandini/vet-shifter/internal/companies/domain/value-objects"
+	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 	"rodrigoorlandini/vet-shifter/test/unit/factories"
 	"testing"
 
@@ -19,14 +20,14 @@ func TestUseCaseRegisterCompany(t *testing.T) {
 		company, err := entities.NewCompany(*cnpj, "Test Company", nil)
 		assert.Nil(t, err)
 
-		email, _ := valueobjects.NewEmail("test@email.com")
-		phone, _ := valueobjects.NewPhone("00000000000")
-		owner, err := entities.NewOwner(*email, *phone, "hashed", company.Id, nil)
+		email, _ := sharedvalueobjects.NewEmail("test@email.com")
+		phone, _ := sharedvalueobjects.NewPhone("00000000000")
+		companyOwner, err := entities.NewCompanyOwner(*email, *phone, "password", company.Id, nil)
 		assert.Nil(t, err)
 
 		_, err = useCase.Execute(&usecases.RegisterCompanyUseCaseInput{
-			Company: *company,
-			Owner:   *owner,
+			Company:      *company,
+			CompanyOwner: *companyOwner,
 		})
 		assert.Nil(t, err)
 
@@ -38,12 +39,12 @@ func TestUseCaseRegisterCompany(t *testing.T) {
 		assert.NotNil(t, company.Id)
 		assert.NotNil(t, company.CreatedAt)
 
-		owner, err = deps.CompanyRepository.FindOwnerByEmail(*email)
+		companyOwner, err = deps.CompanyRepository.FindCompanyOwnerByEmail(*email)
 		assert.Nil(t, err)
-		assert.NotNil(t, owner)
-		assert.Equal(t, owner.Email.GetValue(), "test@email.com")
-		assert.Equal(t, owner.Phone.GetValue(), "00000000000")
-		assert.Equal(t, owner.CompanyId, company.Id)
+		assert.NotNil(t, companyOwner)
+		assert.Equal(t, companyOwner.Email.GetValue(), "test@email.com")
+		assert.Equal(t, companyOwner.Phone.GetValue(), "00000000000")
+		assert.Equal(t, companyOwner.CompanyId, company.Id)
 	})
 
 	t.Run("it should not be able to register a company with an existing cnpj", func(t *testing.T) {
@@ -53,28 +54,28 @@ func TestUseCaseRegisterCompany(t *testing.T) {
 		existingCompany, err := entities.NewCompany(*cnpj, "Existing Company", nil)
 		assert.Nil(t, err)
 
-		existingEmail, _ := valueobjects.NewEmail("existing@email.com")
-		existingPhone, _ := valueobjects.NewPhone("00000000000")
-		existingOwner, err := entities.NewOwner(*existingEmail, *existingPhone, "hashed", existingCompany.Id, nil)
+		existingEmail, _ := sharedvalueobjects.NewEmail("existing@email.com")
+		existingPhone, _ := sharedvalueobjects.NewPhone("00000000000")
+		existingOwner, err := entities.NewCompanyOwner(*existingEmail, *existingPhone, "password", existingCompany.Id, nil)
 		assert.Nil(t, err)
 
 		_, err = useCase.Execute(&usecases.RegisterCompanyUseCaseInput{
-			Company: *existingCompany,
-			Owner:   *existingOwner,
+			Company:      *existingCompany,
+			CompanyOwner: *existingOwner,
 		})
 		assert.Nil(t, err)
 
 		duplicateCompany, err := entities.NewCompany(*cnpj, "Duplicate Company", nil)
 		assert.Nil(t, err)
 
-		duplicateEmail, _ := valueobjects.NewEmail("duplicate@email.com")
-		duplicatePhone, _ := valueobjects.NewPhone("11111111111")
-		duplicateOwner, err := entities.NewOwner(*duplicateEmail, *duplicatePhone, "hashed", duplicateCompany.Id, nil)
+		duplicateEmail, _ := sharedvalueobjects.NewEmail("duplicate@email.com")
+		duplicatePhone, _ := sharedvalueobjects.NewPhone("11111111111")
+		duplicateOwner, err := entities.NewCompanyOwner(*duplicateEmail, *duplicatePhone, "password", duplicateCompany.Id, nil)
 		assert.Nil(t, err)
 
 		_, err = useCase.Execute(&usecases.RegisterCompanyUseCaseInput{
-			Company: *duplicateCompany,
-			Owner:   *duplicateOwner,
+			Company:      *duplicateCompany,
+			CompanyOwner: *duplicateOwner,
 		})
 		assert.NotNil(t, err)
 		assert.IsType(t, &customerror.AlreadyExistsError{}, err)
@@ -90,14 +91,14 @@ func TestUseCaseRegisterCompany(t *testing.T) {
 		existingCompany, err := entities.NewCompany(*cnpj1, "Existing Company", nil)
 		assert.Nil(t, err)
 
-		email, _ := valueobjects.NewEmail("existing@email.com")
-		phone1, _ := valueobjects.NewPhone("00000000000")
-		existingOwner, err := entities.NewOwner(*email, *phone1, "hashed", existingCompany.Id, nil)
+		email, _ := sharedvalueobjects.NewEmail("existing@email.com")
+		phone1, _ := sharedvalueobjects.NewPhone("00000000000")
+		existingOwner, err := entities.NewCompanyOwner(*email, *phone1, "password", existingCompany.Id, nil)
 		assert.Nil(t, err)
 
 		_, err = useCase.Execute(&usecases.RegisterCompanyUseCaseInput{
-			Company: *existingCompany,
-			Owner:   *existingOwner,
+			Company:      *existingCompany,
+			CompanyOwner: *existingOwner,
 		})
 		assert.Nil(t, err)
 
@@ -105,19 +106,43 @@ func TestUseCaseRegisterCompany(t *testing.T) {
 		duplicateCompany, err := entities.NewCompany(*cnpj2, "Duplicate Company", nil)
 		assert.Nil(t, err)
 
-		phone2, _ := valueobjects.NewPhone("11111111111")
-		duplicateOwner, err := entities.NewOwner(*email, *phone2, "hashed", duplicateCompany.Id, nil)
+		phone2, _ := sharedvalueobjects.NewPhone("11111111111")
+		duplicateOwner, err := entities.NewCompanyOwner(*email, *phone2, "password", duplicateCompany.Id, nil)
 		assert.Nil(t, err)
 
 		_, err = useCase.Execute(&usecases.RegisterCompanyUseCaseInput{
-			Company: *duplicateCompany,
-			Owner:   *duplicateOwner,
+			Company:      *duplicateCompany,
+			CompanyOwner: *duplicateOwner,
 		})
 		assert.NotNil(t, err)
 		assert.IsType(t, &customerror.AlreadyExistsError{}, err)
 		alreadyExistsErr := err.(*customerror.AlreadyExistsError)
-		assert.Equal(t, "Owner", alreadyExistsErr.Entity)
+		assert.Equal(t, "CompanyOwner", alreadyExistsErr.Entity)
 		assert.Equal(t, "Email", alreadyExistsErr.Field)
 		assert.Equal(t, "existing@email.com", alreadyExistsErr.Value)
+	})
+
+	t.Run("it should not be able to register when password has less than 8 characters", func(t *testing.T) {
+		useCase, _ := factories.NewRegisterCompanyStubFactory()
+
+		cnpj, _ := valueobjects.NewCnpj("00000000000100")
+		company, err := entities.NewCompany(*cnpj, "Test Company", nil)
+		assert.Nil(t, err)
+
+		email, _ := sharedvalueobjects.NewEmail("test@email.com")
+		phone, _ := sharedvalueobjects.NewPhone("00000000000")
+		companyOwner, err := entities.NewCompanyOwner(*email, *phone, "short", company.Id, nil)
+		assert.Nil(t, err)
+
+		_, err = useCase.Execute(&usecases.RegisterCompanyUseCaseInput{
+			Company:      *company,
+			CompanyOwner: *companyOwner,
+		})
+
+		assert.NotNil(t, err)
+		assert.IsType(t, &customerror.InvalidValueObjectError{}, err)
+		invalidErr := err.(*customerror.InvalidValueObjectError)
+		assert.Equal(t, "Password", invalidErr.Key)
+		assert.Equal(t, "must be at least 8 characters", invalidErr.Value)
 	})
 }

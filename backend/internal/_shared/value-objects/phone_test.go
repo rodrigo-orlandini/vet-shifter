@@ -1,10 +1,11 @@
 package valueobjects_test
 
 import (
-	valueobjects "rodrigoorlandini/vet-shifter/internal/companies/domain/value-objects"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	valueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 )
 
 func TestValueObjectPhone(t *testing.T) {

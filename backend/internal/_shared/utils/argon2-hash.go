@@ -10,6 +10,8 @@ import (
 	"golang.org/x/crypto/argon2"
 )
 
+const MinPasswordLength = 8
+
 type argonParams struct {
 	memory      uint32
 	iterations  uint32

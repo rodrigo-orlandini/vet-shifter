@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"rodrigoorlandini/vet-shifter/internal/_shared/database"
 	"rodrigoorlandini/vet-shifter/internal/_shared/database/queries"
+	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 	"rodrigoorlandini/vet-shifter/internal/companies/domain/entities"
 	valueobjects "rodrigoorlandini/vet-shifter/internal/companies/domain/value-objects"
 	"rodrigoorlandini/vet-shifter/internal/companies/infrastructure/mappers"
@@ -36,8 +37,9 @@ func (r *SqlcCompanyRepository) Create(company entities.Company) (*entities.Comp
 		City:           mappers.StrToNullString(company.City),
 		State:          mappers.StrToNullString(company.State),
 		ZipCode:        mappers.StrToNullString(company.ZipCode),
-		ApprovalStatus: company.ApprovalStatus,
+		ApprovalStatus: queries.AccountStatus(company.ApprovalStatus),
 	}
+
 	createdCompany, err := r.queries.CreateCompany(ctx, params)
 	if err != nil {
 		return nil, err
@@ -51,12 +53,14 @@ func (r *SqlcCompanyRepository) Create(company entities.Company) (*entities.Comp
 	return mappedCompany, nil
 }
 
-func (r *SqlcCompanyRepository) RegisterOwner(owner entities.Owner) error {
+func (r *SqlcCompanyRepository) RegisterCompanyOwner(owner entities.CompanyOwner) error {
 	ctx := context.Background()
 	consentLgpdAt := sql.NullTime{}
+
 	if owner.ConsentLgpdAt != nil {
 		consentLgpdAt = sql.NullTime{Time: *owner.ConsentLgpdAt, Valid: true}
 	}
+
 	err := r.queries.RegisterCompanyOwner(ctx, queries.RegisterCompanyOwnerParams{
 		ID:            uuid.MustParse(owner.Id),
 		Email:         owner.Email.GetValue(),
@@ -65,6 +69,7 @@ func (r *SqlcCompanyRepository) RegisterOwner(owner entities.Owner) error {
 		CompanyID:     uuid.MustParse(owner.CompanyId),
 		ConsentLgpdAt: consentLgpdAt,
 	})
+
 	if err != nil {
 		return err
 	}
@@ -92,10 +97,10 @@ func (r *SqlcCompanyRepository) FindByCnpj(cnpj valueobjects.Cnpj) (*entities.Co
 	return mappedCompany, nil
 }
 
-func (r *SqlcCompanyRepository) FindOwnerByEmail(email valueobjects.Email) (*entities.Owner, error) {
+func (r *SqlcCompanyRepository) FindCompanyOwnerByEmail(email sharedvalueobjects.Email) (*entities.CompanyOwner, error) {
 	ctx := context.Background()
-
 	foundOwner, err := r.queries.FindCompanyOwnerByEmail(ctx, email.GetValue())
+
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
@@ -103,11 +108,15 @@ func (r *SqlcCompanyRepository) FindOwnerByEmail(email valueobjects.Email) (*ent
 
 		return nil, err
 	}
+	return mappers.CompanyOwnerFromPersistence(foundOwner)
+}
 
-	mappedOwner, err := mappers.OwnerFromPersistence(foundOwner)
-	if err != nil {
-		return nil, err
-	}
+func (r *SqlcCompanyRepository) UpdateCompanyOwnerPassword(userID string, hashedPassword string) error {
+	ctx := context.Background()
+	id := uuid.MustParse(userID)
 
-	return mappedOwner, nil
+	return r.queries.UpdateCompanyOwnerPassword(ctx, queries.UpdateCompanyOwnerPasswordParams{
+		ID:       id,
+		Password: hashedPassword,
+	})
 }

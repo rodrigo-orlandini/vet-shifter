@@ -8,6 +8,7 @@ on:
       - '.github/workflows/ci.yml'
       - '.github/workflows/frontend-typecheck.yml'
       - '.github/workflows/backend-unit-tests.yml'
+      - '.github/workflows/backend-integration-tests.yml'
       - '.github/workflows/backend-arch-go.yml'
       - '.github/workflows/build-apk.yml'
   pull_request:
@@ -17,6 +18,7 @@ on:
       - '.github/workflows/ci.yml'
       - '.github/workflows/frontend-typecheck.yml'
       - '.github/workflows/backend-unit-tests.yml'
+      - '.github/workflows/backend-integration-tests.yml'
       - '.github/workflows/backend-arch-go.yml'
       - '.github/workflows/build-apk.yml'
   workflow_dispatch:
@@ -30,12 +32,16 @@ jobs:
     name: Backend unit tests
     uses: ./.github/workflows/backend-unit-tests.yml
 
+  integration-tests:
+    name: Backend integration tests
+    uses: ./.github/workflows/backend-integration-tests.yml
+
   arch-go:
     name: Backend architecture
     uses: ./.github/workflows/backend-arch-go.yml
 
   build-apk:
     name: Build APK
-    needs: [typecheck, unit-tests, arch-go]
+    needs: [typecheck, unit-tests, integration-tests, arch-go]
     if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     uses: ./.github/workflows/build-apk.yml

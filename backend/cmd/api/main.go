@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 
+	"rodrigoorlandini/vet-shifter/internal/_shared/api/router"
 	"rodrigoorlandini/vet-shifter/internal/_shared/database"
 	"rodrigoorlandini/vet-shifter/internal/_shared/utils"
 )
@@ -26,13 +26,10 @@ func main() {
 		log.Fatalf("Failed to run migrations: %v", err)
 	}
 
-	port := os.Getenv("API_PORT")
-	if port == "" {
-		port = "8080"
-	}
+	port := utils.GetAPIPort()
 
-	router := setupRouter()
-	if err := router.Run(fmt.Sprintf(":%s", port)); err != nil {
+	r := router.SetupRouter()
+	if err := r.Run(fmt.Sprintf(":%s", port)); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }

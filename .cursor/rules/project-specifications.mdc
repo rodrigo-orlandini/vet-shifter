@@ -8,3 +8,4 @@ alwaysApply: true
 
 ## Code Details
 - Use an empty line between blocks like if, else, for, functions, etc.
+- Always insert or update project-requirements.mdc file to keep all requirements up to date.

@@ -1,4 +1,5 @@
 import Axios, { type AxiosRequestConfig } from "axios";
+import { clearAuth, getToken } from "@/lib/auth-storage";
 
 const baseURL =
   typeof process !== "undefined" && process.env?.NEXT_PUBLIC_API_URL
@@ -11,6 +12,25 @@ export const axiosInstance = Axios.create({
     "Content-Type": "application/json",
   },
 });
+
+axiosInstance.interceptors.request.use(async (config) => {
+  const token = await getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401 && typeof window !== "undefined") {
+      await clearAuth();
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const customInstance = <T>(
   config: AxiosRequestConfig,
