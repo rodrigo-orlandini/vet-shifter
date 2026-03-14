@@ -5,6 +5,8 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
+	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 
@@ -69,11 +71,20 @@ func createMigrationsTable(db *sql.DB) error {
 }
 
 func getMigrationFiles() ([]Migration, error) {
+	migrations, err := getMigrationFilesFromEmbed()
+	if err == nil && len(migrations) > 0 {
+		return migrations, nil
+	}
+
+	return getMigrationFilesFromFS()
+}
+
+func getMigrationFilesFromEmbed() ([]Migration, error) {
 	var migrations []Migration
 
 	entries, err := fs.ReadDir(migrationsFS, "migrations")
 	if err != nil {
-		return nil, fmt.Errorf("failed to read migrations dir: %w", err)
+		return nil, err
 	}
 
 	for _, entry := range entries {
@@ -88,15 +99,15 @@ func getMigrationFiles() ([]Migration, error) {
 		}
 
 		version := parts[0]
-		sql, err := fs.ReadFile(migrationsFS, "migrations/"+filename)
+		sqlContent, err := fs.ReadFile(migrationsFS, "migrations/"+filename)
 		if err != nil {
-			return nil, fmt.Errorf("failed to read migration file %s: %w", filename, err)
+			return nil, err
 		}
 
 		migrations = append(migrations, Migration{
 			Version: version,
 			File:    filename,
-			SQL:     string(sql),
+			SQL:     string(sqlContent),
 		})
 	}
 
@@ -105,6 +116,80 @@ func getMigrationFiles() ([]Migration, error) {
 	})
 
 	return migrations, nil
+}
+
+func getMigrationFilesFromFS() ([]Migration, error) {
+	dir := findMigrationsDir()
+	if dir == "" {
+		return nil, fmt.Errorf("migrations directory not found (tried embed and filesystem)")
+	}
+
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, fmt.Errorf("read migrations dir: %w", err)
+	}
+
+	var migrations []Migration
+	for _, entry := range entries {
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".sql") {
+			continue
+		}
+
+		filename := entry.Name()
+		parts := strings.Split(filename, "_")
+		if len(parts) == 0 {
+			continue
+		}
+
+		version := parts[0]
+		sqlContent, err := os.ReadFile(filepath.Join(dir, filename))
+		if err != nil {
+			return nil, fmt.Errorf("read migration %s: %w", filename, err)
+		}
+
+		migrations = append(migrations, Migration{
+			Version: version,
+			File:    filename,
+			SQL:     string(sqlContent),
+		})
+	}
+
+	sort.Slice(migrations, func(i, j int) bool {
+		return migrations[i].Version < migrations[j].Version
+	})
+
+	return migrations, nil
+}
+
+func findMigrationsDir() string {
+	const relPath = "internal/_shared/database/migrations"
+
+	wd, err := os.Getwd()
+	if err != nil {
+		return ""
+	}
+
+	for {
+		path := filepath.Join(wd, relPath)
+		if info, err := os.Stat(path); err == nil && info.IsDir() {
+			return path
+		}
+
+		parent := filepath.Dir(wd)
+		if parent == wd {
+			break
+		}
+		wd = parent
+	}
+
+	for _, wd = range []string{".", "..", "../..", "../../..", "../../../..", "../../../../.."} {
+		path := filepath.Join(wd, relPath)
+		if info, err := os.Stat(path); err == nil && info.IsDir() {
+			return path
+		}
+	}
+
+	return ""
 }
 
 func getAppliedMigrations(db *sql.DB) (map[string]bool, error) {
