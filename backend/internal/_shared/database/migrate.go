@@ -2,18 +2,18 @@ package database
 
 import (
 	"database/sql"
+	"embed"
 	"fmt"
 	"io/fs"
-	"os"
-	"path/filepath"
 	"sort"
 	"strings"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
+var migrationsFS embed.FS
+
 const migrationsTable = "schema_migrations"
-const migrationsDir = "internal/_shared/database/migrations"
 
 type Migration struct {
 	Version string
@@ -71,46 +71,26 @@ func createMigrationsTable(db *sql.DB) error {
 func getMigrationFiles() ([]Migration, error) {
 	var migrations []Migration
 
-	paths := []string{
-		migrationsDir,
-		filepath.Join("..", migrationsDir),
-		filepath.Join("..", "..", migrationsDir),
-		filepath.Join("backend", migrationsDir),
+	entries, err := fs.ReadDir(migrationsFS, "migrations")
+	if err != nil {
+		return nil, fmt.Errorf("failed to read migrations dir: %w", err)
 	}
 
-	var migrationsPath string
-	for _, path := range paths {
-		if info, err := os.Stat(path); err == nil && info.IsDir() {
-			migrationsPath = path
-			break
-		}
-	}
-
-	if migrationsPath == "" {
-		return nil, fmt.Errorf("migrations directory not found. Tried paths: %v", paths)
-	}
-
-	err := filepath.WalkDir(migrationsPath, func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
+	for _, entry := range entries {
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".sql") {
+			continue
 		}
 
-		if d.IsDir() || !strings.HasSuffix(path, ".sql") {
-			return nil
-		}
-
-		filename := filepath.Base(path)
+		filename := entry.Name()
 		parts := strings.Split(filename, "_")
-
 		if len(parts) == 0 {
-			return nil
+			continue
 		}
 
 		version := parts[0]
-		sql, err := os.ReadFile(path)
-
+		sql, err := fs.ReadFile(migrationsFS, "migrations/"+filename)
 		if err != nil {
-			return fmt.Errorf("failed to read migration file %s: %w", path, err)
+			return nil, fmt.Errorf("failed to read migration file %s: %w", filename, err)
 		}
 
 		migrations = append(migrations, Migration{
@@ -118,12 +98,6 @@ func getMigrationFiles() ([]Migration, error) {
 			File:    filename,
 			SQL:     string(sql),
 		})
-
-		return nil
-	})
-
-	if err != nil {
-		return nil, err
 	}
 
 	sort.Slice(migrations, func(i, j int) bool {
