@@ -8,9 +8,8 @@ import (
 )
 
 const (
-	CompanyApprovalPending  = "pending"
-	CompanyApprovalApproved = "approved"
-	CompanyApprovalRejected = "rejected"
+	CompanyApprovalPendingDocumentApproval = "pending_document_approval"
+	CompanyApprovalComplete                = "complete"
 )
 
 type Company struct {
@@ -31,10 +30,10 @@ func NewCompany(cnpj valueobjects.Cnpj, name string, address *Address) (*Company
 	id, _ := uuid.NewV7()
 	c := &Company{
 		Id:             id.String(),
-		Cnpj:            cnpj,
-		Name:            name,
-		ApprovalStatus:  CompanyApprovalPending,
-		CreatedAt:       &now,
+		Cnpj:           cnpj,
+		Name:           name,
+		ApprovalStatus: CompanyApprovalPendingDocumentApproval,
+		CreatedAt:      &now,
 	}
 	if address != nil {
 		c.Street = address.Street
