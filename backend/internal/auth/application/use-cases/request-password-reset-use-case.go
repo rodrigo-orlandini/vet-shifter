@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -45,51 +46,54 @@ func NewRequestPasswordResetUseCase(
 }
 
 func (u *RequestPasswordResetUseCase) Execute(input *RequestPasswordResetUseCaseInput) (*RequestPasswordResetUseCaseOutput, error) {
-	if input.UserType.Equals(sharedvalueobjects.ShiftVeterinary()) {
-		foundVeterinary, err := u.shiftVeterinaryRepository.FindByEmail(input.Email)
-		if err != nil {
-			return nil, err
-		}
+	foundVet, err := u.shiftVeterinaryRepository.FindByEmail(input.Email)
+	if err != nil {
+		return nil, err
+	}
 
-		if foundVeterinary == nil {
-			return nil, &customerror.NotFoundError{
-				Key:   "Veterinary",
-				Value: input.Email.GetValue(),
-			}
-		}
-	} else if input.UserType.Equals(sharedvalueobjects.CompanyOwner()) {
-		foundCompanyOwner, err := u.companyRepository.FindCompanyOwnerByEmail(input.Email)
-		if err != nil {
-			return nil, err
-		}
+	foundOwner, err := u.companyRepository.FindCompanyOwnerByEmail(input.Email)
+	if err != nil {
+		return nil, err
+	}
 
-		if foundCompanyOwner == nil {
-			return nil, &customerror.NotFoundError{
-				Key:   "Company owner",
-				Value: input.Email.GetValue(),
-			}
-		}
+	explicitVet := input.UserType.Equals(sharedvalueobjects.ShiftVeterinary())
+	explicitOwner := input.UserType.Equals(sharedvalueobjects.CompanyOwner())
+
+	if explicitVet && foundVet == nil {
+		return nil, &customerror.NotFoundError{Key: "Veterinary", Value: input.Email.GetValue()}
+	}
+
+	if explicitOwner && foundOwner == nil {
+		return nil, &customerror.NotFoundError{Key: "Company owner", Value: input.Email.GetValue()}
+	}
+
+	var userType *sharedvalueobjects.UserType
+	if foundVet != nil {
+		userType = sharedvalueobjects.ShiftVeterinary()
+	} else if foundOwner != nil {
+		userType = sharedvalueobjects.CompanyOwner()
+	}
+
+	if userType == nil {
+		return &RequestPasswordResetUseCaseOutput{Accepted: true}, nil
 	}
 
 	expiresAt := time.Now().Add(utils.GetPasswordResetTokenExpiry())
 	token := uuid.Must(uuid.NewV7()).String()
 
-	_, err := u.authRepository.CreatePasswordResetToken(
+	_, err = u.authRepository.CreatePasswordResetToken(
 		token,
 		input.Email,
-		input.UserType,
+		*userType,
 		expiresAt,
 	)
-
 	if err != nil {
 		return nil, err
 	}
 
 	resetLink := utils.GetEmailSenderBaseURL() + "/reset-password?token=" + token
-
-	err = u.emailSender.SendPasswordResetEmail(input.Email, resetLink)
-	if err != nil {
-		return nil, err
+	if err := u.emailSender.SendPasswordResetEmail(input.Email, resetLink); err != nil {
+		log.Printf("request password reset: send email failed: %v", err)
 	}
 
 	return &RequestPasswordResetUseCaseOutput{Accepted: true}, nil
