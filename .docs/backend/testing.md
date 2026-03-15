@@ -5,7 +5,7 @@ This document describes how to run and write tests in the Vet Shifter project.
 ## Overview
 
 - **Unit tests** – Use cases, entities, value objects; no database. Use stubs from `backend/test/unit`.
-- **Integration tests** – HTTP endpoints against a real Postgres DB; clear schema per test, parallelizable.
+- **Integration tests** – HTTP endpoints against a real Postgres DB; one shared DB, cleared before each test. Run with **one package at a time** (`-p 1`) and **no test-level parallelism** so tests do not truncate each other’s data or hit duplicate keys.
 - **Architecture tests** – `arch-go` plus custom rules in `backend/test/architecture` (naming, layering).
 
 All commands below assume you are in the **`backend/`** directory unless stated otherwise.

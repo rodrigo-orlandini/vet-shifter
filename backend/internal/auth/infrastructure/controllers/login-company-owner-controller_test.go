@@ -16,7 +16,6 @@ import (
 )
 
 func TestLoginCompanyOwnerController_Handle(t *testing.T) {
-	t.Parallel()
 	integration.PrepareDB(t)
 	gin.SetMode(gin.TestMode)
 
