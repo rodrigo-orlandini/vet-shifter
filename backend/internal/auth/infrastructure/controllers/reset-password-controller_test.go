@@ -11,6 +11,7 @@ import (
 
 	"rodrigoorlandini/vet-shifter/internal/_shared/database"
 	"rodrigoorlandini/vet-shifter/internal/_shared/database/queries"
+	companiescontrollers "rodrigoorlandini/vet-shifter/internal/companies/infrastructure/controllers"
 	"rodrigoorlandini/vet-shifter/test/integration"
 
 	"github.com/gin-gonic/gin"
@@ -42,6 +43,17 @@ func TestResetPasswordController_Handle(t *testing.T) {
 
 	t.Run("happy path - returns 200", func(t *testing.T) {
 		integration.PrepareDB(t)
+		registerBody, _ := json.Marshal(map[string]interface{}{
+			"cnpj": "11222333000181", "company_name": "Clinic", "owner_name": "Owner",
+			"email": "owner@example.com", "phone": "11987654321", "password": "oldpassword123", "consent_lgpd": true,
+		})
+		wReg := httptest.NewRecorder()
+		cReg, _ := gin.CreateTestContext(wReg)
+		cReg.Request = httptest.NewRequest(http.MethodPost, "/companies", bytes.NewReader(registerBody))
+		cReg.Request.Header.Set("Content-Type", "application/json")
+		companiescontrollers.NewRegisterCompanyController().Handle(cReg)
+		require.Equal(t, http.StatusCreated, wReg.Code)
+
 		token := "valid-reset-token-123"
 		insertResetToken(token, "owner@example.com", time.Now().Add(1*time.Hour))
 		body, _ := json.Marshal(map[string]interface{}{"token": token, "new_password": "newpassword123"})
