@@ -1,0 +1,322 @@
+basePath: /
+definitions:
+  internal_auth_infrastructure_controllers.ForgotPasswordRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  internal_auth_infrastructure_controllers.GetUserTypeResponse:
+    properties:
+      user_type:
+        type: string
+    type: object
+  internal_auth_infrastructure_controllers.LoginCompanyOwnerRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      remember_me:
+        type: boolean
+    required:
+    - email
+    - password
+    type: object
+  internal_auth_infrastructure_controllers.LoginCompanyOwnerResponse:
+    properties:
+      access_token:
+        type: string
+      expires_at:
+        type: string
+    type: object
+  internal_auth_infrastructure_controllers.LoginVeterinaryRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      remember_me:
+        type: boolean
+    required:
+    - email
+    - password
+    type: object
+  internal_auth_infrastructure_controllers.LoginVeterinaryResponse:
+    properties:
+      access_token:
+        type: string
+      expires_at:
+        type: string
+    type: object
+  internal_auth_infrastructure_controllers.ResetPasswordRequest:
+    properties:
+      new_password:
+        type: string
+      token:
+        type: string
+    required:
+    - new_password
+    - token
+    type: object
+  internal_companies_infrastructure_controllers.ErrorResponse:
+    properties:
+      code:
+        type: string
+      error:
+        type: string
+    type: object
+  internal_companies_infrastructure_controllers.RegisterCompanyRequest:
+    properties:
+      city:
+        type: string
+      cnpj:
+        type: string
+      company_name:
+        type: string
+      consent_lgpd:
+        type: boolean
+      email:
+        type: string
+      number:
+        type: string
+      owner_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      state:
+        type: string
+      street:
+        type: string
+      zip_code:
+        type: string
+    required:
+    - cnpj
+    - company_name
+    - consent_lgpd
+    - email
+    - owner_name
+    - password
+    - phone
+    type: object
+  internal_companies_infrastructure_controllers.RegisterCompanyResponse:
+    properties:
+      company_id:
+        type: string
+    type: object
+  rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse:
+    properties:
+      code:
+        type: string
+      error:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API for veterinary clinics and shifters.
+  title: Vet Shifter API
+  version: "1.0"
+paths:
+  /auth/forgot-password:
+    post:
+      consumes:
+      - application/json
+      description: Sends reset link to email if account exists. Always returns 202.
+      parameters:
+      - description: Email
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth_infrastructure_controllers.ForgotPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+      summary: Request password reset
+      tags:
+      - auth
+  /auth/login/owner:
+    post:
+      consumes:
+      - application/json
+      description: Returns JWT for company owners. Token expiry 24h or 7d when remember_me
+        is true.
+      parameters:
+      - description: Credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth_infrastructure_controllers.LoginCompanyOwnerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_auth_infrastructure_controllers.LoginCompanyOwnerResponse'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+        "401":
+          description: Invalid email or password
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+      summary: Login as company owner
+      tags:
+      - auth
+  /auth/login/veterinary:
+    post:
+      consumes:
+      - application/json
+      description: Returns JWT for shift veterinaries. Token expiry 24h or 7d when
+        remember_me is true.
+      parameters:
+      - description: Credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth_infrastructure_controllers.LoginVeterinaryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_auth_infrastructure_controllers.LoginVeterinaryResponse'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+        "401":
+          description: Invalid email or password
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+      summary: Login as shift veterinary
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      description: 'Stateless JWT: server does not invalidate. Client must clear stored
+        token.'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Logout (client should discard token)
+      tags:
+      - auth
+  /auth/reset-password:
+    post:
+      consumes:
+      - application/json
+      description: Consumes the token from email and sets new password. Token is invalidated.
+      parameters:
+      - description: Token and new password
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth_infrastructure_controllers.ResetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid token or weak password
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+      summary: Reset password with token
+      tags:
+      - auth
+  /auth/user-type:
+    get:
+      description: Checks company_owners and shift_veterinaries by email. Returns
+        user_type for login redirect.
+      parameters:
+      - description: User email
+        in: query
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: company_owner or shift_veterinary
+          schema:
+            $ref: '#/definitions/internal_auth_infrastructure_controllers.GetUserTypeResponse'
+        "400":
+          description: Invalid email
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+        "404":
+          description: Email not found
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+      summary: Get user type by email
+      tags:
+      - auth
+  /companies:
+    post:
+      consumes:
+      - application/json
+      description: Creates a company and its owner account. Requires LGPD consent.
+      parameters:
+      - description: Company and owner data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_companies_infrastructure_controllers.RegisterCompanyRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created with company_id
+          schema:
+            $ref: '#/definitions/internal_companies_infrastructure_controllers.RegisterCompanyResponse'
+        "400":
+          description: Invalid request body or validation error
+          schema:
+            $ref: '#/definitions/internal_companies_infrastructure_controllers.ErrorResponse'
+        "409":
+          description: CNPJ or email already exists
+          schema:
+            $ref: '#/definitions/internal_companies_infrastructure_controllers.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/internal_companies_infrastructure_controllers.ErrorResponse'
+      summary: Register a new company with owner
+      tags:
+      - companies
+swagger: "2.0"

@@ -7,48 +7,192 @@
  */
 import { customInstance } from '../axios-instance';
 import type { BodyType } from '../axios-instance';
-export interface RegisterCompanyRequest {
-  cnpj: string;
-  company_name: string;
-  owner_name: string;
+export interface InternalAuthInfrastructureControllersForgotPasswordRequest {
   email: string;
-  phone: string;
+}
+
+export interface InternalAuthInfrastructureControllersGetUserTypeResponse {
+  user_type?: string;
+}
+
+export interface InternalAuthInfrastructureControllersLoginCompanyOwnerRequest {
+  email: string;
   password: string;
-  street?: string;
-  number?: string;
-  city?: string;
-  state?: string;
-  zip_code?: string;
-  consent_lgpd: boolean;
+  remember_me?: boolean;
 }
 
-export interface RegisterCompanyResponse {
-  company_id?: string;
+export interface InternalAuthInfrastructureControllersLoginCompanyOwnerResponse {
+  access_token?: string;
+  expires_at?: string;
 }
 
-export interface ErrorResponse {
+export interface InternalAuthInfrastructureControllersLoginVeterinaryRequest {
+  email: string;
+  password: string;
+  remember_me?: boolean;
+}
+
+export interface InternalAuthInfrastructureControllersLoginVeterinaryResponse {
+  access_token?: string;
+  expires_at?: string;
+}
+
+export interface InternalAuthInfrastructureControllersResetPasswordRequest {
+  new_password: string;
+  token: string;
+}
+
+export interface InternalCompaniesInfrastructureControllersErrorResponse {
   code?: string;
   error?: string;
 }
+
+export interface InternalCompaniesInfrastructureControllersRegisterCompanyRequest {
+  city?: string;
+  cnpj: string;
+  company_name: string;
+  consent_lgpd: boolean;
+  email: string;
+  number?: string;
+  owner_name: string;
+  password: string;
+  phone: string;
+  state?: string;
+  street?: string;
+  zip_code?: string;
+}
+
+export interface InternalCompaniesInfrastructureControllersRegisterCompanyResponse {
+  company_id?: string;
+}
+
+export interface RodrigoorlandiniVetShifterInternalSharedApiApiErrorResponse {
+  code?: string;
+  error?: string;
+}
+
+export type PostAuthForgotPassword202 = {[key: string]: string};
+
+export type PostAuthResetPassword200 = {[key: string]: string};
+
+export type GetAuthUserTypeParams = {
+/**
+ * User email
+ */
+email: string;
+};
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
   export const getVetShifterAPI = () => {
 /**
- * Creates a company and its owner account. Requires LGPD consent.
- * @summary Register a new company with owner
+ * Sends reset link to email if account exists. Always returns 202.
+ * @summary Request password reset
  */
-const registerCompany = (
-    registerCompanyRequest: BodyType<RegisterCompanyRequest>,
- options?: SecondParameter<typeof customInstance<RegisterCompanyResponse>>,) => {
-      return customInstance<RegisterCompanyResponse>(
-      {url: `/companies`, method: 'POST',
+const postAuthForgotPassword = (
+    internalAuthInfrastructureControllersForgotPasswordRequest: BodyType<InternalAuthInfrastructureControllersForgotPasswordRequest>,
+ options?: SecondParameter<typeof customInstance<PostAuthForgotPassword202>>,) => {
+      return customInstance<PostAuthForgotPassword202>(
+      {url: `/auth/forgot-password`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
-      data: registerCompanyRequest
+      data: internalAuthInfrastructureControllersForgotPasswordRequest
     },
       options);
     }
   
-return {registerCompany}};
-export type RegisterCompanyResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getVetShifterAPI>['registerCompany']>>>
+/**
+ * Returns JWT for company owners. Token expiry 24h or 7d when remember_me is true.
+ * @summary Login as company owner
+ */
+const postAuthLoginOwner = (
+    internalAuthInfrastructureControllersLoginCompanyOwnerRequest: BodyType<InternalAuthInfrastructureControllersLoginCompanyOwnerRequest>,
+ options?: SecondParameter<typeof customInstance<InternalAuthInfrastructureControllersLoginCompanyOwnerResponse>>,) => {
+      return customInstance<InternalAuthInfrastructureControllersLoginCompanyOwnerResponse>(
+      {url: `/auth/login/owner`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: internalAuthInfrastructureControllersLoginCompanyOwnerRequest
+    },
+      options);
+    }
+  
+/**
+ * Returns JWT for shift veterinaries. Token expiry 24h or 7d when remember_me is true.
+ * @summary Login as shift veterinary
+ */
+const postAuthLoginVeterinary = (
+    internalAuthInfrastructureControllersLoginVeterinaryRequest: BodyType<InternalAuthInfrastructureControllersLoginVeterinaryRequest>,
+ options?: SecondParameter<typeof customInstance<InternalAuthInfrastructureControllersLoginVeterinaryResponse>>,) => {
+      return customInstance<InternalAuthInfrastructureControllersLoginVeterinaryResponse>(
+      {url: `/auth/login/veterinary`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: internalAuthInfrastructureControllersLoginVeterinaryRequest
+    },
+      options);
+    }
+  
+/**
+ * Stateless JWT: server does not invalidate. Client must clear stored token.
+ * @summary Logout (client should discard token)
+ */
+const postAuthLogout = (
+    
+ options?: SecondParameter<typeof customInstance<void>>,) => {
+      return customInstance<void>(
+      {url: `/auth/logout`, method: 'POST'
+    },
+      options);
+    }
+  
+/**
+ * Consumes the token from email and sets new password. Token is invalidated.
+ * @summary Reset password with token
+ */
+const postAuthResetPassword = (
+    internalAuthInfrastructureControllersResetPasswordRequest: BodyType<InternalAuthInfrastructureControllersResetPasswordRequest>,
+ options?: SecondParameter<typeof customInstance<PostAuthResetPassword200>>,) => {
+      return customInstance<PostAuthResetPassword200>(
+      {url: `/auth/reset-password`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: internalAuthInfrastructureControllersResetPasswordRequest
+    },
+      options);
+    }
+  
+/**
+ * Checks company_owners and shift_veterinaries by email. Returns user_type for login redirect.
+ * @summary Get user type by email
+ */
+const getAuthUserType = (
+    params: GetAuthUserTypeParams,
+ options?: SecondParameter<typeof customInstance<InternalAuthInfrastructureControllersGetUserTypeResponse>>,) => {
+      return customInstance<InternalAuthInfrastructureControllersGetUserTypeResponse>(
+      {url: `/auth/user-type`, method: 'GET',
+        params
+    },
+      options);
+    }
+  
+/**
+ * Creates a company and its owner account. Requires LGPD consent.
+ * @summary Register a new company with owner
+ */
+const postCompanies = (
+    internalCompaniesInfrastructureControllersRegisterCompanyRequest: BodyType<InternalCompaniesInfrastructureControllersRegisterCompanyRequest>,
+ options?: SecondParameter<typeof customInstance<InternalCompaniesInfrastructureControllersRegisterCompanyResponse>>,) => {
+      return customInstance<InternalCompaniesInfrastructureControllersRegisterCompanyResponse>(
+      {url: `/companies`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: internalCompaniesInfrastructureControllersRegisterCompanyRequest
+    },
+      options);
+    }
+  
+return {postAuthForgotPassword,postAuthLoginOwner,postAuthLoginVeterinary,postAuthLogout,postAuthResetPassword,getAuthUserType,postCompanies}};
+export type PostAuthForgotPasswordResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getVetShifterAPI>['postAuthForgotPassword']>>>
+export type PostAuthLoginOwnerResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getVetShifterAPI>['postAuthLoginOwner']>>>
+export type PostAuthLoginVeterinaryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getVetShifterAPI>['postAuthLoginVeterinary']>>>
+export type PostAuthLogoutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getVetShifterAPI>['postAuthLogout']>>>
+export type PostAuthResetPasswordResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getVetShifterAPI>['postAuthResetPassword']>>>
+export type GetAuthUserTypeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getVetShifterAPI>['getAuthUserType']>>>
+export type PostCompaniesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getVetShifterAPI>['postCompanies']>>>

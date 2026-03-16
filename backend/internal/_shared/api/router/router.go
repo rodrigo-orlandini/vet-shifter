@@ -28,6 +28,9 @@ func SetupRouter() *gin.Engine {
 
 	auth := r.Group("/auth")
 	{
+		getUserTypeController := authcontrollers.NewGetUserTypeController()
+		auth.GET("/user-type", getUserTypeController.Handle)
+
 		loginCompanyOwnerController := authcontrollers.NewLoginCompanyOwnerController()
 		loginVeterinaryController := authcontrollers.NewLoginVeterinaryController()
 		auth.POST("/login/owner", loginCompanyOwnerController.Handle)
