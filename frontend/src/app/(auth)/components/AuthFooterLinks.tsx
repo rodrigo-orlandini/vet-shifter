@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 
 export type AuthFooterVariant = "login" | "company" | "veterinary";
