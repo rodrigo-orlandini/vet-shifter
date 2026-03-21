@@ -26,6 +26,8 @@ func main() {
 		Format: "json",
 	})
 
+	logger.SetDefault(log)
+
 	db := database.GetPostgresConnection()
 	if err := database.RunMigrations(db); err != nil {
 		log.Error("Failed to run migrations", "err", err)

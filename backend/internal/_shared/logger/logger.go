@@ -72,3 +72,7 @@ func levelForEnv(env Env) slog.Level {
 		return slog.LevelDebug
 	}
 }
+
+func SetDefault(l *slog.Logger) {
+	slog.SetDefault(l)
+}

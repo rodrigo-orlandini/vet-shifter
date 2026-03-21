@@ -1,7 +1,7 @@
 package usecases
 
 import (
-	"log"
+	"log/slog"
 	"time"
 
 	"github.com/google/uuid"
@@ -93,7 +93,7 @@ func (u *RequestPasswordResetUseCase) Execute(input *RequestPasswordResetUseCase
 
 	resetLink := utils.GetEmailSenderBaseURL() + "/reset-password?token=" + token
 	if err := u.emailSender.SendPasswordResetEmail(input.Email, resetLink); err != nil {
-		log.Printf("request password reset: send email failed: %v", err)
+		slog.Error("request password reset: send email failed: ", err)
 	}
 
 	return &RequestPasswordResetUseCaseOutput{Accepted: true}, nil

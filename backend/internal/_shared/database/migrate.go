@@ -5,6 +5,7 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
+	"log/slog"
 	"os"
 	"path/filepath"
 	"sort"
@@ -45,14 +46,14 @@ func RunMigrations(db *sql.DB) error {
 		return nil
 	}
 
-	fmt.Printf("Found %d pending migration(s)\n", len(pending))
+	slog.Info("Found %d pending migration(s)\n", len(pending))
 
 	for _, migration := range pending {
 		if err := applyMigration(db, migration); err != nil {
 			return fmt.Errorf("failed to apply migration %s: %w", migration.Version, err)
 		}
 
-		fmt.Printf("Applied migration: %s\n", migration.Version)
+		slog.Info("Applied migration: \n", migration.Version)
 	}
 
 	return nil
