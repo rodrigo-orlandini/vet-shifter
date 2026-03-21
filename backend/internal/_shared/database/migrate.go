@@ -46,7 +46,7 @@ func RunMigrations(db *sql.DB) error {
 		return nil
 	}
 
-	slog.Info("Found %d pending migration(s)\n", len(pending))
+	slog.Info("Found %d pending migration(s)\n", "length", len(pending))
 
 	for _, migration := range pending {
 		if err := applyMigration(db, migration); err != nil {
