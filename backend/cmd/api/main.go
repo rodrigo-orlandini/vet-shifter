@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"log/slog"
 
 	"rodrigoorlandini/vet-shifter/internal/_shared/api/router"
 	"rodrigoorlandini/vet-shifter/internal/_shared/database"
+	"rodrigoorlandini/vet-shifter/internal/_shared/logger"
 	"rodrigoorlandini/vet-shifter/internal/_shared/utils"
 )
 
@@ -18,18 +19,24 @@ import (
 
 func main() {
 	if !utils.LoadEnvironment() {
-		log.Println("Warning: .env file not found in common locations, using system environment variables")
+		slog.Default().Warn("Warning: .env file not found in common locations, using system environment variables")
 	}
+
+	log := logger.New(logger.Config{
+		Format: "json",
+	})
+
+	logger.SetDefault(log)
 
 	db := database.GetPostgresConnection()
 	if err := database.RunMigrations(db); err != nil {
-		log.Fatalf("Failed to run migrations: %v", err)
+		log.Error("Failed to run migrations", "err", err)
 	}
 
 	port := utils.GetAPIPort()
 
 	r := router.SetupRouter()
 	if err := r.Run(fmt.Sprintf(":%s", port)); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+		log.Error("Failed to start server", "err", err)
 	}
 }
