@@ -52,6 +52,6 @@ export const validationMessages = {
   password: "A senha deve ter no mínimo 8 caracteres.",
   passwordMatch: "As senhas não coincidem.",
   lgpd: "É necessário aceitar o uso dos dados conforme a LGPD.",
-  specialties: "Selecione pelo menos uma especialidade.",
+  specialties: "Escolha ao menos 1 especialidade.",
   crmv: "Informe número e UF do CRMV (2 letras).",
 } as const;

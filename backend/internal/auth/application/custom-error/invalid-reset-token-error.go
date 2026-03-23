@@ -3,5 +3,5 @@ package customerror
 type InvalidResetTokenError struct{}
 
 func (e *InvalidResetTokenError) Error() string {
-	return "invalid or expired reset token"
+	return "Link inválido ou expirado. Solicite uma nova redefinição de senha."
 }

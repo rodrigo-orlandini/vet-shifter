@@ -49,5 +49,5 @@ func (u *GetUserTypeByEmailUseCase) Execute(input *GetUserTypeByEmailUseCaseInpu
 		return &GetUserTypeByEmailUseCaseOutput{UserType: *sharedvalueobjects.ShiftVeterinary()}, nil
 	}
 
-	return nil, &customerror.NotFoundError{Key: "User", Value: input.Email.GetValue()}
+	return nil, &customerror.NotFoundError{Key: "Usuário", Value: input.Email.GetValue()}
 }

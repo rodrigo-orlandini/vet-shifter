@@ -41,7 +41,7 @@ func TestUserType(t *testing.T) {
 		ut, err := valueobjects.NewUserType("invalid")
 		assert.Nil(t, ut)
 		assert.NotNil(t, err)
-		assert.Contains(t, err.Error(), "Invalid value object 'UserType'")
+		assert.Contains(t, err.Error(), "Tipo de Usuário")
 	})
 
 	t.Run("it should fail for empty string", func(t *testing.T) {

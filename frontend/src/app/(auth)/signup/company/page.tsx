@@ -7,7 +7,8 @@ import { AuthFooterLinks } from "../../components/AuthFooterLinks";
 import { CompanyStep1Form } from "./CompanyStep1Form";
 import { CompanyStep2Form } from "./CompanyStep2Form";
 import { CompanyStep3Form } from "./CompanyStep3Form";
-import { authApi } from "@/auth/api";
+import { AuthenticationService } from "@/auth/api";
+import { useToast } from "@/components/toast/ToastProvider";
 import type { InternalCompaniesInfrastructureControllersRegisterCompanyRequest } from "@/api/generated/api";
 import {
   isRequired,
@@ -17,6 +18,7 @@ import {
   isValidPhoneBr,
   validationMessages,
 } from "@/lib/validation";
+import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
 
 const initialForm: InternalCompaniesInfrastructureControllersRegisterCompanyRequest = {
   cnpj: "",
@@ -37,6 +39,7 @@ type FieldErrors = Partial<Record<keyof typeof initialForm, string>>;
 
 export default function CompanySignUpPage() {
   const router = useRouter();
+  const { pushToast } = useToast();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState(initialForm);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -48,7 +51,7 @@ export default function CompanySignUpPage() {
   const isLastStep = step === totalSteps;
 
   const update = (partial: Partial<typeof form>) => {
-    setForm((prev) => ({ ...prev, ...partial }));
+    setForm((prev: typeof form) => ({ ...prev, ...partial }));
     setFieldErrors((prev) => {
       const next = { ...prev };
       Object.keys(partial).forEach((k) => delete next[k as keyof FieldErrors]);
@@ -102,11 +105,22 @@ export default function CompanySignUpPage() {
     setError(null);
     if (!setStep3Errors()) return;
     setSubmitting(true);
+
+    // Backend value-objects expect digits-only values.
+    const payload: InternalCompaniesInfrastructureControllersRegisterCompanyRequest = {
+      ...form,
+      cnpj: form.cnpj.replace(/\D/g, ""),
+      phone: form.phone.replace(/\D/g, ""),
+      zip_code: form.zip_code?.replace(/\D/g, "") ?? "",
+    };
+
     try {
-      await authApi.registerCompany(form);
+      await AuthenticationService.registerCompany(payload);
       router.push("/login?registered=company");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Algo deu errado. Tente novamente.");
+      const message = getBackendErrorMessage(e);
+      pushToast({ tone: "error", message });
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -130,6 +144,8 @@ export default function CompanySignUpPage() {
         isFirstStep={isFirstStep}
         isLastStep={isLastStep}
         submitLabel="Criar conta"
+        loading={submitting}
+        submitDisabled={!form.consent_lgpd}
       >
         {step === 1 && <CompanyStep1Form form={form} fieldErrors={fieldErrors} update={update} />}
         {step === 2 && <CompanyStep2Form form={form} fieldErrors={fieldErrors} update={update} />}
@@ -140,9 +156,6 @@ export default function CompanySignUpPage() {
         <p className="mt-4 text-sm text-red-600" role="alert">
           {error}
         </p>
-      )}
-      {submitting && (
-        <p className="mt-4 text-sm text-neutral-500">Criando conta…</p>
       )}
 
       <AuthFooterLinks variant="company" />

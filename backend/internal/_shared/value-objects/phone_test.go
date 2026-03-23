@@ -22,7 +22,7 @@ func TestValueObjectPhone(t *testing.T) {
 		assert.Nil(t, phone)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Phone' creation with value: 0")
+		assert.Equal(t, "Telefone inválido: 0", err.Error())
 	})
 
 	t.Run("it should fail due to a big phone", func(t *testing.T) {
@@ -30,6 +30,6 @@ func TestValueObjectPhone(t *testing.T) {
 		assert.Nil(t, phone)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Phone' creation with value: 000000000000000")
+		assert.Equal(t, "Telefone inválido: 000000000000000", err.Error())
 	})
 }

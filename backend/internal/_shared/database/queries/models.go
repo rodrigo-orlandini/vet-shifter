@@ -160,17 +160,23 @@ func (ns NullVeterinarySpecialty) Value() (driver.Value, error) {
 	return string(ns.VeterinarySpecialty), nil
 }
 
+type Address struct {
+	ID        uuid.UUID      `json:"id"`
+	CompanyID uuid.UUID      `json:"company_id"`
+	Street    sql.NullString `json:"street"`
+	Number    sql.NullString `json:"number"`
+	City      sql.NullString `json:"city"`
+	State     sql.NullString `json:"state"`
+	ZipCode   sql.NullString `json:"zip_code"`
+	CreatedAt time.Time      `json:"created_at"`
+}
+
 type Company struct {
-	ID             uuid.UUID      `json:"id"`
-	Cnpj           string         `json:"cnpj"`
-	Name           string         `json:"name"`
-	Street         sql.NullString `json:"street"`
-	Number         sql.NullString `json:"number"`
-	City           sql.NullString `json:"city"`
-	State          sql.NullString `json:"state"`
-	ZipCode        sql.NullString `json:"zip_code"`
-	ApprovalStatus AccountStatus  `json:"approval_status"`
-	CreatedAt      time.Time      `json:"created_at"`
+	ID             uuid.UUID     `json:"id"`
+	Cnpj           string        `json:"cnpj"`
+	Name           string        `json:"name"`
+	ApprovalStatus AccountStatus `json:"approval_status"`
+	CreatedAt      time.Time     `json:"created_at"`
 }
 
 type CompanyOwner struct {

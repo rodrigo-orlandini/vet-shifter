@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	_ "rodrigoorlandini/vet-shifter/internal/_shared/api"
+	api "rodrigoorlandini/vet-shifter/internal/_shared/api"
 	customerror "rodrigoorlandini/vet-shifter/internal/_shared/custom-error"
 	autherrors "rodrigoorlandini/vet-shifter/internal/auth/application/custom-error"
 	usecases "rodrigoorlandini/vet-shifter/internal/auth/application/use-cases"
@@ -32,14 +32,16 @@ func NewResetPasswordController() *ResetPasswordController {
 //	@Produce		json
 //	@Param			body	body		ResetPasswordRequest	true	"Token and new password"
 //	@Success		200		{object}	map[string]string	"Success"
-//	@Failure		400		{object}	api.ApiErrorResponse	"Invalid token or weak password"
+//	@Failure		400		{object}	api.ApiErrorResponse	"Token inválido ou senha fraca"
 //	@Router			/auth/reset-password [post]
 func (c *ResetPasswordController) Handle(ctx *gin.Context) {
+	internalErr := &customerror.InternalServerError{}
+
 	var body ResetPasswordRequest
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"code":  "INVALID_REQUEST",
-			"error": err.Error(),
+			"error": "Dados inválidos. Verifique os campos e tente novamente.",
 		})
 		return
 	}
@@ -54,7 +56,7 @@ func (c *ResetPasswordController) Handle(ctx *gin.Context) {
 		if _, ok := err.(*autherrors.InvalidResetTokenError); ok {
 			ctx.JSON(http.StatusBadRequest, gin.H{
 				"code":  "INVALID_RESET_TOKEN",
-				"error": "invalid or expired reset token",
+				"error": err.Error(),
 			})
 			return
 		}
@@ -62,18 +64,21 @@ func (c *ResetPasswordController) Handle(ctx *gin.Context) {
 		if _, ok := err.(*customerror.InvalidCredentialsError); ok {
 			ctx.JSON(http.StatusBadRequest, gin.H{
 				"code":  "WEAK_PASSWORD",
-				"error": "password must be at least 8 characters",
+				"error": err.Error(),
 			})
 			return
 		}
 
+		_ = ctx.Error(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"code":  "INTERNAL_ERROR",
-			"error": err.Error(),
+			"error": internalErr.Error(),
 		})
-
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"message": "Password updated successfully"})
+	ctx.JSON(http.StatusOK, gin.H{"message": "Senha atualizada com sucesso."})
 }
+
+// Swag references api.ApiErrorResponse in godoc comments.
+var _ = api.ApiErrorResponse{}

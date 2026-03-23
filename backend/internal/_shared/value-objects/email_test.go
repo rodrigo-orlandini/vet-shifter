@@ -63,7 +63,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.Nil(t, email)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: testexample.com")
+		assert.Equal(t, "E-mail inválido: testexample.com", err.Error())
 	})
 
 	t.Run("it should fail due to missing domain", func(t *testing.T) {
@@ -71,7 +71,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.Nil(t, email)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: test@")
+		assert.Equal(t, "E-mail inválido: test@", err.Error())
 	})
 
 	t.Run("it should fail due to missing TLD", func(t *testing.T) {
@@ -79,7 +79,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.Nil(t, email)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: test@example")
+		assert.Equal(t, "E-mail inválido: test@example", err.Error())
 	})
 
 	t.Run("it should fail due to invalid TLD (single character)", func(t *testing.T) {
@@ -87,7 +87,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.Nil(t, email)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: test@example.c")
+		assert.Equal(t, "E-mail inválido: test@example.c", err.Error())
 	})
 
 	t.Run("it should fail due to missing local part", func(t *testing.T) {
@@ -95,7 +95,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.Nil(t, email)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: @example.com")
+		assert.Equal(t, "E-mail inválido: @example.com", err.Error())
 	})
 
 	t.Run("it should fail due to multiple @ symbols", func(t *testing.T) {
@@ -103,7 +103,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.Nil(t, email)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: test@example@com")
+		assert.Equal(t, "E-mail inválido: test@example@com", err.Error())
 	})
 
 	t.Run("it should fail due to spaces in email", func(t *testing.T) {
@@ -111,7 +111,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.Nil(t, email)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: test user@example.com")
+		assert.Equal(t, "E-mail inválido: test user@example.com", err.Error())
 	})
 
 	t.Run("it should fail due to empty string", func(t *testing.T) {
@@ -119,7 +119,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.Nil(t, email)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: ")
+		assert.Equal(t, "E-mail inválido: ", err.Error())
 	})
 
 	t.Run("it should fail due to invalid characters", func(t *testing.T) {
@@ -127,7 +127,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.Nil(t, email)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: test#user@example.com")
+		assert.Equal(t, "E-mail inválido: test#user@example.com", err.Error())
 	})
 
 	t.Run("it should fail due to domain starting with dot", func(t *testing.T) {
@@ -136,7 +136,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.NotNil(t, err)
 
 		if err != nil {
-			assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: test@.example.com")
+			assert.Equal(t, "E-mail inválido: test@.example.com", err.Error())
 		}
 	})
 
@@ -146,7 +146,7 @@ func TestValueObjectEmail(t *testing.T) {
 		assert.NotNil(t, err)
 
 		if err != nil {
-			assert.Equal(t, err.Error(), "Invalid value object 'Email' creation with value: test@example.com.")
+			assert.Equal(t, "E-mail inválido: test@example.com.", err.Error())
 		}
 	})
 }

@@ -67,7 +67,7 @@ func TestResetPasswordController_Handle(t *testing.T) {
 		assert.Equal(t, http.StatusOK, w.Code)
 		var res map[string]interface{}
 		require.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-		assert.Equal(t, "Password updated successfully", res["message"])
+		assert.Equal(t, "Senha atualizada com sucesso.", res["message"])
 	})
 
 	t.Run("main fail path - invalid token returns 400", func(t *testing.T) {

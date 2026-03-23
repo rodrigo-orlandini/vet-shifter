@@ -1,10 +1,11 @@
 package valueobjects_test
 
 import (
-	valueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	valueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 )
 
 func TestValueObjectCpf(t *testing.T) {
@@ -21,7 +22,7 @@ func TestValueObjectCpf(t *testing.T) {
 		assert.Nil(t, cpf)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, "Invalid value object 'Cpf' creation with value: 1", err.Error())
+		assert.Equal(t, "CPF inválido: 1", err.Error())
 	})
 
 	t.Run("it should fail due to a big cpf", func(t *testing.T) {
@@ -29,6 +30,6 @@ func TestValueObjectCpf(t *testing.T) {
 		assert.Nil(t, cpf)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, "Invalid value object 'Cpf' creation with value: 123456789012", err.Error())
+		assert.Equal(t, "CPF inválido: 123456789012", err.Error())
 	})
 }

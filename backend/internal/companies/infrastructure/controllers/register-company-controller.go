@@ -6,6 +6,7 @@ import (
 
 	customerror "rodrigoorlandini/vet-shifter/internal/_shared/custom-error"
 	usecases "rodrigoorlandini/vet-shifter/internal/companies/application/use-cases"
+	"rodrigoorlandini/vet-shifter/internal/companies/domain/entities"
 	"rodrigoorlandini/vet-shifter/internal/companies/infrastructure/factories"
 	"rodrigoorlandini/vet-shifter/internal/companies/infrastructure/mappers"
 
@@ -51,31 +52,24 @@ func NewRegisterCompanyController() *RegisterCompanyController {
 //	@Produce		json
 //	@Param			body	body		RegisterCompanyRequest	true	"Company and owner data"
 //	@Success		201		{object}	RegisterCompanyResponse	"Created with company_id"
-//	@Failure		400		{object}	ErrorResponse	"Invalid request body or validation error"
-//	@Failure		409		{object}	ErrorResponse	"CNPJ or email already exists"
-//	@Failure		500		{object}	ErrorResponse	"Internal server error"
+//	@Failure		400		{object}	ErrorResponse	"Corpo da requisição inválido ou erro de validação"
+//	@Failure		409		{object}	ErrorResponse	"CNPJ ou e-mail já cadastrados"
+//	@Failure		500		{object}	ErrorResponse	"Erro interno do servidor"
 //	@Router			/companies [post]
 func (c *RegisterCompanyController) Handle(ctx *gin.Context) {
+	internalErr := &customerror.InternalServerError{}
+
 	var body RegisterCompanyRequest
 
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"code":  "INVALID_REQUEST_BODY",
-			"error": err.Error(),
+			"error": "Dados inválidos. Verifique os campos e tente novamente.",
 		})
 		return
 	}
 
-	company, err := mappers.CompanyFromHttp(mappers.CompanyFromHttpInput{
-		Cnpj:        body.Cnpj,
-		CompanyName: body.CompanyName,
-		Street:      body.Street,
-		Number:      body.Number,
-		City:        body.City,
-		State:       body.State,
-		ZipCode:     body.ZipCode,
-	})
-
+	company, err := mappers.CompanyFromHttp(body.Cnpj, body.CompanyName)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"code":  "INVALID_COMPANY",
@@ -105,37 +99,49 @@ func (c *RegisterCompanyController) Handle(ctx *gin.Context) {
 		return
 	}
 
+	var address *entities.Address
+	if body.Street != "" || body.City != "" || body.ZipCode != "" {
+		addr, addrErr := entities.NewAddress(
+			company.Id, body.Street, body.Number, body.City, body.State, body.ZipCode,
+		)
+		if addrErr != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"code":  "INVALID_ADDRESS",
+				"error": addrErr.Error(),
+			})
+			return
+		}
+
+		address = addr
+	}
+
 	input := usecases.RegisterCompanyUseCaseInput{
 		Company:      *company,
 		CompanyOwner: *companyOwner,
+		Address:      address,
 	}
 
 	useCase := factories.NewRegisterCompanyFactory()
 	out, err := useCase.Execute(&input)
 	if err != nil {
-		switch e := err.(type) {
+		switch err.(type) {
 		case *customerror.InvalidValueObjectError:
 			ctx.JSON(http.StatusBadRequest, gin.H{
 				"code":  "INVALID_INPUT",
-				"error": e.Error(),
+				"error": err.Error(),
 			})
 			return
 		case *customerror.AlreadyExistsError:
 			ctx.JSON(http.StatusConflict, gin.H{
 				"code":  "ALREADY_EXISTS",
-				"error": e.Error(),
-			})
-			return
-		case *customerror.RepositoryError:
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"code":  "REPOSITORY_ERROR",
-				"error": e.Error(),
+				"error": err.Error(),
 			})
 			return
 		default:
+			_ = ctx.Error(err)
 			ctx.JSON(http.StatusInternalServerError, gin.H{
 				"code":  "INTERNAL_SERVER_ERROR",
-				"error": err.Error(),
+				"error": internalErr.Error(),
 			})
 			return
 		}

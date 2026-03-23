@@ -6,6 +6,7 @@ import (
 	"rodrigoorlandini/vet-shifter/internal/_shared/database"
 	"rodrigoorlandini/vet-shifter/internal/_shared/database/queries"
 	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
+	companyrepositories "rodrigoorlandini/vet-shifter/internal/companies/application/repositories"
 	"rodrigoorlandini/vet-shifter/internal/companies/domain/entities"
 	valueobjects "rodrigoorlandini/vet-shifter/internal/companies/domain/value-objects"
 	"rodrigoorlandini/vet-shifter/internal/companies/infrastructure/mappers"
@@ -14,6 +15,7 @@ import (
 )
 
 type SqlcCompanyRepository struct {
+	db      *sql.DB
 	queries *queries.Queries
 }
 
@@ -22,6 +24,7 @@ func NewSqlcCompanyRepository() *SqlcCompanyRepository {
 	q := database.NewQueries(conn)
 
 	return &SqlcCompanyRepository{
+		db:      conn,
 		queries: q,
 	}
 }
@@ -32,11 +35,6 @@ func (r *SqlcCompanyRepository) Create(company entities.Company) (*entities.Comp
 		ID:             uuid.MustParse(company.Id),
 		Cnpj:           company.Cnpj.GetValue(),
 		Name:           company.Name,
-		Street:         mappers.StrToNullString(company.Street),
-		Number:         mappers.StrToNullString(company.Number),
-		City:           mappers.StrToNullString(company.City),
-		State:          mappers.StrToNullString(company.State),
-		ZipCode:        mappers.StrToNullString(company.ZipCode),
 		ApprovalStatus: queries.AccountStatus(company.ApprovalStatus),
 	}
 
@@ -45,12 +43,39 @@ func (r *SqlcCompanyRepository) Create(company entities.Company) (*entities.Comp
 		return nil, err
 	}
 
-	mappedCompany, err := mappers.CompanyFromPersistence(createdCompany)
+	return mappers.CompanyFromPersistence(createdCompany)
+}
+
+func (r *SqlcCompanyRepository) CreateAddress(address entities.Address) (*entities.Address, error) {
+	ctx := context.Background()
+	created, err := r.queries.CreateAddress(ctx, queries.CreateAddressParams{
+		ID:        uuid.MustParse(address.Id),
+		CompanyID: uuid.MustParse(address.CompanyId),
+		Street:    mappers.StrToNullString(address.Street),
+		Number:    mappers.StrToNullString(address.Number),
+		City:      mappers.StrToNullString(address.City),
+		State:     mappers.StrToNullString(address.State.GetValue()),
+		ZipCode:   mappers.StrToNullString(address.ZipCode.GetValue()),
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return mappedCompany, nil
+	return mappers.AddressFromPersistence(created)
+}
+
+func (r *SqlcCompanyRepository) FindAddressByCompanyID(companyId string) (*entities.Address, error) {
+	ctx := context.Background()
+	addr, err := r.queries.FindAddressByCompanyID(ctx, uuid.MustParse(companyId))
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+
+		return nil, err
+	}
+
+	return mappers.AddressFromPersistence(addr)
 }
 
 func (r *SqlcCompanyRepository) RegisterCompanyOwner(owner entities.CompanyOwner) error {
@@ -119,4 +144,24 @@ func (r *SqlcCompanyRepository) UpdateCompanyOwnerPassword(userID string, hashed
 		ID:       id,
 		Password: hashedPassword,
 	})
+}
+
+func (r *SqlcCompanyRepository) InTransaction(fn func(companyrepositories.CompanyRepository) error) error {
+	tx, err := r.db.Begin()
+	if err != nil {
+		return err
+	}
+
+	defer tx.Rollback()
+
+	txRepo := &SqlcCompanyRepository{
+		db:      r.db,
+		queries: r.queries.WithTx(tx),
+	}
+
+	if err := fn(txRepo); err != nil {
+		return err
+	}
+
+	return tx.Commit()
 }

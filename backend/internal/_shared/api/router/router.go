@@ -2,9 +2,11 @@ package router
 
 import (
 	"rodrigoorlandini/vet-shifter/cmd/api/docs"
+	sharedmiddleware "rodrigoorlandini/vet-shifter/internal/_shared/api/middleware"
 	authcontrollers "rodrigoorlandini/vet-shifter/internal/auth/infrastructure/controllers"
 	"rodrigoorlandini/vet-shifter/internal/auth/infrastructure/middleware"
 	"rodrigoorlandini/vet-shifter/internal/companies/infrastructure/controllers"
+	veterinarycontrollers "rodrigoorlandini/vet-shifter/internal/veterinaries/infrastructure/controllers"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -16,7 +18,12 @@ func init() {
 }
 
 func SetupRouter() *gin.Engine {
+	gin.SetMode(gin.DebugMode)
+
 	r := gin.Default()
+
+	r.Use(sharedmiddleware.CORSMiddleware())
+	r.Use(sharedmiddleware.ErrorLoggingMiddleware())
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -24,6 +31,12 @@ func SetupRouter() *gin.Engine {
 	{
 		registerCompany := controllers.NewRegisterCompanyController()
 		companies.POST("", registerCompany.Handle)
+	}
+
+	veterinaries := r.Group("/veterinaries")
+	{
+		registerShiftVeterinary := veterinarycontrollers.NewRegisterShiftVeterinaryController()
+		veterinaries.POST("", registerShiftVeterinary.Handle)
 	}
 
 	auth := r.Group("/auth")

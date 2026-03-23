@@ -8,8 +8,11 @@ import (
 
 type CompanyRepository interface {
 	Create(company entities.Company) (*entities.Company, error)
+	CreateAddress(address entities.Address) (*entities.Address, error)
+	FindAddressByCompanyID(companyId string) (*entities.Address, error)
 	RegisterCompanyOwner(owner entities.CompanyOwner) error
 	FindByCnpj(cnpj valueobjects.Cnpj) (*entities.Company, error)
 	FindCompanyOwnerByEmail(email sharedvalueobjects.Email) (*entities.CompanyOwner, error)
 	UpdateCompanyOwnerPassword(userID string, hashedPassword string) error
+	InTransaction(fn func(CompanyRepository) error) error
 }

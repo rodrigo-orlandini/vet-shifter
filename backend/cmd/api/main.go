@@ -12,31 +12,31 @@ import (
 
 // @title           Vet Shifter API
 // @version         1.0
-// @description     API for veterinary clinics and shifters.
+// @description     API para clínicas veterinárias e plantonistas.
 
-// @host      localhost:8080
+// @host      localhost:8000
 // @BasePath  /
 
 func main() {
-	if !utils.LoadEnvironment() {
-		slog.Default().Warn("Warning: .env file not found in common locations, using system environment variables")
-	}
+	envLoaded := utils.LoadEnvironment()
 
-	log := logger.New(logger.Config{
+	logger.SetDefault(logger.New(logger.Config{
 		Format: "json",
-	})
+	}))
 
-	logger.SetDefault(log)
+	if !envLoaded {
+		slog.Warn("Arquivo .env não encontrado nos caminhos usuais; usando variáveis de ambiente do sistema")
+	}
 
 	db := database.GetPostgresConnection()
 	if err := database.RunMigrations(db); err != nil {
-		log.Error("Failed to run migrations", "err", err)
+		slog.Error("Falha ao executar migrations", "err", err)
 	}
 
 	port := utils.GetAPIPort()
 
 	r := router.SetupRouter()
 	if err := r.Run(fmt.Sprintf(":%s", port)); err != nil {
-		log.Error("Failed to start server", "err", err)
+		slog.Error("Falha ao iniciar o servidor", "err", err)
 	}
 }

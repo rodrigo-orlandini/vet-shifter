@@ -1,19 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { authApi } from "@/auth/api";
+import { getVetShifterAPI } from "@/api/generated/api";
+import { useToast } from "@/components/toast/ToastProvider";
 import { FieldWithError } from "@/components/FieldWithError";
 import { Button } from "@/components/Button";
 import { AuthFooterLinks } from "../components/AuthFooterLinks";
 import { isValidEmail, validationMessages } from "@/lib/validation";
+import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
 
-export default function LoginPage() {
+const api = getVetShifterAPI();
+
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const registered = searchParams.get("registered");
   const resetSuccess = searchParams.get("reset") === "success";
+  const { pushToast } = useToast();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,10 +43,12 @@ export default function LoginPage() {
     setSubmitting(true);
 
     try {
-      const userType = await authApi.getUserType(email);
+      const userType = await api.getAuthUserType({ email });
 
       if (!userType?.user_type) {
-        setError("E-mail ou senha inválidos.");
+        const message = "E-mail ou senha incorretos.";
+        pushToast({ tone: "error", message });
+        setError(message);
         setSubmitting(false);
         return;
       }
@@ -49,16 +56,16 @@ export default function LoginPage() {
       const credentials = { email, password, remember_me: rememberMe };
 
       if (userType.user_type === "company_owner") {
-        const res = await authApi.loginOwner(credentials);
-        if (res?.access_token) {
+        const res = await api.postAuthLoginOwner(credentials);
+        if (res) {
           router.push("/dashboard/company");
           return;
         }
       }
 
       if (userType.user_type === "shift_veterinary") {
-        const res = await authApi.loginVeterinary(credentials);
-        if (res?.access_token) {
+        const res = await api.postAuthLoginVeterinary(credentials);
+        if (res) {
           router.push("/dashboard/veterinary");
           return;
         }
@@ -66,10 +73,8 @@ export default function LoginPage() {
 
       setError("E-mail ou senha inválidos.");
     } catch (err) {
-      const message =
-        (err as Error & { response?: { status: number } })?.response?.status === 404
-          ? "Nenhuma conta encontrada com este e-mail."
-          : "E-mail ou senha inválidos.";
+      const message = getBackendErrorMessage(err);
+      pushToast({ tone: "error", message });
       setError(message);
     } finally {
       setSubmitting(false);
@@ -149,5 +154,13 @@ export default function LoginPage() {
       <AuthFooterLinks variant="login" />
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="mx-auto max-w-md p-6 text-center text-neutral-500">Carregando…</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

@@ -16,7 +16,7 @@ type UserType struct {
 func NewUserType(value string) (*UserType, error) {
 	if value != UserTypeCompanyOwner && value != UserTypeShiftVeterinary {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "UserType",
+			Key:   "Tipo de Usuário",
 			Value: value,
 		}
 	}

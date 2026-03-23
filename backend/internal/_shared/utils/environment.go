@@ -49,7 +49,7 @@ func GetAPIPort() string {
 	if p := os.Getenv("API_PORT"); p != "" {
 		return p
 	}
-	return "8080"
+	return "8000"
 }
 
 func GetEmailSenderBaseURL() string {
@@ -76,6 +76,10 @@ func GetPasswordResetTokenExpiry() time.Duration {
 
 func GetEmailSenderAPIKey() string {
 	return os.Getenv("EMAIL_SENDER_API_KEY")
+}
+
+func GetEmailSenderTestDestination() string {
+	return os.Getenv("EMAIL_SENDER_TEST_DESTINATION")
 }
 
 func GetEmailSenderFromEmail() string {

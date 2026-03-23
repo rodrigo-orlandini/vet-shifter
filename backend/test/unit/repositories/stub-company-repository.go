@@ -1,20 +1,23 @@
 package repositories
 
 import (
+	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
+	companyrepositories "rodrigoorlandini/vet-shifter/internal/companies/application/repositories"
 	"rodrigoorlandini/vet-shifter/internal/companies/domain/entities"
 	valueobjects "rodrigoorlandini/vet-shifter/internal/companies/domain/value-objects"
-	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 )
 
 type StubCompanyRepository struct {
 	companies     map[string]*entities.Company
 	companyOwners map[string]*entities.CompanyOwner
+	addresses     map[string]*entities.Address
 }
 
 func NewStubCompanyRepository() *StubCompanyRepository {
 	return &StubCompanyRepository{
 		companies:     make(map[string]*entities.Company),
 		companyOwners: make(map[string]*entities.CompanyOwner),
+		addresses:     make(map[string]*entities.Address),
 	}
 }
 
@@ -22,6 +25,20 @@ func (r *StubCompanyRepository) Create(company entities.Company) (*entities.Comp
 	r.companies[company.Id] = &company
 
 	return &company, nil
+}
+
+func (r *StubCompanyRepository) CreateAddress(address entities.Address) (*entities.Address, error) {
+	r.addresses[address.CompanyId] = &address
+
+	return &address, nil
+}
+
+func (r *StubCompanyRepository) FindAddressByCompanyID(companyId string) (*entities.Address, error) {
+	if addr, ok := r.addresses[companyId]; ok {
+		return addr, nil
+	}
+
+	return nil, nil
 }
 
 func (r *StubCompanyRepository) RegisterCompanyOwner(owner entities.CompanyOwner) error {
@@ -59,4 +76,8 @@ func (r *StubCompanyRepository) UpdateCompanyOwnerPassword(userID string, hashed
 	}
 
 	return nil
+}
+
+func (r *StubCompanyRepository) InTransaction(fn func(companyrepositories.CompanyRepository) error) error {
+	return fn(r)
 }

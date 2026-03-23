@@ -111,6 +111,6 @@ func TestGetUserTypeController_Handle(t *testing.T) {
 		var res map[string]interface{}
 		require.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 		assert.Equal(t, "NOT_FOUND", res["code"])
-		assert.Contains(t, res["error"], "no account found")
+		assert.Contains(t, res["error"], "não encontrado")
 	})
 }

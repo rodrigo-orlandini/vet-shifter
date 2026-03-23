@@ -9,5 +9,5 @@ type RepositoryError struct {
 }
 
 func (e *RepositoryError) Error() string {
-	return fmt.Sprintf("Repository error for field '%s' of entity '%s': %s", e.Field, e.Entity, e.Err.Error())
+	return fmt.Sprintf("Erro ao buscar %s pelo %s %s", e.Entity, e.Field, e.Err.Error())
 }

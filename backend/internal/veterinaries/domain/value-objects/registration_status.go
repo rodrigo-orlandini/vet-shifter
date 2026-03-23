@@ -16,7 +16,7 @@ type RegistrationStatus struct {
 func NewRegistrationStatus(value string) (*RegistrationStatus, error) {
 	if value != RegistrationStatusPendingDocumentApproval && value != RegistrationStatusComplete {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "RegistrationStatus",
+			Key:   "Situação do cadastro",
 			Value: value,
 		}
 	}

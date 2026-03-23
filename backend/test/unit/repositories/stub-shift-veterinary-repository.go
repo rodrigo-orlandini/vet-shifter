@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"time"
+
 	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 	veterinariesentities "rodrigoorlandini/vet-shifter/internal/veterinaries/domain/entities"
 	veterinariesvalueobjects "rodrigoorlandini/vet-shifter/internal/veterinaries/domain/value-objects"
@@ -8,12 +10,16 @@ import (
 
 type StubShiftVeterinaryRepository struct {
 	usersByEmail map[string]*veterinariesentities.ShiftVeterinary
+	usersByCpf   map[string]*veterinariesentities.ShiftVeterinary
+	usersByPhone map[string]*veterinariesentities.ShiftVeterinary
 	usersByID    map[string]*veterinariesentities.ShiftVeterinary
 }
 
 func NewStubShiftVeterinaryRepository() *StubShiftVeterinaryRepository {
 	return &StubShiftVeterinaryRepository{
 		usersByEmail: make(map[string]*veterinariesentities.ShiftVeterinary),
+		usersByCpf:   make(map[string]*veterinariesentities.ShiftVeterinary),
+		usersByPhone: make(map[string]*veterinariesentities.ShiftVeterinary),
 		usersByID:    make(map[string]*veterinariesentities.ShiftVeterinary),
 	}
 }
@@ -34,6 +40,7 @@ func (r *StubShiftVeterinaryRepository) AddUser(
 	crmvVO, _ := veterinariesvalueobjects.NewCrmv("12345", "SP")
 	specialtiesVO, _ := veterinariesvalueobjects.NewSpecialties([]string{veterinariesvalueobjects.SpecialtyGeneralPractice})
 
+	consent := time.Now()
 	u, err := veterinariesentities.NewShiftVeterinary(
 		*emailVO,
 		*phoneVO,
@@ -43,7 +50,7 @@ func (r *StubShiftVeterinaryRepository) AddUser(
 		*crmvVO,
 		*specialtiesVO,
 		*veterinariesvalueobjects.Complete(),
-		nil,
+		&consent,
 	)
 
 	if err != nil {
@@ -52,13 +59,48 @@ func (r *StubShiftVeterinaryRepository) AddUser(
 
 	u.Id = userID
 	r.usersByEmail[email] = u
+	r.usersByCpf[u.Cpf.GetValue()] = u
+	r.usersByPhone[u.Phone.GetValue()] = u
 	r.usersByID[userID] = u
+}
+
+func (r *StubShiftVeterinaryRepository) Create(
+	veterinary veterinariesentities.ShiftVeterinary,
+) (*veterinariesentities.ShiftVeterinary, error) {
+	v := veterinary
+
+	r.usersByEmail[v.Email.GetValue()] = &v
+	r.usersByCpf[v.Cpf.GetValue()] = &v
+	r.usersByPhone[v.Phone.GetValue()] = &v
+	r.usersByID[v.Id] = &v
+
+	return &v, nil
+}
+
+func (r *StubShiftVeterinaryRepository) FindByCpf(
+	cpf sharedvalueobjects.Cpf,
+) (*veterinariesentities.ShiftVeterinary, error) {
+	if u, ok := r.usersByCpf[cpf.GetValue()]; ok {
+		return u, nil
+	}
+
+	return nil, nil
 }
 
 func (r *StubShiftVeterinaryRepository) FindByEmail(
 	email sharedvalueobjects.Email,
 ) (*veterinariesentities.ShiftVeterinary, error) {
 	if u, ok := r.usersByEmail[email.GetValue()]; ok {
+		return u, nil
+	}
+
+	return nil, nil
+}
+
+func (r *StubShiftVeterinaryRepository) FindByPhone(
+	phone sharedvalueobjects.Phone,
+) (*veterinariesentities.ShiftVeterinary, error) {
+	if u, ok := r.usersByPhone[phone.GetValue()]; ok {
 		return u, nil
 	}
 

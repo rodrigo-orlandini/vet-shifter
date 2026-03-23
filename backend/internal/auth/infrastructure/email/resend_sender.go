@@ -31,7 +31,12 @@ func NewResendSender() *ResendSender {
 
 func (s *ResendSender) SendPasswordResetEmail(to valueobjects.Email, resetLink string) error {
 	if s.client == nil {
-		return fmt.Errorf("EMAIL_SENDER_API_KEY is not set")
+		return fmt.Errorf("EMAIL_SENDER_API_KEY não está definida")
+	}
+
+	recipient := to.GetValue()
+	if testDest := utils.GetEmailSenderTestDestination(); testDest != "" {
+		recipient = testDest
 	}
 
 	subject := "Redefinição de senha - Vet Shifter"
@@ -44,7 +49,7 @@ func (s *ResendSender) SendPasswordResetEmail(to valueobjects.Email, resetLink s
 
 	_, err := s.client.Emails.Send(&resend.SendEmailRequest{
 		From:    s.from,
-		To:      []string{to.GetValue()},
+		To:      []string{recipient},
 		Subject: subject,
 		Html:    html,
 	})

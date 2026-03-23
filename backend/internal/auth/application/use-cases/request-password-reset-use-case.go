@@ -60,11 +60,11 @@ func (u *RequestPasswordResetUseCase) Execute(input *RequestPasswordResetUseCase
 	explicitOwner := input.UserType.Equals(sharedvalueobjects.CompanyOwner())
 
 	if explicitVet && foundVet == nil {
-		return nil, &customerror.NotFoundError{Key: "Veterinary", Value: input.Email.GetValue()}
+		return nil, &customerror.NotFoundError{Key: "Usuário", Value: input.Email.GetValue()}
 	}
 
 	if explicitOwner && foundOwner == nil {
-		return nil, &customerror.NotFoundError{Key: "Company owner", Value: input.Email.GetValue()}
+		return nil, &customerror.NotFoundError{Key: "Usuário", Value: input.Email.GetValue()}
 	}
 
 	var userType *sharedvalueobjects.UserType
@@ -93,7 +93,11 @@ func (u *RequestPasswordResetUseCase) Execute(input *RequestPasswordResetUseCase
 
 	resetLink := utils.GetEmailSenderBaseURL() + "/reset-password?token=" + token
 	if err := u.emailSender.SendPasswordResetEmail(input.Email, resetLink); err != nil {
-		slog.Error("request password reset: send email failed", "err", err)
+		slog.Warn("recuperação de senha: falha ao enviar e-mail", "err", err)
+		return nil, &customerror.ServiceUnavailableError{
+			Service: "EmailSender",
+			Err:     err,
+		}
 	}
 
 	return &RequestPasswordResetUseCaseOutput{Accepted: true}, nil

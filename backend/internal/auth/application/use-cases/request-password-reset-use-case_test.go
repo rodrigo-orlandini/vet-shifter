@@ -2,6 +2,7 @@ package usecases_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
@@ -35,11 +36,12 @@ func TestRequestPasswordResetUseCase(t *testing.T) {
 	t.Run("it should return Accepted when company owner exists and send email", func(t *testing.T) {
 		useCase, _, companyRepo, _, emailSender := factories.NewRequestPasswordResetStubFactory()
 		cnpj, _ := companiesvalueobjects.NewCnpj("00000000000100")
-		company, _ := entities.NewCompany(*cnpj, "Test Co", nil)
+		company, _ := entities.NewCompany(*cnpj, "Test Co")
 		companyRepo.Create(*company)
 		email, _ := sharedvalueobjects.NewEmail("owner@test.com")
 		phone, _ := sharedvalueobjects.NewPhone("11999999999")
-		owner, _ := entities.NewCompanyOwner(*email, *phone, "password-hash", company.Id, nil)
+		consent := time.Now()
+		owner, _ := entities.NewCompanyOwner(*email, *phone, "password-hash", company.Id, &consent)
 		_ = companyRepo.RegisterCompanyOwner(*owner)
 
 		out, err := useCase.Execute(&usecases.RequestPasswordResetUseCaseInput{
@@ -66,7 +68,7 @@ func TestRequestPasswordResetUseCase(t *testing.T) {
 		assert.Nil(t, out)
 		assert.NotNil(t, err)
 		assert.IsType(t, &customerror.NotFoundError{}, err)
-		assert.Contains(t, err.Error(), "Veterinary")
+		assert.Equal(t, "Usuário", err.(*customerror.NotFoundError).Key)
 	})
 
 	t.Run("it should return NotFoundError when company owner email not found", func(t *testing.T) {
@@ -81,6 +83,6 @@ func TestRequestPasswordResetUseCase(t *testing.T) {
 		assert.Nil(t, out)
 		assert.NotNil(t, err)
 		assert.IsType(t, &customerror.NotFoundError{}, err)
-		assert.Contains(t, err.Error(), "Company owner")
+		assert.Equal(t, "Usuário", err.(*customerror.NotFoundError).Key)
 	})
 }

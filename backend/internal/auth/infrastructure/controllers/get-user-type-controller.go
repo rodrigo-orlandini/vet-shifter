@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	_ "rodrigoorlandini/vet-shifter/internal/_shared/api"
+	api "rodrigoorlandini/vet-shifter/internal/_shared/api"
 	customerror "rodrigoorlandini/vet-shifter/internal/_shared/custom-error"
 	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 	usecases "rodrigoorlandini/vet-shifter/internal/auth/application/use-cases"
@@ -30,15 +30,17 @@ func NewGetUserTypeController() *GetUserTypeController {
 //	@Produce		json
 //	@Param			email	query		string	true	"User email"
 //	@Success		200		{object}	GetUserTypeResponse	"company_owner or shift_veterinary"
-//	@Failure		400		{object}	api.ApiErrorResponse	"Invalid email"
-//	@Failure		404		{object}	api.ApiErrorResponse	"Email not found"
+//	@Failure		400		{object}	api.ApiErrorResponse	"E-mail inválido"
+//	@Failure		404		{object}	api.ApiErrorResponse	"E-mail não encontrado"
 //	@Router			/auth/user-type [get]
 func (c *GetUserTypeController) Handle(ctx *gin.Context) {
+	internalErr := &customerror.InternalServerError{}
+
 	emailStr := ctx.Query("email")
 	if emailStr == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"code":  "INVALID_REQUEST",
-			"error": "email is required",
+			"error": "Dados inválidos. Verifique os campos e tente novamente.",
 		})
 		return
 	}
@@ -59,16 +61,16 @@ func (c *GetUserTypeController) Handle(ctx *gin.Context) {
 		if _, ok := err.(*customerror.NotFoundError); ok {
 			ctx.JSON(http.StatusNotFound, gin.H{
 				"code":  "NOT_FOUND",
-				"error": "no account found with this email",
+				"error": err.Error(),
 			})
 			return
 		}
 
+		_ = ctx.Error(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"code":  "INTERNAL_ERROR",
-			"error": err.Error(),
+			"error": internalErr.Error(),
 		})
-
 		return
 	}
 
@@ -76,3 +78,5 @@ func (c *GetUserTypeController) Handle(ctx *gin.Context) {
 		UserType: out.UserType.GetValue(),
 	})
 }
+
+var _ = api.ApiErrorResponse{}

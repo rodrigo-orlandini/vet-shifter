@@ -13,7 +13,7 @@ type Cpf struct {
 func NewCpf(value string) (*Cpf, error) {
 	if len(value) != 11 {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "Cpf",
+			Key:   "CPF",
 			Value: value,
 		}
 	}

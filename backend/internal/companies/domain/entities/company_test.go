@@ -13,7 +13,7 @@ func TestEntityCompany(t *testing.T) {
 		cnpj, err := valueobjects.NewCnpj("00000000000100")
 		assert.Nil(t, err)
 
-		company, err := entities.NewCompany(*cnpj, "Test company", nil)
+		company, err := entities.NewCompany(*cnpj, "Test company")
 		assert.Nil(t, err)
 		assert.NotNil(t, company)
 		assert.Equal(t, company.Name, "Test company")

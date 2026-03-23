@@ -14,6 +14,7 @@ type RegisterCompanyUseCase struct {
 type RegisterCompanyUseCaseInput struct {
 	Company      entities.Company
 	CompanyOwner entities.CompanyOwner
+	Address      *entities.Address
 }
 
 type RegisterCompanyUseCaseOutput struct {
@@ -29,10 +30,17 @@ func NewRegisterCompanyUseCase(companyRepository repositories.CompanyRepository)
 func (u *RegisterCompanyUseCase) Execute(
 	input *RegisterCompanyUseCaseInput,
 ) (*RegisterCompanyUseCaseOutput, error) {
+	if input.CompanyOwner.ConsentLgpdAt == nil {
+		return nil, &customerror.InvalidValueObjectError{
+			Key:   "Consentimento LGPD",
+			Value: "",
+		}
+	}
+
 	if len(input.CompanyOwner.Password) < utils.MinPasswordLength {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "Password",
-			Value: "must be at least 8 characters",
+			Key:   "Senha",
+			Value: "deve ter ao menos 8 caracteres",
 		}
 	}
 
@@ -44,40 +52,51 @@ func (u *RegisterCompanyUseCase) Execute(
 
 	if companyWithSameCnpj != nil {
 		return nil, &customerror.AlreadyExistsError{
-			Entity: "Company",
-			Field:  "Cnpj",
-			Value:  input.Company.Cnpj.GetMasked(),
+			Field: "CNPJ",
+			Value: input.Company.Cnpj.GetMasked(),
 		}
 	}
 
 	existingOwner, err := u.companyRepository.FindCompanyOwnerByEmail(input.CompanyOwner.Email)
 	if err != nil {
 		return nil, &customerror.RepositoryError{
-			Entity: "CompanyOwner",
-			Field:  "Email",
+			Entity: "Proprietário da clínica",
+			Field:  "E-mail",
 			Err:    err,
 		}
 	}
 
 	if existingOwner != nil {
 		return nil, &customerror.AlreadyExistsError{
-			Entity: "CompanyOwner",
-			Field:  "Email",
-			Value:  input.CompanyOwner.Email.GetValue(),
+			Field: "E-mail",
+			Value: input.CompanyOwner.Email.GetValue(),
 		}
 	}
 
-	company, err := u.companyRepository.Create(input.Company)
+	var company *entities.Company
 
-	if err != nil {
-		return nil, err
-	}
+	err = u.companyRepository.InTransaction(func(repo repositories.CompanyRepository) error {
+		company, err = repo.Create(input.Company)
+		if err != nil {
+			return err
+		}
 
-	passwordHash := utils.Argon2Hash(input.CompanyOwner.Password)
-	input.CompanyOwner.Password = passwordHash
-	input.CompanyOwner.CompanyId = company.Id
+		if input.Address != nil {
+			input.Address.CompanyId = company.Id
 
-	err = u.companyRepository.RegisterCompanyOwner(input.CompanyOwner)
+			_, err = repo.CreateAddress(*input.Address)
+			if err != nil {
+				return err
+			}
+		}
+
+		passwordHash := utils.Argon2Hash(input.CompanyOwner.Password)
+		input.CompanyOwner.Password = passwordHash
+		input.CompanyOwner.CompanyId = company.Id
+
+		return repo.RegisterCompanyOwner(input.CompanyOwner)
+	})
+
 	if err != nil {
 		return nil, err
 	}

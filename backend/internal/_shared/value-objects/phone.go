@@ -14,7 +14,7 @@ type Phone struct {
 func NewPhone(value string) (*Phone, error) {
 	if len(value) != 11 {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "Phone",
+			Key:   "Telefone",
 			Value: value,
 		}
 	}

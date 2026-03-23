@@ -45,7 +45,6 @@ func TestGenericUser(t *testing.T) {
 		u, err := entities.NewGenericUser("user-id-1", *email, "short", *userType)
 		assert.Nil(t, u)
 		assert.NotNil(t, err)
-		assert.Contains(t, err.Error(), "Invalid value object")
-		assert.Contains(t, err.Error(), "Password")
+		assert.Contains(t, err.Error(), "Senha inválido")
 	})
 }

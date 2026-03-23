@@ -13,7 +13,7 @@ type Cnpj struct {
 func NewCnpj(value string) (*Cnpj, error) {
 	if len(value) != 14 {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "Cnpj",
+			Key:   "CNPJ",
 			Value: value,
 		}
 	}

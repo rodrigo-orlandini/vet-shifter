@@ -1,14 +1,23 @@
 -- Companies
 -- name: CreateCompany :one
-INSERT INTO companies (id, cnpj, name, street, number, city, state, zip_code, approval_status)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-RETURNING id, cnpj, name, street, number, city, state, zip_code, approval_status, created_at;
+INSERT INTO companies (id, cnpj, name, approval_status)
+VALUES ($1, $2, $3, $4)
+RETURNING id, cnpj, name, approval_status, created_at;
 
 -- name: FindCompanyByCnpj :one
-SELECT id, cnpj, name, street, number, city, state, zip_code, approval_status, created_at FROM companies WHERE cnpj = $1;
+SELECT id, cnpj, name, approval_status, created_at FROM companies WHERE cnpj = $1;
 
 -- name: FindCompanyByID :one
-SELECT id, cnpj, name, street, number, city, state, zip_code, approval_status, created_at FROM companies WHERE id = $1;
+SELECT id, cnpj, name, approval_status, created_at FROM companies WHERE id = $1;
+
+-- Addresses
+-- name: CreateAddress :one
+INSERT INTO addresses (id, company_id, street, number, city, state, zip_code)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
+RETURNING id, company_id, street, number, city, state, zip_code, created_at;
+
+-- name: FindAddressByCompanyID :one
+SELECT id, company_id, street, number, city, state, zip_code, created_at FROM addresses WHERE company_id = $1;
 
 -- Company owners
 -- name: FindCompanyOwnerByEmail :one
@@ -35,6 +44,9 @@ SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, spec
 
 -- name: FindShiftVeterinaryByEmail :one
 SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_veterinaries WHERE email = $1;
+
+-- name: FindShiftVeterinaryByPhone :one
+SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_veterinaries WHERE phone = $1;
 
 -- name: FindShiftVeterinaryByID :one
 SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_veterinaries WHERE id = $1;

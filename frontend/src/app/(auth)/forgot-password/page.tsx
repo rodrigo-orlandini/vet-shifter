@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { authApi } from "@/auth/api";
+import { AuthenticationService } from "@/auth/api";
+import { useToast } from "@/components/toast/ToastProvider";
 import { FieldWithError } from "@/components/FieldWithError";
 import { Button } from "@/components/Button";
 import { isRequired, isValidEmail, validationMessages } from "@/lib/validation";
+import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
 
 export default function ForgotPasswordPage() {
+  const { pushToast } = useToast();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -30,10 +33,12 @@ export default function ForgotPasswordPage() {
     setSubmitting(true);
 
     try {
-      await authApi.forgotPassword({ email });
+      await AuthenticationService.forgotPassword({ email });
       setSubmitted(true);
-    } catch {
-      setError("Algo deu errado. Tente novamente.");
+    } catch (e) {
+      const message = getBackendErrorMessage(e);
+      pushToast({ tone: "error", message });
+      setError(message);
     } finally {
       setSubmitting(false);
     }

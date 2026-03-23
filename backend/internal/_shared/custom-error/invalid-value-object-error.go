@@ -8,5 +8,5 @@ type InvalidValueObjectError struct {
 }
 
 func (e *InvalidValueObjectError) Error() string {
-	return fmt.Sprintf("Invalid value object '%s' creation with value: %s", e.Key, e.Value)
+	return fmt.Sprintf("%s inválido: %s", e.Key, e.Value)
 }

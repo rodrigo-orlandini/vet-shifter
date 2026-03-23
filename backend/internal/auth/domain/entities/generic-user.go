@@ -21,7 +21,7 @@ func NewGenericUser(
 ) (*GenericUser, error) {
 	if len(password) < utils.MinPasswordLength {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "Password",
+			Key:   "Senha",
 			Value: "",
 		}
 	}

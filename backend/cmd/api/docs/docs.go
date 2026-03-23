@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_auth_infrastructure_controllers.ForgotPasswordRequest"
+                            "$ref": "#/definitions/controllers.ForgotPasswordRequest"
                         }
                     }
                 ],
@@ -50,9 +50,9 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid request",
+                        "description": "Requisição inválida",
                         "schema": {
-                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse"
+                            "$ref": "#/definitions/api.ApiErrorResponse"
                         }
                     }
                 }
@@ -78,7 +78,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_auth_infrastructure_controllers.LoginCompanyOwnerRequest"
+                            "$ref": "#/definitions/controllers.LoginCompanyOwnerRequest"
                         }
                     }
                 ],
@@ -86,19 +86,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_auth_infrastructure_controllers.LoginCompanyOwnerResponse"
+                            "$ref": "#/definitions/controllers.LoginCompanyOwnerResponse"
                         }
                     },
                     "400": {
-                        "description": "Invalid request",
+                        "description": "Requisição inválida",
                         "schema": {
-                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse"
+                            "$ref": "#/definitions/api.ApiErrorResponse"
                         }
                     },
                     "401": {
-                        "description": "Invalid email or password",
+                        "description": "E-mail ou senha incorretos",
                         "schema": {
-                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse"
+                            "$ref": "#/definitions/api.ApiErrorResponse"
                         }
                     }
                 }
@@ -124,7 +124,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_auth_infrastructure_controllers.LoginVeterinaryRequest"
+                            "$ref": "#/definitions/controllers.LoginVeterinaryRequest"
                         }
                     }
                 ],
@@ -132,19 +132,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_auth_infrastructure_controllers.LoginVeterinaryResponse"
+                            "$ref": "#/definitions/controllers.LoginVeterinaryResponse"
                         }
                     },
                     "400": {
-                        "description": "Invalid request",
+                        "description": "Requisição inválida",
                         "schema": {
-                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse"
+                            "$ref": "#/definitions/api.ApiErrorResponse"
                         }
                     },
                     "401": {
-                        "description": "Invalid email or password",
+                        "description": "E-mail ou senha incorretos",
                         "schema": {
-                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse"
+                            "$ref": "#/definitions/api.ApiErrorResponse"
                         }
                     }
                 }
@@ -170,9 +170,9 @@ const docTemplate = `{
                         "description": "OK"
                     },
                     "401": {
-                        "description": "Unauthorized",
+                        "description": "Não autorizado",
                         "schema": {
-                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse"
+                            "$ref": "#/definitions/api.ApiErrorResponse"
                         }
                     }
                 }
@@ -198,7 +198,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_auth_infrastructure_controllers.ResetPasswordRequest"
+                            "$ref": "#/definitions/controllers.ResetPasswordRequest"
                         }
                     }
                 ],
@@ -213,9 +213,9 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid token or weak password",
+                        "description": "Token inválido ou senha fraca",
                         "schema": {
-                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse"
+                            "$ref": "#/definitions/api.ApiErrorResponse"
                         }
                     }
                 }
@@ -244,19 +244,19 @@ const docTemplate = `{
                     "200": {
                         "description": "company_owner or shift_veterinary",
                         "schema": {
-                            "$ref": "#/definitions/internal_auth_infrastructure_controllers.GetUserTypeResponse"
+                            "$ref": "#/definitions/controllers.GetUserTypeResponse"
                         }
                     },
                     "400": {
-                        "description": "Invalid email",
+                        "description": "E-mail inválido",
                         "schema": {
-                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse"
+                            "$ref": "#/definitions/api.ApiErrorResponse"
                         }
                     },
                     "404": {
-                        "description": "Email not found",
+                        "description": "E-mail não encontrado",
                         "schema": {
-                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse"
+                            "$ref": "#/definitions/api.ApiErrorResponse"
                         }
                     }
                 }
@@ -282,7 +282,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_companies_infrastructure_controllers.RegisterCompanyRequest"
+                            "$ref": "#/definitions/controllers.RegisterCompanyRequest"
                         }
                     }
                 ],
@@ -290,25 +290,77 @@ const docTemplate = `{
                     "201": {
                         "description": "Created with company_id",
                         "schema": {
-                            "$ref": "#/definitions/internal_companies_infrastructure_controllers.RegisterCompanyResponse"
+                            "$ref": "#/definitions/controllers.RegisterCompanyResponse"
                         }
                     },
                     "400": {
-                        "description": "Invalid request body or validation error",
+                        "description": "Corpo da requisição inválido ou erro de validação",
                         "schema": {
-                            "$ref": "#/definitions/internal_companies_infrastructure_controllers.ErrorResponse"
+                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal_companies_infrastructure_controllers.ErrorResponse"
                         }
                     },
                     "409": {
-                        "description": "CNPJ or email already exists",
+                        "description": "CNPJ ou e-mail já cadastrados",
                         "schema": {
-                            "$ref": "#/definitions/internal_companies_infrastructure_controllers.ErrorResponse"
+                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal_companies_infrastructure_controllers.ErrorResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Erro interno do servidor",
                         "schema": {
-                            "$ref": "#/definitions/internal_companies_infrastructure_controllers.ErrorResponse"
+                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal_companies_infrastructure_controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/veterinaries": {
+            "post": {
+                "description": "Creates a veterinary account. Requires LGPD consent.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "veterinaries"
+                ],
+                "summary": "Register a new shift veterinary",
+                "parameters": [
+                    {
+                        "description": "Veterinary data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.RegisterShiftVeterinaryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created with veterinary_id",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.RegisterShiftVeterinaryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Corpo da requisição inválido ou erro de validação",
+                        "schema": {
+                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal_veterinaries_infrastructure_controllers.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "CPF ou e-mail já cadastrados",
+                        "schema": {
+                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal_veterinaries_infrastructure_controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/rodrigoorlandini_vet-shifter_internal_veterinaries_infrastructure_controllers.ErrorResponse"
                         }
                     }
                 }
@@ -316,99 +368,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "internal_auth_infrastructure_controllers.ForgotPasswordRequest": {
-            "type": "object",
-            "required": [
-                "email"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                }
-            }
-        },
-        "internal_auth_infrastructure_controllers.GetUserTypeResponse": {
-            "type": "object",
-            "properties": {
-                "user_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "internal_auth_infrastructure_controllers.LoginCompanyOwnerRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "remember_me": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "internal_auth_infrastructure_controllers.LoginCompanyOwnerResponse": {
-            "type": "object",
-            "properties": {
-                "access_token": {
-                    "type": "string"
-                },
-                "expires_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "internal_auth_infrastructure_controllers.LoginVeterinaryRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "remember_me": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "internal_auth_infrastructure_controllers.LoginVeterinaryResponse": {
-            "type": "object",
-            "properties": {
-                "access_token": {
-                    "type": "string"
-                },
-                "expires_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "internal_auth_infrastructure_controllers.ResetPasswordRequest": {
-            "type": "object",
-            "required": [
-                "new_password",
-                "token"
-            ],
-            "properties": {
-                "new_password": {
-                    "type": "string"
-                },
-                "token": {
-                    "type": "string"
-                }
-            }
-        },
-        "internal_companies_infrastructure_controllers.ErrorResponse": {
+        "api.ApiErrorResponse": {
             "type": "object",
             "properties": {
                 "code": {
@@ -419,7 +379,84 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_companies_infrastructure_controllers.RegisterCompanyRequest": {
+        "controllers.ForgotPasswordRequest": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.GetUserTypeResponse": {
+            "type": "object",
+            "properties": {
+                "user_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.LoginCompanyOwnerRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "remember_me": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "controllers.LoginCompanyOwnerResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.LoginVeterinaryRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "remember_me": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "controllers.LoginVeterinaryResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.RegisterCompanyRequest": {
             "type": "object",
             "required": [
                 "cnpj",
@@ -469,7 +506,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_companies_infrastructure_controllers.RegisterCompanyResponse": {
+        "controllers.RegisterCompanyResponse": {
             "type": "object",
             "properties": {
                 "company_id": {
@@ -477,7 +514,87 @@ const docTemplate = `{
                 }
             }
         },
-        "rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse": {
+        "controllers.RegisterShiftVeterinaryRequest": {
+            "type": "object",
+            "required": [
+                "consent_lgpd",
+                "cpf",
+                "crmv_number",
+                "crmv_state",
+                "email",
+                "full_name",
+                "password",
+                "phone",
+                "specialties"
+            ],
+            "properties": {
+                "consent_lgpd": {
+                    "type": "boolean"
+                },
+                "cpf": {
+                    "type": "string"
+                },
+                "crmv_number": {
+                    "type": "string"
+                },
+                "crmv_state": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "specialties": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "controllers.RegisterShiftVeterinaryResponse": {
+            "type": "object",
+            "properties": {
+                "veterinary_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.ResetPasswordRequest": {
+            "type": "object",
+            "required": [
+                "new_password",
+                "token"
+            ],
+            "properties": {
+                "new_password": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "rodrigoorlandini_vet-shifter_internal_companies_infrastructure_controllers.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "rodrigoorlandini_vet-shifter_internal_veterinaries_infrastructure_controllers.ErrorResponse": {
             "type": "object",
             "properties": {
                 "code": {
@@ -494,11 +611,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "localhost:8000",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Vet Shifter API",
-	Description:      "API for veterinary clinics and shifters.",
+	Description:      "API para clínicas veterinárias e plantonistas.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

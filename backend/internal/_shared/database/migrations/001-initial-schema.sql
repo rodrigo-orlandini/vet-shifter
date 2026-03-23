@@ -30,19 +30,25 @@ CREATE TABLE IF NOT EXISTS companies (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     cnpj VARCHAR(14) NOT NULL UNIQUE,
     name VARCHAR(255) NOT NULL,
+    approval_status account_status NOT NULL DEFAULT 'pending_document_approval',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS addresses (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    company_id UUID NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
     street VARCHAR(255),
-    number VARCHAR(20),
+    number VARCHAR(50),
     city VARCHAR(100),
     state VARCHAR(2),
     zip_code VARCHAR(10),
-    approval_status account_status NOT NULL DEFAULT 'pending_document_approval',
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS company_owners (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) NOT NULL UNIQUE,
-    phone VARCHAR(20) NOT NULL UNIQUE,
+    phone VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     consent_lgpd_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -52,11 +58,11 @@ CREATE TABLE IF NOT EXISTS company_owners (
 CREATE TABLE IF NOT EXISTS shift_veterinaries (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) NOT NULL UNIQUE,
-    phone VARCHAR(20) NOT NULL UNIQUE,
+    phone VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     cpf VARCHAR(11) NOT NULL UNIQUE,
-    crmv_number VARCHAR(20) NOT NULL,
+    crmv_number VARCHAR(30) NOT NULL,
     crmv_state VARCHAR(2) NOT NULL,
     specialties veterinary_specialty[] NOT NULL DEFAULT '{}',
     approval_status account_status NOT NULL DEFAULT 'pending_document_approval',

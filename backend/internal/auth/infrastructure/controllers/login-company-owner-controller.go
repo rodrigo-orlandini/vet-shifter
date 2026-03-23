@@ -5,9 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	_ "rodrigoorlandini/vet-shifter/internal/_shared/api"
+	api "rodrigoorlandini/vet-shifter/internal/_shared/api"
 	customerror "rodrigoorlandini/vet-shifter/internal/_shared/custom-error"
 	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
+	authmiddleware "rodrigoorlandini/vet-shifter/internal/auth/infrastructure/middleware"
 	usecases "rodrigoorlandini/vet-shifter/internal/auth/application/use-cases"
 	"rodrigoorlandini/vet-shifter/internal/auth/infrastructure/factories"
 )
@@ -38,15 +39,17 @@ func NewLoginCompanyOwnerController() *LoginCompanyOwnerController {
 //	@Produce		json
 //	@Param			body	body		LoginCompanyOwnerRequest	true	"Credentials"
 //	@Success		200		{object}	LoginCompanyOwnerResponse
-//	@Failure		400		{object}	api.ApiErrorResponse	"Invalid request"
-//	@Failure		401		{object}	api.ApiErrorResponse	"Invalid email or password"
+//	@Failure		400		{object}	api.ApiErrorResponse	"Requisição inválida"
+//	@Failure		401		{object}	api.ApiErrorResponse	"E-mail ou senha incorretos"
 //	@Router			/auth/login/owner [post]
 func (c *LoginCompanyOwnerController) Handle(ctx *gin.Context) {
+	internalErr := &customerror.InternalServerError{}
+
 	var body LoginCompanyOwnerRequest
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"code":  "INVALID_REQUEST",
-			"error": err.Error(),
+			"error": "Dados inválidos. Verifique os campos e tente novamente.",
 		})
 		return
 	}
@@ -71,21 +74,27 @@ func (c *LoginCompanyOwnerController) Handle(ctx *gin.Context) {
 		if _, ok := err.(*customerror.InvalidCredentialsError); ok {
 			ctx.JSON(http.StatusUnauthorized, gin.H{
 				"code":  "INVALID_CREDENTIALS",
-				"error": "invalid email or password",
+				"error": err.Error(),
 			})
 			return
 		}
 
+		_ = ctx.Error(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"code":  "INTERNAL_ERROR",
-			"error": err.Error(),
+			"error": internalErr.Error(),
 		})
-
 		return
 	}
+
+	// Set HttpOnly cookie so the browser can authenticate subsequent requests.
+	authmiddleware.SetAccessTokenCookie(ctx, out.AccessToken, out.ExpiresAt)
 
 	ctx.JSON(http.StatusOK, LoginCompanyOwnerResponse{
 		AccessToken: out.AccessToken,
 		ExpiresAt:   out.ExpiresAt,
 	})
 }
+
+// Swag references api.ApiErrorResponse in godoc comments.
+var _ = api.ApiErrorResponse{}

@@ -3,7 +3,8 @@ package controllers
 import (
 	"net/http"
 
-	_ "rodrigoorlandini/vet-shifter/internal/_shared/api"
+	api "rodrigoorlandini/vet-shifter/internal/_shared/api"
+	authmiddleware "rodrigoorlandini/vet-shifter/internal/auth/infrastructure/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,8 +23,11 @@ func NewLogoutController() *LogoutController {
 //	@Security		BearerAuth
 //	@Produce		json
 //	@Success		200	"OK"
-//	@Failure		401	{object}	api.ApiErrorResponse	"Unauthorized"
+//	@Failure		401	{object}	api.ApiErrorResponse	"Não autorizado"
 //	@Router			/auth/logout [post]
 func (c *LogoutController) Handle(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{"message": "logged out"})
+	authmiddleware.ClearAccessTokenCookie(ctx)
+	ctx.JSON(http.StatusOK, gin.H{"message": "Sessão encerrada."})
 }
+
+var _ = api.ApiErrorResponse{}

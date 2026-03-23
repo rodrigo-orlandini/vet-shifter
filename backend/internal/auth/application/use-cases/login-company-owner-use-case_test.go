@@ -3,6 +3,7 @@ package usecases_test
 import (
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
@@ -22,12 +23,13 @@ func TestLoginCompanyOwnerUseCase(t *testing.T) {
 
 	t.Run("it should return token when owner credentials are correct", func(t *testing.T) {
 		useCase, companyRepo := factories.NewLoginCompanyOwnerStubFactory()
+		consent := time.Now()
 		cnpj, _ := companiesvalueobjects.NewCnpj("00000000000100")
-		company, _ := entities.NewCompany(*cnpj, "Test Co", nil)
+		company, _ := entities.NewCompany(*cnpj, "Test Co")
 		companyRepo.Create(*company)
 		email, _ := sharedvalueobjects.NewEmail("owner@test.com")
 		phone, _ := sharedvalueobjects.NewPhone("00000000000")
-		owner, _ := entities.NewCompanyOwner(*email, *phone, utils.Argon2Hash("password123"), company.Id, nil)
+		owner, _ := entities.NewCompanyOwner(*email, *phone, utils.Argon2Hash("password123"), company.Id, &consent)
 		_ = companyRepo.RegisterCompanyOwner(*owner)
 
 		out, err := useCase.Execute(&usecases.LoginCompanyOwnerUseCaseInput{
@@ -43,12 +45,13 @@ func TestLoginCompanyOwnerUseCase(t *testing.T) {
 
 	t.Run("it should return InvalidCredentialsError when password is wrong", func(t *testing.T) {
 		useCase, companyRepo := factories.NewLoginCompanyOwnerStubFactory()
+		consent := time.Now()
 		cnpj, _ := companiesvalueobjects.NewCnpj("00000000000100")
-		company, _ := entities.NewCompany(*cnpj, "Test Co", nil)
+		company, _ := entities.NewCompany(*cnpj, "Test Co")
 		companyRepo.Create(*company)
 		email, _ := sharedvalueobjects.NewEmail("owner@test.com")
 		phone, _ := sharedvalueobjects.NewPhone("00000000000")
-		owner, _ := entities.NewCompanyOwner(*email, *phone, utils.Argon2Hash("correct-password"), company.Id, nil)
+		owner, _ := entities.NewCompanyOwner(*email, *phone, utils.Argon2Hash("correct-password"), company.Id, &consent)
 		_ = companyRepo.RegisterCompanyOwner(*owner)
 
 		out, err := useCase.Execute(&usecases.LoginCompanyOwnerUseCaseInput{
@@ -75,12 +78,13 @@ func TestLoginCompanyOwnerUseCase(t *testing.T) {
 
 	t.Run("it should return InvalidCredentialsError when password is shorter than 8 chars", func(t *testing.T) {
 		useCase, companyRepo := factories.NewLoginCompanyOwnerStubFactory()
+		consent := time.Now()
 		cnpj, _ := companiesvalueobjects.NewCnpj("00000000000100")
-		company, _ := entities.NewCompany(*cnpj, "Test Co", nil)
+		company, _ := entities.NewCompany(*cnpj, "Test Co")
 		companyRepo.Create(*company)
 		email, _ := sharedvalueobjects.NewEmail("owner@test.com")
 		phone, _ := sharedvalueobjects.NewPhone("00000000000")
-		owner, _ := entities.NewCompanyOwner(*email, *phone, "hash", company.Id, nil)
+		owner, _ := entities.NewCompanyOwner(*email, *phone, "hash", company.Id, &consent)
 		_ = companyRepo.RegisterCompanyOwner(*owner)
 
 		out, err := useCase.Execute(&usecases.LoginCompanyOwnerUseCaseInput{

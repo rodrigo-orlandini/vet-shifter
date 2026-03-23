@@ -2,15 +2,16 @@ package usecases_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
 	customerror "rodrigoorlandini/vet-shifter/internal/_shared/custom-error"
+	"rodrigoorlandini/vet-shifter/internal/_shared/utils"
 	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 	usecases "rodrigoorlandini/vet-shifter/internal/auth/application/use-cases"
 	"rodrigoorlandini/vet-shifter/internal/companies/domain/entities"
 	companiesvalueobjects "rodrigoorlandini/vet-shifter/internal/companies/domain/value-objects"
-	"rodrigoorlandini/vet-shifter/internal/_shared/utils"
 	"rodrigoorlandini/vet-shifter/test/unit/factories"
 )
 
@@ -18,11 +19,12 @@ func TestGetUserTypeByEmailUseCase(t *testing.T) {
 	t.Run("it should return company_owner when email is owner", func(t *testing.T) {
 		useCase, companyRepo, _ := factories.NewGetUserTypeByEmailStubFactory()
 		cnpj, _ := companiesvalueobjects.NewCnpj("00000000000100")
-		company, _ := entities.NewCompany(*cnpj, "Test Co", nil)
+		company, _ := entities.NewCompany(*cnpj, "Test Co")
 		companyRepo.Create(*company)
 		email, _ := sharedvalueobjects.NewEmail("owner@test.com")
 		phone, _ := sharedvalueobjects.NewPhone("00000000000")
-		owner, _ := entities.NewCompanyOwner(*email, *phone, utils.Argon2Hash("pass"), company.Id, nil)
+		consent := time.Now()
+		owner, _ := entities.NewCompanyOwner(*email, *phone, utils.Argon2Hash("pass"), company.Id, &consent)
 		_ = companyRepo.RegisterCompanyOwner(*owner)
 
 		out, err := useCase.Execute(&usecases.GetUserTypeByEmailUseCaseInput{Email: *email})

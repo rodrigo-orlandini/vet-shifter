@@ -14,22 +14,58 @@ import (
 	"github.com/lib/pq"
 )
 
+const createAddress = `-- name: CreateAddress :one
+INSERT INTO addresses (id, company_id, street, number, city, state, zip_code)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
+RETURNING id, company_id, street, number, city, state, zip_code, created_at
+`
+
+type CreateAddressParams struct {
+	ID        uuid.UUID      `json:"id"`
+	CompanyID uuid.UUID      `json:"company_id"`
+	Street    sql.NullString `json:"street"`
+	Number    sql.NullString `json:"number"`
+	City      sql.NullString `json:"city"`
+	State     sql.NullString `json:"state"`
+	ZipCode   sql.NullString `json:"zip_code"`
+}
+
+// Addresses
+func (q *Queries) CreateAddress(ctx context.Context, arg CreateAddressParams) (Address, error) {
+	row := q.db.QueryRowContext(ctx, createAddress,
+		arg.ID,
+		arg.CompanyID,
+		arg.Street,
+		arg.Number,
+		arg.City,
+		arg.State,
+		arg.ZipCode,
+	)
+	var i Address
+	err := row.Scan(
+		&i.ID,
+		&i.CompanyID,
+		&i.Street,
+		&i.Number,
+		&i.City,
+		&i.State,
+		&i.ZipCode,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const createCompany = `-- name: CreateCompany :one
-INSERT INTO companies (id, cnpj, name, street, number, city, state, zip_code, approval_status)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-RETURNING id, cnpj, name, street, number, city, state, zip_code, approval_status, created_at
+INSERT INTO companies (id, cnpj, name, approval_status)
+VALUES ($1, $2, $3, $4)
+RETURNING id, cnpj, name, approval_status, created_at
 `
 
 type CreateCompanyParams struct {
-	ID             uuid.UUID      `json:"id"`
-	Cnpj           string         `json:"cnpj"`
-	Name           string         `json:"name"`
-	Street         sql.NullString `json:"street"`
-	Number         sql.NullString `json:"number"`
-	City           sql.NullString `json:"city"`
-	State          sql.NullString `json:"state"`
-	ZipCode        sql.NullString `json:"zip_code"`
-	ApprovalStatus AccountStatus  `json:"approval_status"`
+	ID             uuid.UUID     `json:"id"`
+	Cnpj           string        `json:"cnpj"`
+	Name           string        `json:"name"`
+	ApprovalStatus AccountStatus `json:"approval_status"`
 }
 
 // Companies
@@ -38,11 +74,6 @@ func (q *Queries) CreateCompany(ctx context.Context, arg CreateCompanyParams) (C
 		arg.ID,
 		arg.Cnpj,
 		arg.Name,
-		arg.Street,
-		arg.Number,
-		arg.City,
-		arg.State,
-		arg.ZipCode,
 		arg.ApprovalStatus,
 	)
 	var i Company
@@ -50,11 +81,6 @@ func (q *Queries) CreateCompany(ctx context.Context, arg CreateCompanyParams) (C
 		&i.ID,
 		&i.Cnpj,
 		&i.Name,
-		&i.Street,
-		&i.Number,
-		&i.City,
-		&i.State,
-		&i.ZipCode,
 		&i.ApprovalStatus,
 		&i.CreatedAt,
 	)
@@ -150,8 +176,28 @@ func (q *Queries) CreateShiftVeterinary(ctx context.Context, arg CreateShiftVete
 	return i, err
 }
 
+const findAddressByCompanyID = `-- name: FindAddressByCompanyID :one
+SELECT id, company_id, street, number, city, state, zip_code, created_at FROM addresses WHERE company_id = $1
+`
+
+func (q *Queries) FindAddressByCompanyID(ctx context.Context, companyID uuid.UUID) (Address, error) {
+	row := q.db.QueryRowContext(ctx, findAddressByCompanyID, companyID)
+	var i Address
+	err := row.Scan(
+		&i.ID,
+		&i.CompanyID,
+		&i.Street,
+		&i.Number,
+		&i.City,
+		&i.State,
+		&i.ZipCode,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const findCompanyByCnpj = `-- name: FindCompanyByCnpj :one
-SELECT id, cnpj, name, street, number, city, state, zip_code, approval_status, created_at FROM companies WHERE cnpj = $1
+SELECT id, cnpj, name, approval_status, created_at FROM companies WHERE cnpj = $1
 `
 
 func (q *Queries) FindCompanyByCnpj(ctx context.Context, cnpj string) (Company, error) {
@@ -161,11 +207,6 @@ func (q *Queries) FindCompanyByCnpj(ctx context.Context, cnpj string) (Company, 
 		&i.ID,
 		&i.Cnpj,
 		&i.Name,
-		&i.Street,
-		&i.Number,
-		&i.City,
-		&i.State,
-		&i.ZipCode,
 		&i.ApprovalStatus,
 		&i.CreatedAt,
 	)
@@ -173,7 +214,7 @@ func (q *Queries) FindCompanyByCnpj(ctx context.Context, cnpj string) (Company, 
 }
 
 const findCompanyByID = `-- name: FindCompanyByID :one
-SELECT id, cnpj, name, street, number, city, state, zip_code, approval_status, created_at FROM companies WHERE id = $1
+SELECT id, cnpj, name, approval_status, created_at FROM companies WHERE id = $1
 `
 
 func (q *Queries) FindCompanyByID(ctx context.Context, id uuid.UUID) (Company, error) {
@@ -183,11 +224,6 @@ func (q *Queries) FindCompanyByID(ctx context.Context, id uuid.UUID) (Company, e
 		&i.ID,
 		&i.Cnpj,
 		&i.Name,
-		&i.Street,
-		&i.Number,
-		&i.City,
-		&i.State,
-		&i.ZipCode,
 		&i.ApprovalStatus,
 		&i.CreatedAt,
 	)
@@ -287,6 +323,30 @@ SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, spec
 
 func (q *Queries) FindShiftVeterinaryByID(ctx context.Context, id uuid.UUID) (ShiftVeterinary, error) {
 	row := q.db.QueryRowContext(ctx, findShiftVeterinaryByID, id)
+	var i ShiftVeterinary
+	err := row.Scan(
+		&i.ID,
+		&i.Email,
+		&i.Phone,
+		&i.Password,
+		&i.FullName,
+		&i.Cpf,
+		&i.CrmvNumber,
+		&i.CrmvState,
+		pq.Array(&i.Specialties),
+		&i.ApprovalStatus,
+		&i.ConsentLgpdAt,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
+const findShiftVeterinaryByPhone = `-- name: FindShiftVeterinaryByPhone :one
+SELECT id, email, phone, password, full_name, cpf, crmv_number, crmv_state, specialties, approval_status, consent_lgpd_at, created_at FROM shift_veterinaries WHERE phone = $1
+`
+
+func (q *Queries) FindShiftVeterinaryByPhone(ctx context.Context, phone string) (ShiftVeterinary, error) {
+	row := q.db.QueryRowContext(ctx, findShiftVeterinaryByPhone, phone)
 	var i ShiftVeterinary
 	err := row.Scan(
 		&i.ID,

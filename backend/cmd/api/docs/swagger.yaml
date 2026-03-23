@@ -1,73 +1,63 @@
 basePath: /
 definitions:
-  internal_auth_infrastructure_controllers.ForgotPasswordRequest:
-    properties:
-      email:
-        type: string
-    required:
-    - email
-    type: object
-  internal_auth_infrastructure_controllers.GetUserTypeResponse:
-    properties:
-      user_type:
-        type: string
-    type: object
-  internal_auth_infrastructure_controllers.LoginCompanyOwnerRequest:
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-      remember_me:
-        type: boolean
-    required:
-    - email
-    - password
-    type: object
-  internal_auth_infrastructure_controllers.LoginCompanyOwnerResponse:
-    properties:
-      access_token:
-        type: string
-      expires_at:
-        type: string
-    type: object
-  internal_auth_infrastructure_controllers.LoginVeterinaryRequest:
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-      remember_me:
-        type: boolean
-    required:
-    - email
-    - password
-    type: object
-  internal_auth_infrastructure_controllers.LoginVeterinaryResponse:
-    properties:
-      access_token:
-        type: string
-      expires_at:
-        type: string
-    type: object
-  internal_auth_infrastructure_controllers.ResetPasswordRequest:
-    properties:
-      new_password:
-        type: string
-      token:
-        type: string
-    required:
-    - new_password
-    - token
-    type: object
-  internal_companies_infrastructure_controllers.ErrorResponse:
+  api.ApiErrorResponse:
     properties:
       code:
         type: string
       error:
         type: string
     type: object
-  internal_companies_infrastructure_controllers.RegisterCompanyRequest:
+  controllers.ForgotPasswordRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  controllers.GetUserTypeResponse:
+    properties:
+      user_type:
+        type: string
+    type: object
+  controllers.LoginCompanyOwnerRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      remember_me:
+        type: boolean
+    required:
+    - email
+    - password
+    type: object
+  controllers.LoginCompanyOwnerResponse:
+    properties:
+      access_token:
+        type: string
+      expires_at:
+        type: string
+    type: object
+  controllers.LoginVeterinaryRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      remember_me:
+        type: boolean
+    required:
+    - email
+    - password
+    type: object
+  controllers.LoginVeterinaryResponse:
+    properties:
+      access_token:
+        type: string
+      expires_at:
+        type: string
+    type: object
+  controllers.RegisterCompanyRequest:
     properties:
       city:
         type: string
@@ -102,22 +92,77 @@ definitions:
     - password
     - phone
     type: object
-  internal_companies_infrastructure_controllers.RegisterCompanyResponse:
+  controllers.RegisterCompanyResponse:
     properties:
       company_id:
         type: string
     type: object
-  rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse:
+  controllers.RegisterShiftVeterinaryRequest:
+    properties:
+      consent_lgpd:
+        type: boolean
+      cpf:
+        type: string
+      crmv_number:
+        type: string
+      crmv_state:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      specialties:
+        items:
+          type: string
+        type: array
+    required:
+    - consent_lgpd
+    - cpf
+    - crmv_number
+    - crmv_state
+    - email
+    - full_name
+    - password
+    - phone
+    - specialties
+    type: object
+  controllers.RegisterShiftVeterinaryResponse:
+    properties:
+      veterinary_id:
+        type: string
+    type: object
+  controllers.ResetPasswordRequest:
+    properties:
+      new_password:
+        type: string
+      token:
+        type: string
+    required:
+    - new_password
+    - token
+    type: object
+  rodrigoorlandini_vet-shifter_internal_companies_infrastructure_controllers.ErrorResponse:
     properties:
       code:
         type: string
       error:
         type: string
     type: object
-host: localhost:8080
+  rodrigoorlandini_vet-shifter_internal_veterinaries_infrastructure_controllers.ErrorResponse:
+    properties:
+      code:
+        type: string
+      error:
+        type: string
+    type: object
+host: localhost:8000
 info:
   contact: {}
-  description: API for veterinary clinics and shifters.
+  description: API para clínicas veterinárias e plantonistas.
   title: Vet Shifter API
   version: "1.0"
 paths:
@@ -132,7 +177,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_auth_infrastructure_controllers.ForgotPasswordRequest'
+          $ref: '#/definitions/controllers.ForgotPasswordRequest'
       produces:
       - application/json
       responses:
@@ -143,9 +188,9 @@ paths:
               type: string
             type: object
         "400":
-          description: Invalid request
+          description: Requisição inválida
           schema:
-            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+            $ref: '#/definitions/api.ApiErrorResponse'
       summary: Request password reset
       tags:
       - auth
@@ -161,22 +206,22 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_auth_infrastructure_controllers.LoginCompanyOwnerRequest'
+          $ref: '#/definitions/controllers.LoginCompanyOwnerRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_auth_infrastructure_controllers.LoginCompanyOwnerResponse'
+            $ref: '#/definitions/controllers.LoginCompanyOwnerResponse'
         "400":
-          description: Invalid request
+          description: Requisição inválida
           schema:
-            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+            $ref: '#/definitions/api.ApiErrorResponse'
         "401":
-          description: Invalid email or password
+          description: E-mail ou senha incorretos
           schema:
-            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+            $ref: '#/definitions/api.ApiErrorResponse'
       summary: Login as company owner
       tags:
       - auth
@@ -192,22 +237,22 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_auth_infrastructure_controllers.LoginVeterinaryRequest'
+          $ref: '#/definitions/controllers.LoginVeterinaryRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_auth_infrastructure_controllers.LoginVeterinaryResponse'
+            $ref: '#/definitions/controllers.LoginVeterinaryResponse'
         "400":
-          description: Invalid request
+          description: Requisição inválida
           schema:
-            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+            $ref: '#/definitions/api.ApiErrorResponse'
         "401":
-          description: Invalid email or password
+          description: E-mail ou senha incorretos
           schema:
-            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+            $ref: '#/definitions/api.ApiErrorResponse'
       summary: Login as shift veterinary
       tags:
       - auth
@@ -221,9 +266,9 @@ paths:
         "200":
           description: OK
         "401":
-          description: Unauthorized
+          description: Não autorizado
           schema:
-            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+            $ref: '#/definitions/api.ApiErrorResponse'
       security:
       - BearerAuth: []
       summary: Logout (client should discard token)
@@ -240,7 +285,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_auth_infrastructure_controllers.ResetPasswordRequest'
+          $ref: '#/definitions/controllers.ResetPasswordRequest'
       produces:
       - application/json
       responses:
@@ -251,9 +296,9 @@ paths:
               type: string
             type: object
         "400":
-          description: Invalid token or weak password
+          description: Token inválido ou senha fraca
           schema:
-            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+            $ref: '#/definitions/api.ApiErrorResponse'
       summary: Reset password with token
       tags:
       - auth
@@ -273,15 +318,15 @@ paths:
         "200":
           description: company_owner or shift_veterinary
           schema:
-            $ref: '#/definitions/internal_auth_infrastructure_controllers.GetUserTypeResponse'
+            $ref: '#/definitions/controllers.GetUserTypeResponse'
         "400":
-          description: Invalid email
+          description: E-mail inválido
           schema:
-            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+            $ref: '#/definitions/api.ApiErrorResponse'
         "404":
-          description: Email not found
+          description: E-mail não encontrado
           schema:
-            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal__shared_api.ApiErrorResponse'
+            $ref: '#/definitions/api.ApiErrorResponse'
       summary: Get user type by email
       tags:
       - auth
@@ -296,27 +341,61 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_companies_infrastructure_controllers.RegisterCompanyRequest'
+          $ref: '#/definitions/controllers.RegisterCompanyRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created with company_id
           schema:
-            $ref: '#/definitions/internal_companies_infrastructure_controllers.RegisterCompanyResponse'
+            $ref: '#/definitions/controllers.RegisterCompanyResponse'
         "400":
-          description: Invalid request body or validation error
+          description: Corpo da requisição inválido ou erro de validação
           schema:
-            $ref: '#/definitions/internal_companies_infrastructure_controllers.ErrorResponse'
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal_companies_infrastructure_controllers.ErrorResponse'
         "409":
-          description: CNPJ or email already exists
+          description: CNPJ ou e-mail já cadastrados
           schema:
-            $ref: '#/definitions/internal_companies_infrastructure_controllers.ErrorResponse'
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal_companies_infrastructure_controllers.ErrorResponse'
         "500":
-          description: Internal server error
+          description: Erro interno do servidor
           schema:
-            $ref: '#/definitions/internal_companies_infrastructure_controllers.ErrorResponse'
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal_companies_infrastructure_controllers.ErrorResponse'
       summary: Register a new company with owner
       tags:
       - companies
+  /veterinaries:
+    post:
+      consumes:
+      - application/json
+      description: Creates a veterinary account. Requires LGPD consent.
+      parameters:
+      - description: Veterinary data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RegisterShiftVeterinaryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created with veterinary_id
+          schema:
+            $ref: '#/definitions/controllers.RegisterShiftVeterinaryResponse'
+        "400":
+          description: Corpo da requisição inválido ou erro de validação
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal_veterinaries_infrastructure_controllers.ErrorResponse'
+        "409":
+          description: CPF ou e-mail já cadastrados
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal_veterinaries_infrastructure_controllers.ErrorResponse'
+        "500":
+          description: Erro interno do servidor
+          schema:
+            $ref: '#/definitions/rodrigoorlandini_vet-shifter_internal_veterinaries_infrastructure_controllers.ErrorResponse'
+      summary: Register a new shift veterinary
+      tags:
+      - veterinaries
 swagger: "2.0"

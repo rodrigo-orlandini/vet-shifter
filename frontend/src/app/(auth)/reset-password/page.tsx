@@ -3,16 +3,19 @@
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { authApi } from "@/auth/api";
+import { AuthenticationService } from "@/auth/api";
+import { useToast } from "@/components/toast/ToastProvider";
 import { FieldWithError } from "@/components/FieldWithError";
 import { Button } from "@/components/Button";
 import { validationMessages } from "@/lib/validation";
+import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
 
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token") ?? "";
 
+  const { pushToast } = useToast();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [fieldErrors, setFieldErrors] = useState<{ password?: string; confirmPassword?: string }>({});
@@ -38,10 +41,12 @@ function ResetPasswordForm() {
     setSubmitting(true);
 
     try {
-      await authApi.resetPassword({ token, new_password: password });
+      await AuthenticationService.resetPassword({ token, new_password: password });
       router.push("/login?reset=success");
-    } catch {
-      setError("Link inválido ou expirado. Solicite uma nova redefinição de senha.");
+    } catch (e) {
+      const message = getBackendErrorMessage(e);
+      pushToast({ tone: "error", message });
+      setError(message);
     } finally {
       setSubmitting(false);
     }

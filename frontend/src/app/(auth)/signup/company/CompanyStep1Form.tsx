@@ -3,6 +3,7 @@
 import { FieldWithError } from "@/components/FieldWithError";
 import { formatCep, formatCnpj } from "@/lib/masks";
 import type { InternalCompaniesInfrastructureControllersRegisterCompanyRequest } from "@/api/generated/api";
+import { BRAZIL_UFS } from "@/auth/constants/ufs";
 
 type FieldErrors = Partial<Record<keyof InternalCompaniesInfrastructureControllersRegisterCompanyRequest, string>>;
 
@@ -71,12 +72,18 @@ export function CompanyStep1Form({ form, fieldErrors, update }: CompanyStep1Form
         </label>
         <label className="flex flex-col gap-1">
           <span className="text-sm font-medium text-neutral-700">Estado</span>
-          <input
-            type="text"
+          <select
             value={form.state ?? ""}
             onChange={(e) => update({ state: e.target.value })}
             className="rounded-lg border border-neutral-300 px-3 py-2 text-neutral-900"
-          />
+          >
+            <option value="">Selecione a UF</option>
+            {BRAZIL_UFS.map((uf) => (
+              <option key={uf.code} value={uf.code}>
+                {uf.code} - {uf.name}
+              </option>
+            ))}
+          </select>
         </label>
       </div>
     </div>

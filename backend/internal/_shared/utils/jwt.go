@@ -23,7 +23,7 @@ type AuthClaims struct {
 func IssueJWT(userID string, email string, userType string, rememberMe bool) (string, time.Time, error) {
 	secret := GetJWTSecret()
 	if secret == "" {
-		return "", time.Time{}, fmt.Errorf("JWT_SECRET is not set")
+		return "", time.Time{}, fmt.Errorf("JWT_SECRET não está definida")
 	}
 
 	var expDuration time.Duration
@@ -58,12 +58,12 @@ func IssueJWT(userID string, email string, userType string, rememberMe bool) (st
 func VerifyJWT(tokenString string) (*AuthClaims, error) {
 	secret := GetJWTSecret()
 	if secret == "" {
-		return nil, fmt.Errorf("JWT_SECRET is not set")
+		return nil, fmt.Errorf("JWT_SECRET não está definida")
 	}
 
 	token, err := jwt.ParseWithClaims(tokenString, &AuthClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+			return nil, fmt.Errorf("método de assinatura inesperado: %v", token.Header["alg"])
 		}
 
 		return []byte(secret), nil
@@ -75,7 +75,7 @@ func VerifyJWT(tokenString string) (*AuthClaims, error) {
 
 	claims, ok := token.Claims.(*AuthClaims)
 	if !ok || !token.Valid {
-		return nil, fmt.Errorf("invalid token")
+		return nil, fmt.Errorf("token inválido")
 	}
 
 	return claims, nil

@@ -8,5 +8,5 @@ type NotFoundError struct {
 }
 
 func (e *NotFoundError) Error() string {
-	return fmt.Sprintf("Not found '%s' with value: %s", e.Key, e.Value)
+	return fmt.Sprintf("%s %s não encontrado", e.Key, e.Value)
 }

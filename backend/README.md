@@ -1,5 +1,47 @@
 # Backend (Go)
 
+## Initial setup
+
+1. Install **Go** (this module targets **Go 1.24**; see `go.mod`).
+2. From the `backend` directory, download and tidy module dependencies:
+
+```powershell
+cd backend
+go mod tidy
+```
+
+3. Copy environment template and adjust values (database, JWT, optional email):
+
+```powershell
+copy .env.example .env
+```
+
+See `.env.example` for `DATABASE_URL`, `JWT_SECRET`, `API_PORT`, and email-related variables.
+
+## Running in development
+
+1. Start **PostgreSQL** (recommended: Docker Compose in this folder):
+
+```powershell
+cd backend
+docker compose up -d
+```
+
+Wait until the `postgres` service is healthy (`pg_isready`).
+
+2. Ensure `.env` exists and `DATABASE_URL` matches your Compose settings (default in `.env.example` uses `localhost:5432` and database `vet_shifter`).
+
+3. Run the API (migrations run automatically on startup):
+
+```powershell
+cd backend
+go run ./cmd/api
+```
+
+The server listens on `API_PORT` (default **8000**). Swagger is generated under `cmd/api/docs/` when you run `swag init` (see root `gen-api.ps1` if you use it).
+
+---
+
 ## SQLC (queries → generated Go code)
 
 This project uses **SQLC** to generate type-safe Go code from SQL.

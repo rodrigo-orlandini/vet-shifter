@@ -72,7 +72,7 @@ func NewSpecialties(items []string) (*Specialties, error) {
 	for _, s := range items {
 		if !slices.Contains(allowedSpecialties, s) {
 			return nil, &customerror.InvalidValueObjectError{
-				Key:   "Specialties",
+				Key:   "Especialidades",
 				Value: s,
 			}
 		}
@@ -82,8 +82,8 @@ func NewSpecialties(items []string) (*Specialties, error) {
 
 	if len(list) < 1 {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "Specialties",
-			Value: "at least one specialty must be selected",
+			Key:   "Especialidades",
+			Value: "selecione ao menos uma especialidade",
 		}
 	}
 

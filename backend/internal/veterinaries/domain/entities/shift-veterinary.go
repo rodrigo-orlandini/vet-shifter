@@ -39,17 +39,24 @@ func NewShiftVeterinary(
 	registrationStatus valueobjects.RegistrationStatus,
 	consentLgpdAt *time.Time,
 ) (*ShiftVeterinary, error) {
+	if consentLgpdAt == nil {
+		return nil, &customerror.InvalidValueObjectError{
+			Key:   "Consentimento LGPD",
+			Value: "",
+		}
+	}
+
 	trimmedName := strings.TrimSpace(fullName)
 	if len(trimmedName) < MinFullNameLength {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "FullName",
+			Key:   "Nome completo",
 			Value: fullName,
 		}
 	}
 
 	if len(password) < utils.MinPasswordLength {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "Password",
+			Key:   "Senha",
 			Value: "",
 		}
 	}

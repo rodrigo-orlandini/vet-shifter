@@ -26,34 +26,34 @@ type Migration struct {
 
 func RunMigrations(db *sql.DB) error {
 	if err := createMigrationsTable(db); err != nil {
-		return fmt.Errorf("failed to create migrations table: %w", err)
+		return fmt.Errorf("falha ao criar tabela de migrations: %w", err)
 	}
 
 	migrations, err := getMigrationFiles()
 	if err != nil {
-		return fmt.Errorf("failed to read migration files: %w", err)
+		return fmt.Errorf("falha ao ler arquivos de migration: %w", err)
 	}
 
 	applied, err := getAppliedMigrations(db)
 	if err != nil {
-		return fmt.Errorf("failed to get applied migrations: %w", err)
+		return fmt.Errorf("falha ao obter migrations aplicadas: %w", err)
 	}
 
 	pending := getPendingMigrations(migrations, applied)
 
 	if len(pending) == 0 {
-		fmt.Println("No pending migrations")
+		slog.Info("Nenhuma migration pendente")
 		return nil
 	}
 
-	slog.Info("Found %d pending migration(s)\n", "length", len(pending))
+	slog.Info("Migrations pendentes encontradas", "count", len(pending))
 
 	for _, migration := range pending {
 		if err := applyMigration(db, migration); err != nil {
-			return fmt.Errorf("failed to apply migration %s: %w", migration.Version, err)
+			return fmt.Errorf("falha ao aplicar migration %s: %w", migration.Version, err)
 		}
 
-		slog.Info("Applied migration: \n", migration.Version)
+		slog.Info("Migration aplicada", "version", migration.Version)
 	}
 
 	return nil
@@ -122,12 +122,12 @@ func getMigrationFilesFromEmbed() ([]Migration, error) {
 func getMigrationFilesFromFS() ([]Migration, error) {
 	dir := findMigrationsDir()
 	if dir == "" {
-		return nil, fmt.Errorf("migrations directory not found (tried embed and filesystem)")
+		return nil, fmt.Errorf("diretório de migrations não encontrado (embed e sistema de arquivos)")
 	}
 
 	entries, err := os.ReadDir(dir)
 	if err != nil {
-		return nil, fmt.Errorf("read migrations dir: %w", err)
+		return nil, fmt.Errorf("ler diretório de migrations: %w", err)
 	}
 
 	var migrations []Migration
@@ -145,7 +145,7 @@ func getMigrationFilesFromFS() ([]Migration, error) {
 		version := parts[0]
 		sqlContent, err := os.ReadFile(filepath.Join(dir, filename))
 		if err != nil {
-			return nil, fmt.Errorf("read migration %s: %w", filename, err)
+			return nil, fmt.Errorf("ler migration %s: %w", filename, err)
 		}
 
 		migrations = append(migrations, Migration{
@@ -238,12 +238,12 @@ func applyMigration(db *sql.DB, migration Migration) error {
 	defer tx.Rollback()
 
 	if _, err := tx.Exec(migration.SQL); err != nil {
-		return fmt.Errorf("failed to execute migration SQL: %w", err)
+		return fmt.Errorf("falha ao executar SQL da migration: %w", err)
 	}
 
 	query := fmt.Sprintf("INSERT INTO %s (version) VALUES ($1)", migrationsTable)
 	if _, err := tx.Exec(query, migration.Version); err != nil {
-		return fmt.Errorf("failed to record migration: %w", err)
+		return fmt.Errorf("falha ao registrar migration: %w", err)
 	}
 
 	if err := tx.Commit(); err != nil {

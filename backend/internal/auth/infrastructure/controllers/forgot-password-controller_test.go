@@ -33,7 +33,7 @@ func TestForgotPasswordController_Handle(t *testing.T) {
 		assert.Equal(t, http.StatusAccepted, w.Code)
 		var res map[string]interface{}
 		require.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-		assert.Contains(t, res["message"], "If an account exists")
+		assert.Contains(t, res["message"], "Se existir uma conta")
 	})
 
 	t.Run("main fail path - invalid email returns 400", func(t *testing.T) {

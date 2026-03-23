@@ -64,3 +64,63 @@ func ShiftVeterinaryFromPersistence(t queries.ShiftVeterinary) (*entities.ShiftV
 		CreatedAt:          t.CreatedAt,
 	}, nil
 }
+
+type ShiftVeterinaryFromHttpInput struct {
+	Email        string
+	Phone        string
+	Password     string
+	FullName     string
+	Cpf          string
+	CrmvNumber   string
+	CrmvState    string
+	Specialties  []string
+	ConsentLgpd  bool
+	ConsentLgpdAt *time.Time
+}
+
+func ShiftVeterinaryFromHttp(input ShiftVeterinaryFromHttpInput) (*entities.ShiftVeterinary, error) {
+	email, err := sharedvalueobjects.NewEmail(input.Email)
+	if err != nil {
+		return nil, err
+	}
+
+	phone, err := sharedvalueobjects.NewPhone(input.Phone)
+	if err != nil {
+		return nil, err
+	}
+
+	cpf, err := sharedvalueobjects.NewCpf(input.Cpf)
+	if err != nil {
+		return nil, err
+	}
+
+	crmv, err := valueobjects.NewCrmv(input.CrmvNumber, input.CrmvState)
+	if err != nil {
+		return nil, err
+	}
+
+	specialties, err := valueobjects.NewSpecialties(input.Specialties)
+	if err != nil {
+		return nil, err
+	}
+
+	var consentAt *time.Time
+	if input.ConsentLgpdAt != nil {
+		consentAt = input.ConsentLgpdAt
+	} else if input.ConsentLgpd {
+		t := time.Now()
+		consentAt = &t
+	}
+
+	return entities.NewShiftVeterinary(
+		*email,
+		*phone,
+		input.Password,
+		input.FullName,
+		*cpf,
+		*crmv,
+		*specialties,
+		*valueobjects.PendingDocumentApproval(),
+		consentAt,
+	)
+}

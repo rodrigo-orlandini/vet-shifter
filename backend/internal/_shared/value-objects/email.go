@@ -15,7 +15,7 @@ func NewEmail(value string) (*Email, error) {
 
 	if !emailRegex.MatchString(value) {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "Email",
+			Key:   "E-mail",
 			Value: value,
 		}
 	}

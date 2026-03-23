@@ -2,29 +2,31 @@ package valueobjects
 
 import (
 	customerror "rodrigoorlandini/vet-shifter/internal/_shared/custom-error"
+	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
 )
 
 type Crmv struct {
 	number string
-	state  string
+	state  sharedvalueobjects.UF
 }
 
 func NewCrmv(number string, state string) (*Crmv, error) {
 	if number == "" {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "CrmvNumber",
+			Key:   "Número do CRMV",
 			Value: number,
 		}
 	}
 
-	if len(state) != 2 {
+	uf, err := sharedvalueobjects.NewUF(state)
+	if err != nil {
 		return nil, &customerror.InvalidValueObjectError{
-			Key:   "CrmvState",
+			Key:   "UF do CRMV",
 			Value: state,
 		}
 	}
 
-	return &Crmv{number: number, state: state}, nil
+	return &Crmv{number: number, state: *uf}, nil
 }
 
 func (c *Crmv) GetNumber() string {
@@ -32,5 +34,5 @@ func (c *Crmv) GetNumber() string {
 }
 
 func (c *Crmv) GetState() string {
-	return c.state
+	return c.state.GetValue()
 }

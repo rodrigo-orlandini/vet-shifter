@@ -7,7 +7,8 @@ import { AuthFooterLinks } from "../../components/AuthFooterLinks";
 import { VeterinaryStep1Form } from "./VeterinaryStep1Form";
 import { VeterinaryStep2Form } from "./VeterinaryStep2Form";
 import { VeterinaryStep3Form } from "./VeterinaryStep3Form";
-import { authApi } from "@/auth/api";
+import { AuthenticationService } from "@/auth/api";
+import { useToast } from "@/components/toast/ToastProvider";
 import type { RegisterVeterinaryRequest } from "@/auth/types/veterinary-signup";
 import {
   isRequired,
@@ -18,6 +19,7 @@ import {
   isValidPhoneBr,
   validationMessages,
 } from "@/lib/validation";
+import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
 
 const initialForm: RegisterVeterinaryRequest = {
   full_name: "",
@@ -35,6 +37,7 @@ type FieldErrors = Partial<Record<keyof RegisterVeterinaryRequest | "specialties
 
 export default function VeterinarySignUpPage() {
   const router = useRouter();
+  const { pushToast } = useToast();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState(initialForm);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -111,11 +114,34 @@ export default function VeterinarySignUpPage() {
     setError(null);
     if (!setStep3Errors()) return;
     setSubmitting(true);
+
+    const payload: RegisterVeterinaryRequest = {
+      ...form,
+      cpf: form.cpf.replace(/\D/g, ""),
+      phone: form.phone.replace(/\D/g, ""),
+    };
+
     try {
-      await authApi.registerVeterinary(form);
+      await AuthenticationService.registerVeterinary(payload);
+
+      pushToast({ tone: "success", message: "Cadastro realizado com sucesso!" });
+
+      const loginRes = await AuthenticationService.loginVeterinary({
+        email: form.email,
+        password: form.password,
+        remember_me: false,
+      });
+
+      if (loginRes) {
+        router.push("/dashboard/veterinary");
+        return;
+      }
+
       router.push("/login?registered=veterinary");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Algo deu errado. Tente novamente.");
+      const message = getBackendErrorMessage(e);
+      pushToast({ tone: "error", message });
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -139,6 +165,8 @@ export default function VeterinarySignUpPage() {
         isFirstStep={isFirstStep}
         isLastStep={isLastStep}
         submitLabel="Criar conta"
+        loading={submitting}
+        submitDisabled={!form.consent_lgpd}
       >
         {step === 1 && <VeterinaryStep1Form form={form} fieldErrors={fieldErrors} update={update} />}
         {step === 2 && (
@@ -156,9 +184,6 @@ export default function VeterinarySignUpPage() {
         <p className="mt-4 text-sm text-red-600" role="alert">
           {error}
         </p>
-      )}
-      {submitting && (
-        <p className="mt-4 text-sm text-neutral-500">Criando conta…</p>
       )}
 
       <AuthFooterLinks variant="veterinary" />

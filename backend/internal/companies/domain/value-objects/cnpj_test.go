@@ -1,10 +1,11 @@
 package valueobjects_test
 
 import (
-	valueobjects "rodrigoorlandini/vet-shifter/internal/companies/domain/value-objects"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	valueobjects "rodrigoorlandini/vet-shifter/internal/companies/domain/value-objects"
 )
 
 func TestValueObjectCnpj(t *testing.T) {
@@ -21,7 +22,7 @@ func TestValueObjectCnpj(t *testing.T) {
 		assert.Nil(t, cnpj)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Cnpj' creation with value: 0")
+		assert.Equal(t, "CNPJ inválido: 0", err.Error())
 	})
 
 	t.Run("it should fail due to a big cnpj", func(t *testing.T) {
@@ -29,6 +30,6 @@ func TestValueObjectCnpj(t *testing.T) {
 		assert.Nil(t, cnpj)
 		assert.NotNil(t, err)
 
-		assert.Equal(t, err.Error(), "Invalid value object 'Cnpj' creation with value: 000000000000000")
+		assert.Equal(t, "CNPJ inválido: 000000000000000", err.Error())
 	})
 }
