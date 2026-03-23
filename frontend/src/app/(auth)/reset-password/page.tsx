@@ -3,12 +3,14 @@
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AuthenticationService } from "@/auth/api";
+import { getVetShifterAPI } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
 import { FieldWithError } from "@/components/FieldWithError";
 import { Button } from "@/components/Button";
 import { validationMessages } from "@/lib/validation";
 import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
+
+const api = getVetShifterAPI();
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -41,7 +43,7 @@ function ResetPasswordForm() {
     setSubmitting(true);
 
     try {
-      await AuthenticationService.resetPassword({ token, new_password: password });
+      await api.postAuthResetPassword({ token, new_password: password });
       router.push("/login?reset=success");
     } catch (e) {
       const message = getBackendErrorMessage(e);

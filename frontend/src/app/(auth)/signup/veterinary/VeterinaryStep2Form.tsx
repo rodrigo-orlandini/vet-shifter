@@ -3,14 +3,14 @@
 import { FieldWithError } from "@/components/FieldWithError";
 import { VETERINARY_SPECIALTIES, SPECIALTY_LABELS } from "@/auth/constants/specialties";
 import { BRAZIL_UFS } from "@/auth/constants/ufs";
-import type { RegisterVeterinaryRequest } from "@/auth/types/veterinary-signup";
+import type { ControllersRegisterShiftVeterinaryRequest } from "@/api/generated/api";
 
-type FieldErrors = Partial<Record<keyof RegisterVeterinaryRequest | "specialties", string>>;
+type FieldErrors = Partial<Record<keyof ControllersRegisterShiftVeterinaryRequest | "specialties", string>>;
 
 export interface VeterinaryStep2FormProps {
-  form: RegisterVeterinaryRequest;
+  form: ControllersRegisterShiftVeterinaryRequest;
   fieldErrors: FieldErrors;
-  update: (partial: Partial<RegisterVeterinaryRequest>) => void;
+  update: (partial: Partial<ControllersRegisterShiftVeterinaryRequest>) => void;
   toggleSpecialty: (value: string) => void;
 }
 

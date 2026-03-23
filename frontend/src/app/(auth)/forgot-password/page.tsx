@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { AuthenticationService } from "@/auth/api";
+import { getVetShifterAPI } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
 import { FieldWithError } from "@/components/FieldWithError";
 import { Button } from "@/components/Button";
 import { isRequired, isValidEmail, validationMessages } from "@/lib/validation";
 import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
+
+const api = getVetShifterAPI();
 
 export default function ForgotPasswordPage() {
   const { pushToast } = useToast();
@@ -33,7 +35,7 @@ export default function ForgotPasswordPage() {
     setSubmitting(true);
 
     try {
-      await AuthenticationService.forgotPassword({ email });
+      await api.postAuthForgotPassword({ email });
       setSubmitted(true);
     } catch (e) {
       const message = getBackendErrorMessage(e);

@@ -1,14 +1,14 @@
 "use client";
 
 import { FieldWithError } from "@/components/FieldWithError";
-import type { RegisterVeterinaryRequest } from "@/auth/types/veterinary-signup";
+import type { ControllersRegisterShiftVeterinaryRequest } from "@/api/generated/api";
 
-type FieldErrors = Partial<Record<keyof RegisterVeterinaryRequest | "specialties", string>>;
+type FieldErrors = Partial<Record<keyof ControllersRegisterShiftVeterinaryRequest | "specialties", string>>;
 
 export interface VeterinaryStep3FormProps {
-  form: RegisterVeterinaryRequest;
+  form: ControllersRegisterShiftVeterinaryRequest;
   fieldErrors: FieldErrors;
-  update: (partial: Partial<RegisterVeterinaryRequest>) => void;
+  update: (partial: Partial<ControllersRegisterShiftVeterinaryRequest>) => void;
 }
 
 export function VeterinaryStep3Form({ form, fieldErrors, update }: VeterinaryStep3FormProps) {

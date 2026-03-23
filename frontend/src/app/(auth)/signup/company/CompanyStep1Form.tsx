@@ -2,15 +2,15 @@
 
 import { FieldWithError } from "@/components/FieldWithError";
 import { formatCep, formatCnpj } from "@/lib/masks";
-import type { InternalCompaniesInfrastructureControllersRegisterCompanyRequest } from "@/api/generated/api";
+import type { ControllersRegisterCompanyRequest } from "@/api/generated/api";
 import { BRAZIL_UFS } from "@/auth/constants/ufs";
 
-type FieldErrors = Partial<Record<keyof InternalCompaniesInfrastructureControllersRegisterCompanyRequest, string>>;
+type FieldErrors = Partial<Record<keyof ControllersRegisterCompanyRequest, string>>;
 
 export interface CompanyStep1FormProps {
-  form: InternalCompaniesInfrastructureControllersRegisterCompanyRequest;
+  form: ControllersRegisterCompanyRequest;
   fieldErrors: FieldErrors;
-  update: (partial: Partial<InternalCompaniesInfrastructureControllersRegisterCompanyRequest>) => void;
+  update: (partial: Partial<ControllersRegisterCompanyRequest>) => void;
 }
 
 export function CompanyStep1Form({ form, fieldErrors, update }: CompanyStep1FormProps) {

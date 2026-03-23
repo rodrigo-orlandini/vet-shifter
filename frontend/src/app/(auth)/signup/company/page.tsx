@@ -7,9 +7,8 @@ import { AuthFooterLinks } from "../../components/AuthFooterLinks";
 import { CompanyStep1Form } from "./CompanyStep1Form";
 import { CompanyStep2Form } from "./CompanyStep2Form";
 import { CompanyStep3Form } from "./CompanyStep3Form";
-import { AuthenticationService } from "@/auth/api";
+import { getVetShifterAPI, type ControllersRegisterCompanyRequest } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
-import type { InternalCompaniesInfrastructureControllersRegisterCompanyRequest } from "@/api/generated/api";
 import {
   isRequired,
   isValidCnpj,
@@ -20,7 +19,9 @@ import {
 } from "@/lib/validation";
 import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
 
-const initialForm: InternalCompaniesInfrastructureControllersRegisterCompanyRequest = {
+const api = getVetShifterAPI();
+
+const initialForm: ControllersRegisterCompanyRequest = {
   cnpj: "",
   company_name: "",
   owner_name: "",
@@ -106,8 +107,7 @@ export default function CompanySignUpPage() {
     if (!setStep3Errors()) return;
     setSubmitting(true);
 
-    // Backend value-objects expect digits-only values.
-    const payload: InternalCompaniesInfrastructureControllersRegisterCompanyRequest = {
+    const payload: ControllersRegisterCompanyRequest = {
       ...form,
       cnpj: form.cnpj.replace(/\D/g, ""),
       phone: form.phone.replace(/\D/g, ""),
@@ -115,7 +115,7 @@ export default function CompanySignUpPage() {
     };
 
     try {
-      await AuthenticationService.registerCompany(payload);
+      await api.postCompanies(payload);
       router.push("/login?registered=company");
     } catch (e) {
       const message = getBackendErrorMessage(e);

@@ -8,9 +8,9 @@ import (
 	api "rodrigoorlandini/vet-shifter/internal/_shared/api"
 	customerror "rodrigoorlandini/vet-shifter/internal/_shared/custom-error"
 	sharedvalueobjects "rodrigoorlandini/vet-shifter/internal/_shared/value-objects"
-	authmiddleware "rodrigoorlandini/vet-shifter/internal/auth/infrastructure/middleware"
 	usecases "rodrigoorlandini/vet-shifter/internal/auth/application/use-cases"
 	"rodrigoorlandini/vet-shifter/internal/auth/infrastructure/factories"
+	authmiddleware "rodrigoorlandini/vet-shifter/internal/auth/infrastructure/middleware"
 )
 
 type LoginCompanyOwnerRequest struct {
@@ -96,5 +96,4 @@ func (c *LoginCompanyOwnerController) Handle(ctx *gin.Context) {
 	})
 }
 
-// Swag references api.ApiErrorResponse in godoc comments.
 var _ = api.ApiErrorResponse{}

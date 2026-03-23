@@ -7,9 +7,8 @@ import { AuthFooterLinks } from "../../components/AuthFooterLinks";
 import { VeterinaryStep1Form } from "./VeterinaryStep1Form";
 import { VeterinaryStep2Form } from "./VeterinaryStep2Form";
 import { VeterinaryStep3Form } from "./VeterinaryStep3Form";
-import { AuthenticationService } from "@/auth/api";
+import { getVetShifterAPI, type ControllersRegisterShiftVeterinaryRequest } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
-import type { RegisterVeterinaryRequest } from "@/auth/types/veterinary-signup";
 import {
   isRequired,
   isValidCpf,
@@ -21,7 +20,9 @@ import {
 } from "@/lib/validation";
 import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
 
-const initialForm: RegisterVeterinaryRequest = {
+const api = getVetShifterAPI();
+
+const initialForm: ControllersRegisterShiftVeterinaryRequest = {
   full_name: "",
   cpf: "",
   email: "",
@@ -33,7 +34,7 @@ const initialForm: RegisterVeterinaryRequest = {
   consent_lgpd: false,
 };
 
-type FieldErrors = Partial<Record<keyof RegisterVeterinaryRequest | "specialties", string>>;
+type FieldErrors = Partial<Record<keyof ControllersRegisterShiftVeterinaryRequest | "specialties", string>>;
 
 export default function VeterinarySignUpPage() {
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function VeterinarySignUpPage() {
   const isFirstStep = step === 1;
   const isLastStep = step === totalSteps;
 
-  const update = (partial: Partial<RegisterVeterinaryRequest>) => {
+  const update = (partial: Partial<ControllersRegisterShiftVeterinaryRequest>) => {
     setForm((prev) => ({ ...prev, ...partial }));
     setFieldErrors((prev) => {
       const next = { ...prev };
@@ -115,24 +116,24 @@ export default function VeterinarySignUpPage() {
     if (!setStep3Errors()) return;
     setSubmitting(true);
 
-    const payload: RegisterVeterinaryRequest = {
+    const payload: ControllersRegisterShiftVeterinaryRequest = {
       ...form,
       cpf: form.cpf.replace(/\D/g, ""),
       phone: form.phone.replace(/\D/g, ""),
     };
 
     try {
-      await AuthenticationService.registerVeterinary(payload);
+      await api.postVeterinaries(payload);
 
       pushToast({ tone: "success", message: "Cadastro realizado com sucesso!" });
 
-      const loginRes = await AuthenticationService.loginVeterinary({
+      const loginRes = await api.postAuthLoginVeterinary({
         email: form.email,
         password: form.password,
         remember_me: false,
       });
 
-      if (loginRes) {
+      if (loginRes?.access_token) {
         router.push("/dashboard/veterinary");
         return;
       }

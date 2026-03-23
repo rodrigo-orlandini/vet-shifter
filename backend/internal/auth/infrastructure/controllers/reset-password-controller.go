@@ -80,5 +80,4 @@ func (c *ResetPasswordController) Handle(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "Senha atualizada com sucesso."})
 }
 
-// Swag references api.ApiErrorResponse in godoc comments.
 var _ = api.ApiErrorResponse{}

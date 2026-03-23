@@ -2,14 +2,14 @@
 
 import { FieldWithError } from "@/components/FieldWithError";
 import { formatCpf, formatPhoneBr } from "@/lib/masks";
-import type { RegisterVeterinaryRequest } from "@/auth/types/veterinary-signup";
+import type { ControllersRegisterShiftVeterinaryRequest } from "@/api/generated/api";
 
-type FieldErrors = Partial<Record<keyof RegisterVeterinaryRequest | "specialties", string>>;
+type FieldErrors = Partial<Record<keyof ControllersRegisterShiftVeterinaryRequest | "specialties", string>>;
 
 export interface VeterinaryStep1FormProps {
-  form: RegisterVeterinaryRequest;
+  form: ControllersRegisterShiftVeterinaryRequest;
   fieldErrors: FieldErrors;
-  update: (partial: Partial<RegisterVeterinaryRequest>) => void;
+  update: (partial: Partial<ControllersRegisterShiftVeterinaryRequest>) => void;
 }
 
 export function VeterinaryStep1Form({ form, fieldErrors, update }: VeterinaryStep1FormProps) {

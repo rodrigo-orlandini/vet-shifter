@@ -79,5 +79,4 @@ func (c *ForgotPasswordController) Handle(ctx *gin.Context) {
 	})
 }
 
-// Swag references api.ApiErrorResponse in godoc comments.
 var _ = api.ApiErrorResponse{}

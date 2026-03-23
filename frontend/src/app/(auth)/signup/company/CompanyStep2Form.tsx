@@ -2,14 +2,14 @@
 
 import { FieldWithError } from "@/components/FieldWithError";
 import { formatPhoneBr } from "@/lib/masks";
-import type { InternalCompaniesInfrastructureControllersRegisterCompanyRequest } from "@/api/generated/api";
+import type { ControllersRegisterCompanyRequest } from "@/api/generated/api";
 
-type FieldErrors = Partial<Record<keyof InternalCompaniesInfrastructureControllersRegisterCompanyRequest, string>>;
+type FieldErrors = Partial<Record<keyof ControllersRegisterCompanyRequest, string>>;
 
 export interface CompanyStep2FormProps {
-  form: InternalCompaniesInfrastructureControllersRegisterCompanyRequest;
+  form: ControllersRegisterCompanyRequest;
   fieldErrors: FieldErrors;
-  update: (partial: Partial<InternalCompaniesInfrastructureControllersRegisterCompanyRequest>) => void;
+  update: (partial: Partial<ControllersRegisterCompanyRequest>) => void;
 }
 
 export function CompanyStep2Form({ form, fieldErrors, update }: CompanyStep2FormProps) {

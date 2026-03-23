@@ -1,14 +1,14 @@
 "use client";
 
 import { FieldWithError } from "@/components/FieldWithError";
-import type { InternalCompaniesInfrastructureControllersRegisterCompanyRequest } from "@/api/generated/api";
+import type { ControllersRegisterCompanyRequest } from "@/api/generated/api";
 
-type FieldErrors = Partial<Record<keyof InternalCompaniesInfrastructureControllersRegisterCompanyRequest, string>>;
+type FieldErrors = Partial<Record<keyof ControllersRegisterCompanyRequest, string>>;
 
 export interface CompanyStep3FormProps {
-  form: InternalCompaniesInfrastructureControllersRegisterCompanyRequest;
+  form: ControllersRegisterCompanyRequest;
   fieldErrors: FieldErrors;
-  update: (partial: Partial<InternalCompaniesInfrastructureControllersRegisterCompanyRequest>) => void;
+  update: (partial: Partial<ControllersRegisterCompanyRequest>) => void;
 }
 
 export function CompanyStep3Form({ form, fieldErrors, update }: CompanyStep3FormProps) {
