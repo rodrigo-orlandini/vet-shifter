@@ -1,0 +1,33 @@
+---
+description: UI/UX screen generation standards for Pencil designs
+globs: "**/*.pen"
+alwaysApply: false
+---
+
+# VetPlant UI/UX Screen Generation
+
+- Design both breakpoints for each screen: desktop (`1280px+`) and mobile (`375px`).
+- Use VetPlant visual identity consistently: teal/green primary, neutral light backgrounds, dark readable text, warm accent colors only for emphasis.
+- Keep unauthenticated flows with top navbar; authenticated flows with left sidebar.
+- Registration/auth screens must use top navbar.
+- Build cards with rounded corners (`8-12px`), subtle shadow, and clear spacing.
+- Use outlined icon style and keep icon size/weight consistent.
+
+## Form UX Rules
+
+- Labels always above inputs; never placeholder-only fields.
+- Required fields must display a red asterisk (`*`).
+- Show helper text in muted gray when guidance is needed.
+- Show inline validation under fields and keep error text red.
+- For multi-step forms, show a persistent stepper:
+  - desktop: labeled horizontal steps
+  - mobile: compact dots + current step label
+- Keep document upload with clear accepted formats and status badges.
+- If the flow supports deferred docs, include a visible “skip and upload later” action.
+
+## Layout and Quality Gate
+
+- Prevent clipping/overlap: use fit-content layouts where needed and ensure all content is visible.
+- Keep reusable components grouped in a dedicated “Reusable Components” area.
+- Reuse existing components before creating new variants; avoid duplicates.
+- Before finalizing, validate visuals and layout problems (no clipped or overlapping elements).

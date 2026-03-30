@@ -24,3 +24,7 @@ alwaysApply: true
 - **Addresses table:** Company addresses live in a separate `addresses` table (FK `company_id` → `companies.id`). The `companies` table no longer has address columns (`street`, `number`, `city`, `state`, `zip_code`).
 - **CEP:** Stored as plain digits (no mask). The frontend strips the CEP mask (`replace(/\D/g, "")`) before sending to the backend — same pattern used for CNPJ and Phone.
 - **Schema changes before production:** Modify `001-initial-schema.sql` directly and reset the Docker Postgres volume (`docker compose down -v && docker compose up -d`) instead of creating new migrations.
+
+## Cursor rules
+
+- **UI/UX generation:** Detailed screen-generation guidance for Pencil designs is defined in `.cursor/rules/ui-ux-screen-generation.mdc` and applies to `.pen` files.
