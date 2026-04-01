@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import "./globals.css";
 import { APP_NAME } from "./config";
 
-const roboto = Roboto({
-  weight: ["400", "500", "700"],
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-roboto",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
   title: APP_NAME,
-  description: "Veterinary clinics and shifters",
+  description: "Plataforma que conecta clínicas veterinárias e plantonistas.",
 };
 
 export default function RootLayout({
@@ -22,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${roboto.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

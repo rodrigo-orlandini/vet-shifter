@@ -28,11 +28,6 @@ export function isValidPhoneBr(value: string): boolean {
   return d.length === 10 || d.length === 11;
 }
 
-/** Senha: mínimo 8 caracteres. */
-export function isValidPassword(value: string): boolean {
-  return value.length >= 8;
-}
-
 /** Campo obrigatório (não vazio após trim). */
 export function isRequired(value: string | undefined | null): boolean {
   return typeof value === "string" && value.trim().length > 0;
@@ -50,6 +45,7 @@ export const validationMessages = {
   cpf: "CPF deve ter 11 dígitos (com ou sem pontuação).",
   phone: "Telefone deve ter 10 ou 11 dígitos (DDD + número).",
   password: "A senha deve ter no mínimo 8 caracteres.",
+  passwordPolicy: "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula e um número.",
   passwordMatch: "As senhas não coincidem.",
   lgpd: "É necessário aceitar o uso dos dados conforme a LGPD.",
   specialties: "Escolha ao menos 1 especialidade.",

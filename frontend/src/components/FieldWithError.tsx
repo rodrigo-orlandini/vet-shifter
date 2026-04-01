@@ -1,35 +1,41 @@
-import { type InputHTMLAttributes } from "react";
+import { useId, type InputHTMLAttributes } from "react";
+import { FormField } from "./ui/FormField";
+import { Input } from "./ui/Input";
 
 export interface FieldWithErrorProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
   label: string;
   error?: string | null;
+  requiredMark?: boolean;
+  helperText?: string;
   inputClassName?: string;
 }
 
 export function FieldWithError({
   label,
   error,
+  requiredMark = false,
+  helperText,
   inputClassName = "",
+  id,
   ...inputProps
 }: FieldWithErrorProps) {
-  return (
-    <label className="flex flex-col gap-1">
-      {error && (
-        <span className="text-xs text-red-600" role="alert">
-          {error}
-        </span>
-      )}
+  const uid = useId();
+  const inputId = id ?? (inputProps.name ? String(inputProps.name) : `field-${uid}`);
 
-      <span className={`text-sm font-medium ${error ? "text-red-700" : "text-neutral-700"}`}>
-        {label}
-      </span>
-      
-      <input
+  return (
+    <FormField
+      label={label}
+      required={requiredMark}
+      error={error}
+      helperText={helperText}
+      htmlFor={inputId}
+    >
+      <Input
+        id={inputId}
+        hasError={Boolean(error)}
+        inputClassName={inputClassName}
         {...inputProps}
-        className={`rounded-lg border px-3 py-2 text-neutral-900 ${
-          error ? "border-red-500 focus:outline-red-500" : "border-neutral-300"
-        } ${inputClassName}`}
       />
-    </label>
+    </FormField>
   );
 }

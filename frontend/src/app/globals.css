@@ -1,25 +1,48 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-roboto), ui-sans-serif, system-ui, sans-serif;
-}
+  /* Brand */
+  --color-primary: #2a9d8f;
+  --color-primary-hover: #238a7e;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Surfaces */
+  --color-surface: #ffffff;
+  --color-page: #f8f9fa;
+
+  /* Text */
+  --color-ink: #18181b;
+  --color-ink-body: #212529;
+  --color-ink-muted: #71717a;
+  --color-ink-subtle: #a1a1aa;
+  --color-placeholder: #adb5bd;
+
+  /* Borders */
+  --color-edge: #e4e4e7;
+  --color-edge-input: #dee2e6;
+  --color-edge-alt: #e9ecef;
+
+  /* Success */
+  --color-success: #38a169;
+  --color-success-subtle: #e6f9f0;
+
+  /* Warning */
+  --color-warning: #f6ad55;
+  --color-warning-subtle: #fef0e0;
+  --color-warning-ink: #c05621;
+
+  /* Danger */
+  --color-danger: #e53e3e;
+
+  /* Info */
+  --color-info: #2b6cb0;
+  --color-info-subtle: #e8f4fd;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-roboto), ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--color-page);
+  color: var(--color-ink-body);
+  font-family: var(--font-sans);
 }

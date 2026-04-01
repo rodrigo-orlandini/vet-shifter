@@ -1,20 +1,24 @@
-"use client";
-
 import { type ButtonHTMLAttributes, type ReactNode } from "react";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "ghost" | "back";
   loading?: boolean;
   children: ReactNode;
   className?: string;
 }
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-70 disabled:pointer-events-none";
+  "inline-flex items-center justify-center gap-2 rounded-lg px-5 h-12 text-[15px] font-semibold transition-colors hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50";
 
 const variants = {
-  primary: "bg-emerald-600 text-white hover:bg-emerald-700",
-  secondary: "border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50",
+  primary:
+    "bg-primary text-surface hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+  secondary:
+    "border border-edge-input bg-surface text-ink-body hover:bg-page",
+  ghost:
+    "border-[1.5px] border-primary bg-transparent text-primary hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30",
+  back:
+    "border-[1.5px] border-primary bg-transparent text-primary hover:bg-primary/5 sm:border-edge sm:bg-surface sm:text-ink-muted sm:hover:bg-page focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30",
 };
 
 function Spinner() {

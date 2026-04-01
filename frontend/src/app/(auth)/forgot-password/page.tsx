@@ -6,6 +6,7 @@ import { getVetShifterAPI } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
 import { FieldWithError } from "@/components/FieldWithError";
 import { Button } from "@/components/Button";
+import { AuthCard } from "@/components/auth/AuthCard";
 import { isRequired, isValidEmail, validationMessages } from "@/lib/validation";
 import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
 
@@ -22,16 +23,18 @@ export default function ForgotPasswordPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
     if (!isRequired(email)) {
       setEmailError(validationMessages.required);
       return;
     }
+
     if (!isValidEmail(email)) {
       setEmailError(validationMessages.email);
       return;
     }
-    setEmailError(null);
 
+    setEmailError(null);
     setSubmitting(true);
 
     try {
@@ -48,37 +51,37 @@ export default function ForgotPasswordPage() {
 
   if (submitted) {
     return (
-      <div className="overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-xl shadow-neutral-200/50">
-        <div className="border-t-4 border-emerald-500 bg-linear-to-r from-emerald-500/5 to-teal-500/5 px-8 pt-8 pb-6">
-          <h1 className="mb-1 text-2xl font-bold tracking-tight text-neutral-900">Verifique seu e-mail</h1>
-          <p className="text-sm text-neutral-600">
+      <AuthCard>
+        <div className="p-5 sm:p-10">
+          <h1 className="text-xl font-bold text-[#18181B] sm:text-2xl">Verifique seu e-mail</h1>
+          <p className="mt-1 text-sm text-[#6C757D]">
             Se existir uma conta com este e-mail, enviamos as instruções para redefinir sua senha.
           </p>
+          <div className="mt-6">
+            <Link
+              href="/login"
+              className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-[#2A9D8F] px-5 text-[15px] font-semibold text-white hover:bg-primary-hover"
+            >
+              Voltar para entrar
+            </Link>
+          </div>
         </div>
-        <div className="p-8 pt-6">
-          <Link
-            href="/login"
-            className="inline-block rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
-          >
-            Voltar para entrar
-          </Link>
-        </div>
-      </div>
+      </AuthCard>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-xl shadow-neutral-200/50">
-      <div className="border-t-4 border-emerald-500 bg-linear-to-r from-emerald-500/5 to-teal-500/5 px-8 pt-8 pb-4">
-        <h1 className="mb-1 text-2xl font-bold tracking-tight text-neutral-900">Esqueci a senha</h1>
-        <p className="text-sm text-neutral-600">
+    <AuthCard>
+      <div className="p-5 sm:p-10">
+        <h1 className="text-xl font-bold text-[#18181B] sm:text-2xl">Esqueci a senha</h1>
+        <p className="mt-1 text-sm text-[#6C757D]">
           Informe seu e-mail e enviaremos um link para redefinir sua senha.
         </p>
-      </div>
-      <div className="p-8 pt-6">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
           <FieldWithError
             label="E-mail"
+            requiredMark
             error={emailError}
             type="email"
             value={email}
@@ -87,22 +90,22 @@ export default function ForgotPasswordPage() {
           />
 
           {error && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="text-sm text-[#E53E3E]" role="alert">
               {error}
             </p>
           )}
 
-          <Button type="submit" disabled={submitting} loading={submitting}>
+          <Button type="submit" disabled={submitting} loading={submitting} className="w-full">
             {submitting ? "Enviando…" : "Enviar link"}
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-neutral-600">
-          <Link href="/login" className="font-medium text-emerald-600 hover:underline">
+        <p className="mt-6 text-center text-sm text-[#6C757D]">
+          <Link href="/login" className="font-medium text-[#2A9D8F] hover:underline">
             Voltar para entrar
           </Link>
         </p>
       </div>
-    </div>
+    </AuthCard>
   );
 }
