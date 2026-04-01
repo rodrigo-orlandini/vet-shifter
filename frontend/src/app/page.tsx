@@ -13,8 +13,7 @@ import { TimerIcon } from "@/components/icons/TimerIcon";
 import { TrendingUpIcon } from "@/components/icons/TrendingUpIcon";
 import { StarIcon } from "@/components/icons/StarIcon";
 import { InstagramIcon } from "@/components/icons/InstagramIcon";
-import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
-import { TwitterXIcon } from "@/components/icons/TwitterXIcon";
+
 
 export default function HomePage() {
   return (
@@ -86,7 +85,7 @@ export default function HomePage() {
 
             <div className="relative h-[220px] w-full overflow-hidden rounded-xl lg:hidden">
               <img
-                src="/images/generated-1775040252249.png"
+                src="/images/landing-01.png"
                 alt="Veterinária plantonista"
                 className="h-full w-full object-cover"
               />
@@ -117,7 +116,7 @@ export default function HomePage() {
           <div className="hidden shrink-0 lg:block">
             <div className="h-[500px] w-[560px] overflow-hidden rounded-3xl">
               <img
-                src="/images/generated-1775040612254.png"
+                src="/images/landing-02.png"
                 alt="Veterinária plantonista"
                 className="h-full w-full object-cover"
               />
@@ -195,7 +194,7 @@ export default function HomePage() {
           <div className="hidden shrink-0 lg:block">
             <div className="h-[440px] w-[480px] overflow-hidden rounded-3xl">
               <img
-                src="/images/generated-1775040656003.png"
+                src="/images/landing-04.png"
                 alt="Clínica veterinária"
                 className="h-full w-full object-cover"
               />
@@ -341,7 +340,7 @@ export default function HomePage() {
           <div className="hidden shrink-0 lg:block">
             <div className="h-[440px] w-[480px] overflow-hidden rounded-3xl">
               <img
-                src="/images/generated-1775040684994.png"
+                src="/images/landing-03.png"
                 alt="Veterinário plantonista"
                 className="h-full w-full object-cover"
               />
@@ -483,12 +482,8 @@ export default function HomePage() {
                 <a href="#" aria-label="Instagram" className="text-white/60 transition-colors hover:text-white">
                   <InstagramIcon className="h-5 w-5" />
                 </a>
-                <a href="#" aria-label="LinkedIn" className="text-white/60 transition-colors hover:text-white">
-                  <LinkedinIcon className="h-5 w-5" />
-                </a>
-                <a href="#" aria-label="X / Twitter" className="text-white/60 transition-colors hover:text-white">
-                  <TwitterXIcon className="h-5 w-5" />
-                </a>
+
+
               </div>
               <p className="text-[13px] text-white/40">
                 © 2025 VetPlant. Todos os direitos reservados.
