@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getVetShifterAPI } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
 import { FieldWithError } from "@/components/ui/FieldWithError";
-import { Button } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { validationMessages } from "@/lib/validation";
 import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
@@ -68,12 +68,9 @@ function ResetPasswordForm() {
             Este link de redefinição é inválido ou está incompleto. Solicite um novo link.
           </p>
           <div className="mt-6">
-            <Link
-              href="/forgot-password"
-              className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-[#2A9D8F] px-5 text-[15px] font-semibold text-white hover:bg-primary-hover"
-            >
+            <ButtonLink href="/forgot-password" className="w-full">
               Solicitar novo link
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </AuthCard>

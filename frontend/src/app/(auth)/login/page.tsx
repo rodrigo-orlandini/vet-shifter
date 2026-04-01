@@ -7,6 +7,7 @@ import { getVetShifterAPI } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
 import { FieldWithError } from "@/components/ui/FieldWithError";
 import { Button } from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { AuthFooterLinks } from "@/components/auth/AuthFooterLinks";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { isValidEmail, validationMessages } from "@/lib/validation";
@@ -127,13 +128,11 @@ function LoginForm() {
             placeholder="••••••••"
           />
           <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="h-4 w-4 rounded border-[#DEE2E6] text-[#2A9D8F] focus:ring-[#2A9D8F]"
             />
-            <span className="text-sm text-[#6C757D]">Lembrar de mim</span>
+            <span className="text-sm text-ink-muted">Lembrar de mim</span>
           </label>
 
           {error && (

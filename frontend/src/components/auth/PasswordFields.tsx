@@ -38,7 +38,7 @@ export function PasswordFields({
   const strengthTextColor =
     strength === "weak" ? "text-danger" : strength === "medium" ? "text-warning" : "text-success";
 
-  const EyeIcon = ({ open }: { open: boolean }) =>
+  const ToggleEyeIcon = ({ open }: { open: boolean }) =>
     open ? (
       <EyeOffIcon className="h-5 w-5" />
     ) : (
@@ -71,7 +71,7 @@ export function PasswordFields({
             onClick={() => setShowPwd((s) => !s)}
             aria-label={showPwd ? "Ocultar senha" : "Mostrar senha"}
           >
-            <EyeIcon open={showPwd} />
+            <ToggleEyeIcon open={showPwd} />
           </button>
         </div>
 
@@ -135,7 +135,7 @@ export function PasswordFields({
             onClick={() => setShowConf((s) => !s)}
             aria-label={showConf ? "Ocultar confirmação" : "Mostrar confirmação"}
           >
-            <EyeIcon open={showConf} />
+            <ToggleEyeIcon open={showConf} />
           </button>
         </div>
 

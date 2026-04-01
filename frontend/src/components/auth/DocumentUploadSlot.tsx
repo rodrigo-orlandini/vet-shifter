@@ -2,6 +2,7 @@
 
 import { useId, useRef } from "react";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { CloudUploadIcon } from "@/components/icons/CloudUploadIcon";
 import { FileTextIcon } from "@/components/icons/FileTextIcon";
 
@@ -63,16 +64,16 @@ export function DocumentUploadSlot({
         </span>
 
         {file && (
-          <button
+          <Button
             type="button"
-            className="font-medium text-primary hover:underline"
+            variant="link"
             onClick={() => {
               onFile(null);
               if (inputRef.current) inputRef.current.value = "";
             }}
           >
             Remover
-          </button>
+          </Button>
         )}
       </div>
     </>
