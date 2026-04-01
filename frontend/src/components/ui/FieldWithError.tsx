@@ -1,6 +1,6 @@
 import { useId, type InputHTMLAttributes } from "react";
-import { FormField } from "./ui/FormField";
-import { Input } from "./ui/Input";
+import { FormField } from "./FormField";
+import { Input } from "./Input";
 
 export interface FieldWithErrorProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
   label: string;

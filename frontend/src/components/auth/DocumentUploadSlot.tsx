@@ -2,6 +2,8 @@
 
 import { useId, useRef } from "react";
 import { Badge } from "@/components/ui/Badge";
+import { CloudUploadIcon } from "@/components/icons/CloudUploadIcon";
+import { FileTextIcon } from "@/components/icons/FileTextIcon";
 
 export interface DocumentUploadSlotProps {
   title?: string;
@@ -42,9 +44,7 @@ export function DocumentUploadSlot({
         onClick={() => inputRef.current?.click()}
         className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border border-edge-input bg-page/50 px-4 py-6 text-center transition-colors hover:border-primary/50"
       >
-        <svg className="h-7 w-7 text-placeholder" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.25}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-        </svg>
+        <CloudUploadIcon className="h-7 w-7 text-placeholder" />
 
         <span className="text-sm font-medium text-ink-muted">Arraste ou clique para enviar</span>
         <span className="text-[11px] text-placeholder">PDF, JPG ou PNG — máx. 10 MB</span>
@@ -87,13 +87,7 @@ export function DocumentUploadSlot({
       {(title || description || required) && (
         <div className="mb-3 flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
-            <svg className="h-5 w-5 shrink-0 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              />
-            </svg>
+            <FileTextIcon className="h-5 w-5 shrink-0 text-primary" />
 
             <div>
               {title ? <p className="text-sm font-semibold text-ink-body">{title}</p> : null}

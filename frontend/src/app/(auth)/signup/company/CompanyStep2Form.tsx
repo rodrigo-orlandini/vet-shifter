@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FieldWithError } from "@/components/FieldWithError";
+import { FieldWithError } from "@/components/ui/FieldWithError";
 import { PasswordFields } from "@/components/auth/PasswordFields";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { formatPhoneBr } from "@/lib/masks";

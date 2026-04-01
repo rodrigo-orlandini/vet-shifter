@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
+import { ArrowRightIcon } from "@/components/icons/ArrowRightIcon";
 import { Button } from "./Button";
 
 export interface StepLayoutProps {
@@ -92,9 +93,7 @@ export function StepLayout({
           ) : (
             <span className="inline-flex items-center gap-2">
               {nextLabel}
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
+              <ArrowRightIcon className="h-4 w-4" />
             </span>
           )}
         </Button>

@@ -1,4 +1,6 @@
 import { Fragment, type ReactElement } from "react";
+import { CheckIcon } from "@/components/icons/CheckIcon";
+import { CheckBoldIcon } from "@/components/icons/CheckBoldIcon";
 
 function desktopStepItems(
   currentStep: number,
@@ -33,9 +35,7 @@ function desktopStepItems(
           }`}
         >
           {isCompleted ? (
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
+            <CheckIcon className="h-4 w-4" />
           ) : (
             step
           )}
@@ -95,9 +95,7 @@ export function StepIndicator({
             <Fragment key={step}>
               {isCompleted ? (
                 <span className="flex h-2.5 w-2.5 shrink-0 items-center justify-center rounded-full bg-success" aria-hidden>
-                  <svg className="h-[7px] w-[7px] text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
+                  <CheckBoldIcon className="h-[7px] w-[7px] text-surface" />
                 </span>
               ) : isCurrent ? (
                 <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-primary" aria-hidden />

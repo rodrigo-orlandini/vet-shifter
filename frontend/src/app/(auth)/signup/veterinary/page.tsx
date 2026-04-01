@@ -3,15 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { StepLayout } from "@/components/StepLayout";
-import { StepIndicator } from "@/components/StepIndicator";
+import { StepLayout } from "@/components/ui/StepLayout";
+import { StepIndicator } from "@/components/ui/StepIndicator";
 import { AuthCard } from "@/components/auth/AuthCard";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/Button";
 import { VeterinaryStep1Form } from "./VeterinaryStep1Form";
 import { VeterinaryStep2Form } from "./VeterinaryStep2Form";
 import { VeterinaryStep3Form, type VetDocKey } from "./VeterinaryStep3Form";
 import { getVetShifterAPI, type ControllersRegisterShiftVeterinaryRequest } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
+import { ConfirmationIndicator } from "@/components/icons/ConfirmationIndicator";
 import {
   isRequired,
   isValidCpf,
@@ -194,9 +195,7 @@ export default function VeterinarySignUpPage() {
       <div className="flex w-full flex-col items-center">
         <AuthCard className="w-full p-8 text-center sm:max-w-[480px] sm:p-12">
           <div className="mx-auto mb-6 flex h-[72px] w-[72px] items-center justify-center rounded-full bg-[#E6F9F0]">
-            <svg className="h-8 w-8 text-[#38A169]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
+            <ConfirmationIndicator className="h-8 w-8 text-[#38A169]" />
           </div>
           <h1 className="text-2xl font-bold text-[#18181B]">Cadastro enviado com sucesso!</h1>
           <p className="mt-3 text-sm leading-relaxed text-[#71717A]">
