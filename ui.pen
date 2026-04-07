@@ -1,5 +1,5 @@
 {
-  "version": "2.9",
+  "version": "2.10",
   "children": [
     {
       "type": "frame",
@@ -11162,6 +11162,3654 @@
                   "fontFamily": "Inter",
                   "fontSize": 13,
                   "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FFFMw",
+      "x": 0,
+      "y": 5870,
+      "name": "Landing Page - Desktop",
+      "width": 1440,
+      "fill": "$--bg-page",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "tZakJ",
+          "name": "Navbar",
+          "width": "fill_container",
+          "height": 72,
+          "fill": "$--bg-card",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$--border"
+          },
+          "padding": [
+            0,
+            80
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "TkcV7",
+              "name": "navLogo",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "mkO6a",
+                  "width": 28,
+                  "height": 28,
+                  "iconFontName": "paw-print",
+                  "iconFontFamily": "lucide",
+                  "fill": "$--primary"
+                },
+                {
+                  "type": "text",
+                  "id": "X7p2D",
+                  "fill": "$--text-primary",
+                  "content": "VetPlant",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "5lpCx",
+              "name": "navLinks",
+              "width": "fill_container",
+              "gap": 40,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "cIuAv",
+                  "fill": "$--text-secondary",
+                  "content": "Como funciona",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "72RBL",
+                  "fill": "$--text-secondary",
+                  "content": "Para clínicas",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "rvDh9",
+                  "fill": "$--text-secondary",
+                  "content": "Para veterinários",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "CvWSg",
+                  "fill": "$--text-secondary",
+                  "content": "Preços",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "UqIGv",
+              "name": "navCTAs",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "aMxST",
+                  "name": "navBtn1",
+                  "fill": "$--primary",
+                  "cornerRadius": 8,
+                  "padding": [
+                    10,
+                    20
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jAWnW",
+                      "fill": "$--text-white",
+                      "content": "Sou clínica",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "8cyYR",
+                  "name": "navBtn2",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1.5,
+                    "fill": "$--primary"
+                  },
+                  "padding": [
+                    10,
+                    20
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "stw0V",
+                      "fill": "$--primary",
+                      "content": "Sou veterinário",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "OKxe7",
+          "name": "Hero",
+          "width": "fill_container",
+          "fill": "$--bg-card",
+          "gap": 64,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "2imjT",
+              "name": "heroLeft",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 28,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "uP0sy",
+                  "name": "eyebrow",
+                  "fill": "$--primary-light",
+                  "cornerRadius": 100,
+                  "gap": 8,
+                  "padding": [
+                    6,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "ZnSUC",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "circle-check",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "iuQXQ",
+                      "fill": "$--primary",
+                      "content": "Conectando clínicas e profissionais",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "XwaLR",
+                  "fill": "$--text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Encontre o veterinário plantonista ideal para sua clínica",
+                  "lineHeight": 1.15,
+                  "fontFamily": "Inter",
+                  "fontSize": 52,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "aa4TH",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "O VetPlant conecta clínicas veterinárias com profissionais plantonistas qualificados de forma rápida, segura e confiável.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "sMqC6",
+                  "name": "heroCTAs",
+                  "gap": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "kn9GS",
+                      "name": "heroCTA1",
+                      "fill": "$--primary",
+                      "cornerRadius": 8,
+                      "padding": [
+                        16,
+                        32
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "3S3xI",
+                          "fill": "$--text-white",
+                          "content": "Cadastrar minha clínica",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kvgxV",
+                      "name": "heroCTA2",
+                      "cornerRadius": 8,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 2,
+                        "fill": "$--primary"
+                      },
+                      "padding": [
+                        16,
+                        32
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "7Gf7j",
+                          "fill": "$--primary",
+                          "content": "Quero ser plantonista",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "sv5Pe",
+                  "name": "heroTrust",
+                  "gap": 24,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "phSju",
+                      "name": "trust1",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "JB0Gj",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "check",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "fhxnT",
+                          "fill": "$--text-secondary",
+                          "content": "Cadastro gratuito",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jA0hd",
+                      "name": "trust2",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "V99Gk",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "check",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "I8Xu2",
+                          "fill": "$--text-secondary",
+                          "content": "Sem taxa de adesão",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "P2CYA",
+                      "name": "trust3",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "fUcof",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "check",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "jf6D2",
+                          "fill": "$--text-secondary",
+                          "content": "+500 clínicas cadastradas",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "v6m2E",
+              "name": "heroRight",
+              "clip": true,
+              "width": 560,
+              "height": 500,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "./images/generated-1775040612254.png",
+                "mode": "fill"
+              },
+              "cornerRadius": 24
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "AE6wV",
+          "name": "Como Funciona",
+          "width": "fill_container",
+          "fill": "$--bg-page",
+          "layout": "vertical",
+          "gap": 48,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "UF0E4",
+              "fill": "$--text-primary",
+              "content": "Como funciona",
+              "fontFamily": "Inter",
+              "fontSize": 40,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "w32IC",
+              "fill": "$--text-secondary",
+              "content": "Em apenas três passos simples, conecte clínicas e veterinários plantonistas.",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "AWfvy",
+              "name": "comoCards",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Mr0Vg",
+                  "name": "card1",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "9MQ2u",
+                      "fill": "$--primary",
+                      "content": "01",
+                      "fontFamily": "Inter",
+                      "fontSize": 36,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "998iU",
+                      "name": "card1Icon",
+                      "fill": "$--primary-light",
+                      "cornerRadius": 12,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "boU6W",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "user-plus",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "O0nG4",
+                      "fill": "$--text-primary",
+                      "content": "Crie seu perfil",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "q0w6m",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cadastre sua clínica ou seu perfil de plantonista em minutos. Gratuito e sem burocracia.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "q4yKG",
+                  "name": "card2",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "3ntc4",
+                      "fill": "$--primary",
+                      "content": "02",
+                      "fontFamily": "Inter",
+                      "fontSize": 36,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "5I1Rz",
+                      "name": "card2Icon",
+                      "fill": "$--primary-light",
+                      "cornerRadius": 12,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "21Waz",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "search",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "cwqn4",
+                      "fill": "$--text-primary",
+                      "content": "Encontre o match perfeito",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Ubkpt",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Nossa plataforma cruza disponibilidade, especialidade e localização para encontrar o profissional ideal.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "99NY3",
+                  "name": "card3",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "DryWK",
+                      "fill": "$--primary",
+                      "content": "03",
+                      "fontFamily": "Inter",
+                      "fontSize": 36,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IV2Bo",
+                      "name": "card3Icon",
+                      "fill": "$--primary-light",
+                      "cornerRadius": 12,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "eDZOI",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "calendar-check",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "ynP7l",
+                      "fill": "$--text-primary",
+                      "content": "Confirme e trabalhe",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "clX3O",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Aceite o plantão, receba confirmação instantânea e comece a trabalhar. Pagamento garantido.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GsTAz",
+          "name": "Para Clínicas",
+          "width": "fill_container",
+          "fill": "$--primary",
+          "gap": 64,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "tNMis",
+              "name": "pcImg",
+              "clip": true,
+              "width": 480,
+              "height": 440,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "./images/generated-1775040656003.png",
+                "mode": "fill"
+              },
+              "cornerRadius": 24
+            },
+            {
+              "type": "frame",
+              "id": "TeDuf",
+              "name": "pcRight",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 28,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LlaTC",
+                  "name": "pcEyebrow",
+                  "fill": "#FFFFFF26",
+                  "cornerRadius": 100,
+                  "padding": [
+                    6,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "2CtAx",
+                      "fill": "$--text-white",
+                      "content": "Para clínicas",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "Sz60s",
+                  "fill": "$--text-white",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Gerencie seus plantões com facilidade",
+                  "fontFamily": "Inter",
+                  "fontSize": 36,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "86Gj6",
+                  "name": "pcBenefits",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RYXzv",
+                      "name": "pcB1",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "5QMkc",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "calendar-check",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--text-white"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Lz4pO",
+                          "name": "pcB1Text",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dTGm8",
+                              "fill": "$--text-white",
+                              "content": "Agendamento simplificado",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "V1prB",
+                              "fill": "#FFFFFFCC",
+                              "textGrowth": "fixed-width",
+                              "width": 380,
+                              "content": "Publique vagas e receba candidatos qualificados em minutos.",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FMNvN",
+                      "name": "pcB2",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "IqVKQ",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "shield-check",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--text-white"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "uxyVZ",
+                          "name": "pcB2Text",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "IoXPZ",
+                              "fill": "$--text-white",
+                              "content": "Profissionais verificados",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Nyw6U",
+                              "fill": "#FFFFFFCC",
+                              "textGrowth": "fixed-width",
+                              "width": 380,
+                              "content": "Todos os veterinários passam por verificação de CRM e especialidades.",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "EVlrm",
+                      "name": "pcB3",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "VI4Po",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "banknote",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--text-white"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "8g18O",
+                          "name": "pcB3Text",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "GksYm",
+                              "fill": "$--text-white",
+                              "content": "Pagamento integrado",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "lU8u0",
+                              "fill": "#FFFFFFCC",
+                              "textGrowth": "fixed-width",
+                              "width": 380,
+                              "content": "Gerencie pagamentos de plantões direto pela plataforma.",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rDUXJ",
+                  "name": "pcCTABtn",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 8,
+                  "padding": [
+                    16,
+                    32
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "yxXJV",
+                      "fill": "$--primary",
+                      "content": "Cadastrar minha clínica",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "1JkBE",
+          "name": "Para Veterinários",
+          "width": "fill_container",
+          "fill": "$--bg-card",
+          "gap": 64,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ZWr4t",
+              "name": "pvLeft",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 28,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "hGLxR",
+                  "name": "pvEyebrow",
+                  "fill": "$--primary-light",
+                  "cornerRadius": 100,
+                  "padding": [
+                    6,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jDFa0",
+                      "fill": "$--primary",
+                      "content": "Para veterinários",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "zJP6g",
+                  "fill": "$--text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Trabalhe quando e onde quiser",
+                  "fontFamily": "Inter",
+                  "fontSize": 36,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "rH51W",
+                  "name": "pvBenefits",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "dVMtZ",
+                      "name": "pvB1",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "Sd6c4",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "timer",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "46jTv",
+                          "name": "pvB1Text",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qWRJH",
+                              "fill": "$--text-primary",
+                              "content": "Flexibilidade total",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "A8MHC",
+                              "fill": "$--text-secondary",
+                              "textGrowth": "fixed-width",
+                              "width": 380,
+                              "content": "Escolha os plantões que se encaixam na sua agenda e rotina.",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Hnios",
+                      "name": "pvB2",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "yjnlL",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "trending-up",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "SZsLY",
+                          "name": "pvB2Text",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Uw4AM",
+                              "fill": "$--text-primary",
+                              "content": "Aumento de renda",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "jso99",
+                              "fill": "$--text-secondary",
+                              "textGrowth": "fixed-width",
+                              "width": 380,
+                              "content": "Complemente sua renda com plantões compatíveis com seu perfil.",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FzzlT",
+                      "name": "pvB3",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "Oz7VS",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "star",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tN7hX",
+                          "name": "pvB3Text",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "DLVQc",
+                              "fill": "$--text-primary",
+                              "content": "Reputação profissional",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ObIbk",
+                              "fill": "$--text-secondary",
+                              "textGrowth": "fixed-width",
+                              "width": 380,
+                              "content": "Construa sua reputação com avaliações das clínicas parceiras.",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dOmlZ",
+                  "name": "pvCTABtn",
+                  "fill": "$--primary",
+                  "cornerRadius": 8,
+                  "padding": [
+                    16,
+                    32
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "xULKp",
+                      "fill": "$--text-white",
+                      "content": "Quero ser plantonista",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "FozCl",
+              "name": "pvImg",
+              "clip": true,
+              "width": 480,
+              "height": 440,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "./images/generated-1775040684994.png",
+                "mode": "fill"
+              },
+              "cornerRadius": 24
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "s0o1B",
+          "name": "Depoimentos",
+          "width": "fill_container",
+          "fill": "$--bg-page",
+          "layout": "vertical",
+          "gap": 48,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "nxH4z",
+              "fill": "$--text-primary",
+              "content": "O que nossos usuários dizem",
+              "fontFamily": "Inter",
+              "fontSize": 40,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "LHVzw",
+              "fill": "$--text-secondary",
+              "content": "Centenas de clínicas e profissionais já confiam no VetPlant.",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "L016B",
+              "name": "depCards",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ek2F8",
+                  "name": "dep1",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "oXBaU",
+                      "fill": "$--accent-coral",
+                      "content": "★★★★★",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "xYbVX",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "\"O VetPlant transformou a forma como gerenciamos nossos plantões. Encontramos profissionais qualificados em menos de 24h!\"",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UdLqI",
+                      "name": "dep1Footer",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "c7Rd8",
+                          "name": "dep1Avatar",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "$--primary",
+                          "cornerRadius": 100,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "aYuTf",
+                              "fill": "$--text-white",
+                              "content": "MB",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "wbu1p",
+                          "fill": "$--text-secondary",
+                          "content": "Maria Beatriz — Proprietária, Clínica VetCare SP",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "9RVcA",
+                  "name": "dep2",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "JtG7k",
+                      "fill": "$--accent-coral",
+                      "content": "★★★★★",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "5rWWu",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "\"Consegui dois plantões na primeira semana. A plataforma é muito fácil de usar e as clínicas são super organizadas.\"",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "1F1nr",
+                      "name": "dep2Footer",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "FFqN0",
+                          "name": "dep2Avatar",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "$--accent-coral",
+                          "cornerRadius": 100,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "XI0uX",
+                              "fill": "$--text-white",
+                              "content": "CR",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "lLFrA",
+                          "fill": "$--text-secondary",
+                          "content": "Carlos Rodrigues — Médico Veterinário, CRMV-SP 12345",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nGNM9",
+                  "name": "dep3",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PBmu3",
+                      "fill": "$--accent-coral",
+                      "content": "★★★★★",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "jBIdM",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "\"Excelente plataforma! Reduzi o tempo de busca por plantonistas de dias para horas. Recomendo para todas as clínicas.\"",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HffCM",
+                      "name": "dep3Footer",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "oyAKD",
+                          "name": "dep3Avatar",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "$--success",
+                          "cornerRadius": 100,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "jHMzE",
+                              "fill": "$--text-white",
+                              "content": "AP",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "n93sv",
+                          "fill": "$--text-secondary",
+                          "content": "Ana Paula — Diretora, Hospital Veterinário Vida",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "X9t5L",
+          "name": "CTA",
+          "width": "fill_container",
+          "fill": "$--primary-light",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "HCK3M",
+              "fill": "$--text-primary",
+              "content": "Pronto para começar?",
+              "fontFamily": "Inter",
+              "fontSize": 48,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "AcHh0",
+              "fill": "$--text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 640,
+              "content": "Junte-se a centenas de clínicas e veterinários que já encontraram o match perfeito no VetPlant.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "v5RCZ",
+              "name": "ctaBtns",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "S6Gax",
+                  "name": "ctaBtn1",
+                  "fill": "$--primary",
+                  "cornerRadius": 8,
+                  "padding": [
+                    18,
+                    48
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "hMZFd",
+                      "fill": "$--text-white",
+                      "content": "Cadastrar minha clínica",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "qCfBN",
+                  "name": "ctaBtn2",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 2,
+                    "fill": "$--primary"
+                  },
+                  "padding": [
+                    18,
+                    48
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mMF4q",
+                      "fill": "$--primary",
+                      "content": "Quero ser plantonista",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "1m5sI",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "#1A2A2A",
+          "layout": "vertical",
+          "gap": 40,
+          "padding": [
+            48,
+            80
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "4F1xP",
+              "name": "footerTop",
+              "width": "fill_container",
+              "gap": 64,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "WhOLS",
+                  "name": "footerLogo",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "kwZdP",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "paw-print",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "A6zr9",
+                      "fill": "$--text-white",
+                      "content": "VetPlant",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YM5lg",
+                  "name": "footerNavs",
+                  "width": "fill_container",
+                  "gap": 64,
+                  "justifyContent": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tFWoG",
+                      "name": "footerNav1",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "qbxWD",
+                          "fill": "$--text-white",
+                          "content": "Links úteis",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "lxgiL",
+                          "fill": "#FFFFFF99",
+                          "content": "Como funciona",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "7BEgB",
+                          "fill": "#FFFFFF99",
+                          "content": "Para clínicas",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Ahikt",
+                          "fill": "#FFFFFF99",
+                          "content": "Para veterinários",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "9xvjw",
+                          "fill": "#FFFFFF99",
+                          "content": "Preços",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "n6flk",
+                      "name": "footerNav2",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "eY87M",
+                          "fill": "$--text-white",
+                          "content": "Suporte",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "BrALZ",
+                          "fill": "#FFFFFF99",
+                          "content": "Central de ajuda",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "N1HPh",
+                          "fill": "#FFFFFF99",
+                          "content": "Contato",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "UlBra",
+                          "fill": "#FFFFFF99",
+                          "content": "Política de privacidade",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "vLGva",
+                          "fill": "#FFFFFF99",
+                          "content": "Termos de uso",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bCYhY",
+              "name": "footerBottom",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tL4xr",
+                  "name": "footerSocials",
+                  "gap": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "gEVvX",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "instagram",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF99"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "ocFMK",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "linkedin",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF99"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "o0XNa",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "twitter",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF99"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "cWr28",
+                  "fill": "#FFFFFF66",
+                  "content": "© 2025 VetPlant. Todos os direitos reservados.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "rpryy",
+      "x": 1540,
+      "y": 5870,
+      "name": "Landing Page - Mobile",
+      "width": 375,
+      "fill": "$--bg-page",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "dTOFt",
+          "name": "Navbar",
+          "width": "fill_container",
+          "height": 60,
+          "fill": "$--bg-card",
+          "stroke": {
+            "align": "outside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$--border"
+          },
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "zxO0m",
+              "name": "navLogo",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "eEA1u",
+                  "name": "navPaw",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "paw-print",
+                  "iconFontFamily": "lucide",
+                  "fill": "$--primary"
+                },
+                {
+                  "type": "text",
+                  "id": "DAdxu",
+                  "name": "navBrand",
+                  "fill": "$--text-primary",
+                  "content": "VetPlant",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "icon_font",
+              "id": "ZdybR",
+              "name": "navMenu",
+              "width": 24,
+              "height": 24,
+              "iconFontName": "menu",
+              "iconFontFamily": "lucide",
+              "fill": "$--text-primary"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "NR3AJ",
+          "name": "Hero",
+          "width": "fill_container",
+          "fill": "$--bg-card",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ShUNJ",
+              "name": "heroInner",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                40,
+                20,
+                32,
+                20
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "z0Nmn",
+                  "name": "heroChip",
+                  "fill": "$--primary-light",
+                  "cornerRadius": 20,
+                  "padding": [
+                    6,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "WANUV",
+                      "name": "heroChipTxt",
+                      "fill": "$--primary",
+                      "content": "Conectando clínicas e profissionais",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "NMyAb",
+                  "name": "heroH1",
+                  "fill": "$--text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Encontre o veterinário plantonista ideal para sua clínica",
+                  "lineHeight": 1.2,
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "62wgR",
+                  "name": "heroSub",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Conectamos clínicas veterinárias a profissionais qualificados, de forma rápida, segura e confiável.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "Hffvw",
+                  "name": "heroImg",
+                  "width": "fill_container",
+                  "height": 220,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1775040252249.png",
+                    "mode": "fill"
+                  },
+                  "cornerRadius": 12
+                },
+                {
+                  "type": "frame",
+                  "id": "FOvq1",
+                  "name": "heroBtns",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "imzER",
+                      "name": "heroBtn1",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "$--primary",
+                      "cornerRadius": 8,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uFppv",
+                          "name": "heroBtn1Txt",
+                          "fill": "$--text-white",
+                          "content": "Cadastrar minha clínica",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fwMah",
+                      "name": "heroBtn2",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "$--bg-card",
+                      "cornerRadius": 8,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1.5,
+                        "fill": "$--primary"
+                      },
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yiVFT",
+                          "name": "heroBtn2Txt",
+                          "fill": "$--primary",
+                          "content": "Quero ser plantonista",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "gBJaZ",
+                  "name": "trustRow",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "UEEuO",
+                      "name": "trust1",
+                      "fill": "$--success",
+                      "content": "✓ Verificação de documentos",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "lvL5U",
+                      "name": "trust2",
+                      "fill": "$--success",
+                      "content": "✓ Pagamento seguro  ✓ Avaliações reais",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ARYrx",
+          "name": "Como Funciona",
+          "width": "fill_container",
+          "fill": "$--bg-page",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Xnw8i",
+              "name": "howInner",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                40,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "FkwOU",
+                  "name": "howEyebrow",
+                  "fill": "$--primary",
+                  "content": "COMO FUNCIONA",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "700",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "text",
+                  "id": "AFeYw",
+                  "name": "howTitle",
+                  "fill": "$--text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Simples, rápido e seguro",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "7w9C8",
+                  "name": "howSub",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Em poucos passos você conecta sua clínica ao profissional ideal",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "y48R1",
+                  "name": "howCards",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "iMH0u",
+                      "name": "hCard1",
+                      "width": "fill_container",
+                      "fill": "$--bg-card",
+                      "cornerRadius": 12,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#00000014",
+                        "offset": {
+                          "x": 0,
+                          "y": 2
+                        },
+                        "blur": 8
+                      },
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "migLP",
+                          "name": "hc1top",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "GfqYA",
+                              "name": "hc1num",
+                              "fill": "$--primary",
+                              "content": "01",
+                              "fontFamily": "Inter",
+                              "fontSize": 28,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "Y58jl",
+                              "name": "hc1ico",
+                              "width": 26,
+                              "height": 26,
+                              "iconFontName": "building-2",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--primary"
+                            },
+                            {
+                              "type": "text",
+                              "id": "FlTOm",
+                              "name": "hc1tit",
+                              "fill": "$--text-primary",
+                              "content": "Crie seu perfil",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Qu3gq",
+                          "name": "hc1bod",
+                          "fill": "$--text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Cadastre sua clínica ou perfil de veterinário em minutos. Verificamos suas credenciais para garantir segurança.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "s0VHX",
+                      "name": "hCard2",
+                      "width": "fill_container",
+                      "fill": "$--bg-card",
+                      "cornerRadius": 12,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#00000014",
+                        "offset": {
+                          "x": 0,
+                          "y": 2
+                        },
+                        "blur": 8
+                      },
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "94sOd",
+                          "name": "hc2top",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "QFMuu",
+                              "name": "hc2num",
+                              "fill": "$--primary",
+                              "content": "02",
+                              "fontFamily": "Inter",
+                              "fontSize": 28,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "e4seK",
+                              "name": "hc2ico",
+                              "width": 26,
+                              "height": 26,
+                              "iconFontName": "search",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--primary"
+                            },
+                            {
+                              "type": "text",
+                              "id": "kN0NR",
+                              "name": "hc2tit",
+                              "fill": "$--text-primary",
+                              "content": "Encontre o match perfeito",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "VXOz1",
+                          "name": "hc2bod",
+                          "fill": "$--text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Clínicas publicam plantões disponíveis. Veterinários filtram por especialidade, região e horário.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "h9Zgo",
+                      "name": "hCard3",
+                      "width": "fill_container",
+                      "fill": "$--bg-card",
+                      "cornerRadius": 12,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#00000014",
+                        "offset": {
+                          "x": 0,
+                          "y": 2
+                        },
+                        "blur": 8
+                      },
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "BYon8",
+                          "name": "hc3top",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "9JWAL",
+                              "name": "hc3num",
+                              "fill": "$--primary",
+                              "content": "03",
+                              "fontFamily": "Inter",
+                              "fontSize": 28,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "rSgVa",
+                              "name": "hc3ico",
+                              "width": 26,
+                              "height": 26,
+                              "iconFontName": "handshake",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--primary"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ffKR0",
+                              "name": "hc3tit",
+                              "fill": "$--text-primary",
+                              "content": "Confirme e trabalhe",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "eojx4",
+                          "name": "hc3bod",
+                          "fill": "$--text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Confirme o plantão, assine o contrato digital e realize o atendimento. Pagamento processado com segurança.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GDX2i",
+          "name": "Para Clinicas",
+          "width": "fill_container",
+          "fill": "$--primary",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "pHENF",
+              "name": "clinicInner",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                40,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Tkqdu",
+                  "name": "clEyebrow",
+                  "fill": "#FFFFFF99",
+                  "content": "PARA CLÍNICAS",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "700",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "text",
+                  "id": "goAZW",
+                  "name": "clTitle",
+                  "fill": "$--text-white",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Gerencie seus plantões com facilidade",
+                  "lineHeight": 1.3,
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "uTmB6",
+                  "name": "clItems",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "gJRDr",
+                      "name": "cli1",
+                      "width": "fill_container",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "pKkgp",
+                          "name": "cli1ico",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "#FFFFFF26",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "iorQs",
+                              "name": "cli1icoI",
+                              "width": 20,
+                              "height": 20,
+                              "iconFontName": "calendar-check",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--text-white"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "CAtiJ",
+                          "name": "cli1txt",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "LCNWP",
+                              "name": "cli1tit",
+                              "fill": "$--text-white",
+                              "content": "Agenda flexível",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "fOB75",
+                              "name": "cli1bod",
+                              "fill": "#FFFFFFB3",
+                              "textGrowth": "fixed-width",
+                              "width": 230,
+                              "content": "Publique plantões com data, horário e especialidade necessária",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "L2YKl",
+                      "name": "cli2",
+                      "width": "fill_container",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KfgHA",
+                          "name": "cli2ico",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "#FFFFFF26",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "jLr1E",
+                              "name": "cli2icoI",
+                              "width": 20,
+                              "height": 20,
+                              "iconFontName": "shield-check",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--text-white"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "JSjke",
+                          "name": "cli2txt",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "pJn4O",
+                              "name": "cli2tit",
+                              "fill": "$--text-white",
+                              "content": "Profissionais verificados",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Ay5ZH",
+                              "name": "cli2bod",
+                              "fill": "#FFFFFFB3",
+                              "textGrowth": "fixed-width",
+                              "width": 230,
+                              "content": "Todos os veterinários têm CRMV verificado e histórico de avaliações",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zl4xS",
+                      "name": "cli3",
+                      "width": "fill_container",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "7tGyq",
+                          "name": "cli3ico",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "#FFFFFF26",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "jbCqc",
+                              "name": "cli3icoI",
+                              "width": 20,
+                              "height": 20,
+                              "iconFontName": "banknote",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--text-white"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "r2dHP",
+                          "name": "cli3txt",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "CFtqm",
+                              "name": "cli3tit",
+                              "fill": "$--text-white",
+                              "content": "Pagamento simplificado",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "JyA9d",
+                              "name": "cli3bod",
+                              "fill": "#FFFFFFB3",
+                              "textGrowth": "fixed-width",
+                              "width": 230,
+                              "content": "Contratos e pagamentos 100% digitais, sem burocracia",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "KgBlJ",
+                  "name": "clCta",
+                  "width": "fill_container",
+                  "padding": [
+                    14,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "5cOW7",
+                      "name": "clBtn",
+                      "fill": "$--text-white",
+                      "cornerRadius": 8,
+                      "gap": 8,
+                      "padding": [
+                        14,
+                        24
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "M90Sg",
+                          "name": "clBtnTxt",
+                          "fill": "$--primary",
+                          "content": "Cadastrar minha clínica",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "fdM18",
+                          "name": "clBtnIco",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "arrow-right",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--primary"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "SWiiA",
+          "name": "Para Vets",
+          "width": "fill_container",
+          "fill": "$--bg-card",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "JR54n",
+              "name": "vetInner",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                40,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "glUp3",
+                  "name": "vtEyebrow",
+                  "fill": "$--primary",
+                  "content": "PARA VETERINÁRIOS",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "700",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "text",
+                  "id": "vbXrt",
+                  "name": "vtTitle",
+                  "fill": "$--text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Trabalhe quando e onde quiser",
+                  "lineHeight": 1.3,
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "ZjRfB",
+                  "name": "vtItems",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "6R6Y3",
+                      "name": "vt1",
+                      "width": "fill_container",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ABL54",
+                          "name": "vt1ico",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "$--primary-light",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "hWbaN",
+                              "name": "vt1icoI",
+                              "width": 20,
+                              "height": 20,
+                              "iconFontName": "timer",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--primary"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Rt47z",
+                          "name": "vt1txt",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "pnu6W",
+                              "name": "vt1tit",
+                              "fill": "$--text-primary",
+                              "content": "Flexibilidade total",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "9kIpC",
+                              "name": "vt1bod",
+                              "fill": "$--text-secondary",
+                              "textGrowth": "fixed-width",
+                              "width": 230,
+                              "content": "Escolha os plantões que se encaixam na sua agenda, sem compromissos fixos",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "1AcZt",
+                      "name": "vt2",
+                      "width": "fill_container",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "oM53j",
+                          "name": "vt2ico",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "$--primary-light",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "qsxSR",
+                              "name": "vt2icoI",
+                              "width": 20,
+                              "height": 20,
+                              "iconFontName": "trending-up",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--primary"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "wdmjO",
+                          "name": "vt2txt",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "eBWJ3",
+                              "name": "vt2tit",
+                              "fill": "$--text-primary",
+                              "content": "Renda extra garantida",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "9HBce",
+                              "name": "vt2bod",
+                              "fill": "$--text-secondary",
+                              "textGrowth": "fixed-width",
+                              "width": 230,
+                              "content": "Defina sua tabela de honorários e receba pagamentos pontuais e seguros",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Uhwh1",
+                      "name": "vt3",
+                      "width": "fill_container",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "OghBH",
+                          "name": "vt3ico",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "$--primary-light",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "bQ51H",
+                              "name": "vt3icoI",
+                              "width": 20,
+                              "height": 20,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--primary"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LCMUq",
+                          "name": "vt3txt",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "f0gbl",
+                              "name": "vt3tit",
+                              "fill": "$--text-primary",
+                              "content": "Construa sua reputação",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ZJecR",
+                              "name": "vt3bod",
+                              "fill": "$--text-secondary",
+                              "textGrowth": "fixed-width",
+                              "width": 230,
+                              "content": "Receba avaliações e construa um portfólio reconhecido no mercado",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "9Qlhy",
+                  "name": "vtCta",
+                  "width": "fill_container",
+                  "padding": [
+                    14,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "X7CAz",
+                      "name": "vtBtn",
+                      "fill": "$--primary",
+                      "cornerRadius": 8,
+                      "gap": 8,
+                      "padding": [
+                        14,
+                        24
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "iqmJH",
+                          "name": "vtBtnTxt",
+                          "fill": "$--text-white",
+                          "content": "Quero ser plantonista",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "TIZXr",
+                          "name": "vtBtnIco",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "arrow-right",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--text-white"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "NMmi5",
+          "name": "Depoimentos",
+          "width": "fill_container",
+          "fill": "$--bg-surface",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "CdKHj",
+              "name": "testInner",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                40,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mrBDm",
+                  "name": "testEye",
+                  "fill": "$--primary",
+                  "content": "DEPOIMENTOS",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "700",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "text",
+                  "id": "ySHf3",
+                  "name": "testTit",
+                  "fill": "$--text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "O que dizem nossos usuários",
+                  "lineHeight": 1.3,
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "wQoTr",
+                  "name": "testCards",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "YqfhX",
+                      "name": "tc1",
+                      "width": "fill_container",
+                      "fill": "$--bg-card",
+                      "cornerRadius": 12,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#00000010",
+                        "offset": {
+                          "x": 0,
+                          "y": 2
+                        },
+                        "blur": 8
+                      },
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "pFJBR",
+                          "name": "tc1stars",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "uKp0X",
+                              "name": "tc1s1",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "DVzMi",
+                              "name": "tc1s2",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "vCpkn",
+                              "name": "tc1s3",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "Mewsi",
+                              "name": "tc1s4",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "Q5A0O",
+                              "name": "tc1s5",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "B3qjg",
+                          "name": "tc1quote",
+                          "fill": "$--text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "\"A VetPlant transformou como gerenciamos os plantões. Antes era uma dor de cabeça, agora encontramos profissionais qualificados em minutos.\"",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Rka8S",
+                          "name": "tc1auth",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "AXPLP",
+                              "name": "tc1av",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$--primary-light",
+                              "cornerRadius": 18,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "8kaFY",
+                                  "name": "tc1avT",
+                                  "fill": "$--primary",
+                                  "content": "AM",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "QOCpP",
+                              "name": "tc1info",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "YmGG6",
+                                  "name": "tc1name",
+                                  "fill": "$--text-primary",
+                                  "content": "Ana Martins",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "lUr8O",
+                                  "name": "tc1role",
+                                  "fill": "$--text-secondary",
+                                  "content": "Diretora, Clínica Pet Life • São Paulo",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "O1DfH",
+                      "name": "tc2",
+                      "width": "fill_container",
+                      "fill": "$--bg-card",
+                      "cornerRadius": 12,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#00000010",
+                        "offset": {
+                          "x": 0,
+                          "y": 2
+                        },
+                        "blur": 8
+                      },
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "yGo33",
+                          "name": "tc2stars",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "4jCX9",
+                              "name": "tc2s1",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "sHLAA",
+                              "name": "tc2s2",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "gPhAl",
+                              "name": "tc2s3",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "vK5Ld",
+                              "name": "tc2s4",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "1K8nu",
+                              "name": "tc2s5",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "cR9Dw",
+                          "name": "tc2quote",
+                          "fill": "$--text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "\"Faço plantões pelo VetPlant há 8 meses. A flexibilidade de agenda e os pagamentos sempre em dia mudaram minha vida profissional.\"",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "cZPUv",
+                          "name": "tc2auth",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "dD65U",
+                              "name": "tc2av",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "#E6F0FF",
+                              "cornerRadius": 18,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "fNdGl",
+                                  "name": "tc2avT",
+                                  "fill": "#3B5FCC",
+                                  "content": "CR",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "EKkdH",
+                              "name": "tc2info",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "PX7RZ",
+                                  "name": "tc2name",
+                                  "fill": "$--text-primary",
+                                  "content": "Carlos Rodrigues",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "qiVm5",
+                                  "name": "tc2role",
+                                  "fill": "$--text-secondary",
+                                  "content": "Veterinário Plantonista • Rio de Janeiro",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FWVB6",
+                      "name": "tc3",
+                      "width": "fill_container",
+                      "fill": "$--bg-card",
+                      "cornerRadius": 12,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#00000010",
+                        "offset": {
+                          "x": 0,
+                          "y": 2
+                        },
+                        "blur": 8
+                      },
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mxYtW",
+                          "name": "tc3stars",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "kFNj2",
+                              "name": "tc3s1",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "qCmCA",
+                              "name": "tc3s2",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "F6ub6",
+                              "name": "tc3s3",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "Y3b4N",
+                              "name": "tc3s4",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "Wscm2",
+                              "name": "tc3s5",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "star",
+                              "iconFontFamily": "lucide",
+                              "fill": "$--warning"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "R12ni",
+                          "name": "tc3quote",
+                          "fill": "$--text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "\"Processo de cadastro rápido e suporte excelente. Já indicamos para outras clínicas da rede. Plataforma indispensável!\"",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "OkYeq",
+                          "name": "tc3auth",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "qn4Fr",
+                              "name": "tc3av",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "#FEF0E0",
+                              "cornerRadius": 18,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "K579C",
+                                  "name": "tc3avT",
+                                  "fill": "#C05621",
+                                  "content": "FS",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "hyPNW",
+                              "name": "tc3info",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "NbhAz",
+                                  "name": "tc3name",
+                                  "fill": "$--text-primary",
+                                  "content": "Fernanda Silva",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "QekTI",
+                                  "name": "tc3role",
+                                  "fill": "$--text-secondary",
+                                  "content": "Gerente, Hospital Veterinário Central • BH",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DErkJ",
+          "name": "CTA",
+          "width": "fill_container",
+          "fill": "$--primary-light",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mCWyZ",
+              "name": "ctaInner",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                40,
+                20
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "5qnmX",
+                  "name": "ctaTit",
+                  "fill": "$--text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Pronto para começar?",
+                  "lineHeight": 1.3,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "XlRpf",
+                  "name": "ctaSub",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Junte-se a centenas de clínicas e veterinários que já usam o VetPlant",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "mGssh",
+                  "name": "ctaBtns",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "G1BLp",
+                      "name": "ctaB1",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "$--primary",
+                      "cornerRadius": 8,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "7K4y2",
+                          "name": "ctaB1T",
+                          "fill": "$--text-white",
+                          "content": "Cadastrar minha clínica",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fhVGu",
+                      "name": "ctaB2",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "$--bg-card",
+                      "cornerRadius": 8,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1.5,
+                        "fill": "$--primary"
+                      },
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "BNphu",
+                          "name": "ctaB2T",
+                          "fill": "$--primary",
+                          "content": "Quero ser plantonista",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PUUaq",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "#1A2A2A",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "GLVhO",
+              "name": "footerInner",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "padding": [
+                40,
+                20,
+                32,
+                20
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "z5ssO",
+                  "name": "footLogo",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "dvjod",
+                      "name": "footPaw",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "paw-print",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "xJDQW",
+                      "name": "footBrand",
+                      "fill": "$--text-white",
+                      "content": "VetPlant",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "APDOS",
+                  "name": "footTag",
+                  "fill": "#FFFFFF80",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Conectando clínicas veterinárias e plantonistas em todo o Brasil.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "EcMEZ",
+                  "name": "footLinks",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Inuaj",
+                      "name": "footLinksT",
+                      "fill": "$--text-white",
+                      "content": "Links úteis",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "aDzTc",
+                      "name": "footL1",
+                      "fill": "#FFFFFF80",
+                      "content": "Como funciona",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "P2lK0",
+                      "name": "footL2",
+                      "fill": "#FFFFFF80",
+                      "content": "Para clínicas",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "zHGXc",
+                      "name": "footL3",
+                      "fill": "#FFFFFF80",
+                      "content": "Para veterinários",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FNd6j",
+                      "name": "footL4",
+                      "fill": "#FFFFFF80",
+                      "content": "Suporte",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "IoL1H",
+                  "name": "footDiv",
+                  "fill": "#FFFFFF1A",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "G3bX7",
+                  "name": "footBot",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "bgmoF",
+                      "name": "footCopy",
+                      "fill": "#FFFFFF4D",
+                      "content": "© 2025 VetPlant. Todos os direitos reservados.",
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
                 }
               ]
             }

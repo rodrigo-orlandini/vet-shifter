@@ -5,7 +5,7 @@ import Link from "next/link";
 import { getVetShifterAPI } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
 import { FieldWithError } from "@/components/ui/FieldWithError";
-import { Button } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { isRequired, isValidEmail, validationMessages } from "@/lib/validation";
 import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
@@ -58,12 +58,9 @@ export default function ForgotPasswordPage() {
             Se existir uma conta com este e-mail, enviamos as instruções para redefinir sua senha.
           </p>
           <div className="mt-6">
-            <Link
-              href="/login"
-              className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-[#2A9D8F] px-5 text-[15px] font-semibold text-white hover:bg-primary-hover"
-            >
+            <ButtonLink href="/login" className="w-full">
               Voltar para entrar
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </AuthCard>

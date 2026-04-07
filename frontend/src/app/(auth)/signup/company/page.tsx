@@ -209,14 +209,13 @@ export default function CompanySignUpPage() {
               Ir para o painel
             </Button>
 
-            <button
-              type="button"
-              className="text-sm font-medium text-[#2A9D8F] hover:underline disabled:cursor-not-allowed disabled:opacity-70"
+            <Button
+              variant="link"
               disabled={postLoginTarget !== null}
               onClick={() => loginAndRedirect("profile")}
             >
               Completar perfil enquanto aguardo
-            </button>
+            </Button>
           </div>
         </AuthCard>
       </div>
