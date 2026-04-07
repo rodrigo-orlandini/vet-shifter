@@ -5,8 +5,9 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getVetShifterAPI } from "@/api/generated/api";
 import { useToast } from "@/components/toast/ToastProvider";
-import { FieldWithError } from "@/components/FieldWithError";
-import { Button } from "@/components/Button";
+import { FieldWithError } from "@/components/ui/FieldWithError";
+import { Button } from "@/components/ui/Button";
+import { AuthCard } from "@/components/auth/AuthCard";
 import { validationMessages } from "@/lib/validation";
 import { getBackendErrorMessage } from "@/lib/backendErrorMessage";
 
@@ -27,19 +28,23 @@ function ResetPasswordForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
     const err: { password?: string; confirmPassword?: string } = {};
+
     if (password.length < 8) err.password = validationMessages.password;
     if (password !== confirmPassword) err.confirmPassword = validationMessages.passwordMatch;
+
     if (Object.keys(err).length > 0) {
       setFieldErrors(err);
       return;
     }
+
     if (!token) {
       setError("Link inválido. Solicite uma nova redefinição de senha.");
       return;
     }
-    setFieldErrors({});
 
+    setFieldErrors({});
     setSubmitting(true);
 
     try {
@@ -56,37 +61,35 @@ function ResetPasswordForm() {
 
   if (!token) {
     return (
-      <div className="overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-xl shadow-neutral-200/50">
-        <div className="border-t-4 border-amber-500 bg-linear-to-r from-amber-500/5 to-orange-500/5 px-8 pt-8 pb-6">
-          <h1 className="mb-1 text-2xl font-bold tracking-tight text-neutral-900">Link inválido</h1>
-          <p className="text-sm text-neutral-600">
+      <AuthCard>
+        <div className="p-5 sm:p-10">
+          <h1 className="text-xl font-bold text-[#18181B] sm:text-2xl">Link inválido</h1>
+          <p className="mt-1 text-sm text-[#6C757D]">
             Este link de redefinição é inválido ou está incompleto. Solicite um novo link.
           </p>
+          <div className="mt-6">
+            <Link
+              href="/forgot-password"
+              className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-[#2A9D8F] px-5 text-[15px] font-semibold text-white hover:bg-primary-hover"
+            >
+              Solicitar novo link
+            </Link>
+          </div>
         </div>
-        <div className="p-8 pt-6">
-          <Link
-            href="/forgot-password"
-            className="inline-block rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
-          >
-            Solicitar novo link
-          </Link>
-        </div>
-      </div>
+      </AuthCard>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-xl shadow-neutral-200/50">
-      <div className="border-t-4 border-emerald-500 bg-linear-to-r from-emerald-500/5 to-teal-500/5 px-8 pt-8 pb-4">
-        <h1 className="mb-1 text-2xl font-bold tracking-tight text-neutral-900">Redefinir senha</h1>
-        <p className="text-sm text-neutral-600">
-          Informe sua nova senha abaixo.
-        </p>
-      </div>
-      <div className="p-8 pt-6">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <AuthCard>
+      <div className="p-5 sm:p-10">
+        <h1 className="text-xl font-bold text-[#18181B] sm:text-2xl">Redefinir senha</h1>
+        <p className="mt-1 text-sm text-[#6C757D]">Informe sua nova senha abaixo.</p>
+
+        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
           <FieldWithError
             label="Nova senha"
+            requiredMark
             error={fieldErrors.password}
             type="password"
             value={password}
@@ -96,6 +99,7 @@ function ResetPasswordForm() {
           />
           <FieldWithError
             label="Confirmar senha"
+            requiredMark
             error={fieldErrors.confirmPassword}
             type="password"
             value={confirmPassword}
@@ -105,29 +109,29 @@ function ResetPasswordForm() {
           />
 
           {error && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="text-sm text-[#E53E3E]" role="alert">
               {error}
             </p>
           )}
 
-          <Button type="submit" disabled={submitting} loading={submitting}>
+          <Button type="submit" disabled={submitting} loading={submitting} className="w-full">
             {submitting ? "Atualizando…" : "Atualizar senha"}
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-neutral-600">
-          <Link href="/login" className="font-medium text-emerald-600 hover:underline">
+        <p className="mt-6 text-center text-sm text-[#6C757D]">
+          <Link href="/login" className="font-medium text-[#2A9D8F] hover:underline">
             Voltar para entrar
           </Link>
         </p>
       </div>
-    </div>
+    </AuthCard>
   );
 }
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-md p-6 text-center text-neutral-500">Carregando…</div>}>
+    <Suspense fallback={<div className="p-6 text-center text-[#6C757D]">Carregando…</div>}>
       <ResetPasswordForm />
     </Suspense>
   );

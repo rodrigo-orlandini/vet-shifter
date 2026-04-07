@@ -24,7 +24,7 @@ export const VETERINARY_SPECIALTIES = [
 export const SPECIALTY_LABELS: Record<string, string> = {
   general_practice: "Clínico geral",
   felines: "Felinos",
-  wildlife: "Silvestres",
+  wildlife: "Animais Silvestres",
   dermatology: "Dermatologia",
   cardiology: "Cardiologia",
   nephrology: "Nefrologia",
@@ -35,11 +35,11 @@ export const SPECIALTY_LABELS: Record<string, string> = {
   orthopedics: "Ortopedia",
   dentistry: "Odontologia",
   ophthalmology: "Oftalmologia",
-  ultrasound: "Ultrassom",
+  ultrasound: "Ultrassonografia",
   pathology: "Patologia",
   anesthesiology: "Anestesiologia",
   icu: "UTI",
   oncology: "Oncologia",
   physiotherapy: "Fisioterapia",
-  behavioral: "Comportamental",
+  behavioral: "Comportamento Animal",
 };

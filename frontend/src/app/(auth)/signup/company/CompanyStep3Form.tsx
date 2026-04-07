@@ -1,46 +1,43 @@
 "use client";
 
-import { FieldWithError } from "@/components/FieldWithError";
-import type { ControllersRegisterCompanyRequest } from "@/api/generated/api";
+import { DocumentUploadSlot } from "@/components/auth/DocumentUploadSlot";
+import { DocumentReviewNotice } from "@/components/auth/DocumentReviewNotice";
+import { SkipUploadButton } from "@/components/auth/SkipUploadButton";
 
-type FieldErrors = Partial<Record<keyof ControllersRegisterCompanyRequest, string>>;
+export type CompanyDocKey = "cnpjCard" | "alvara" | "idDoc";
 
 export interface CompanyStep3FormProps {
-  form: ControllersRegisterCompanyRequest;
-  fieldErrors: FieldErrors;
-  update: (partial: Partial<ControllersRegisterCompanyRequest>) => void;
+  files: Record<CompanyDocKey, File | null>;
+  onFile: (key: CompanyDocKey, file: File | null) => void;
+  onSkipUploads?: () => void;
 }
 
-export function CompanyStep3Form({ form, fieldErrors, update }: CompanyStep3FormProps) {
+export function CompanyStep3Form({ files, onFile, onSkipUploads }: CompanyStep3FormProps) {
   return (
     <div className="flex flex-col gap-4">
-      <FieldWithError
-        label="Senha"
-        error={fieldErrors.password}
-        type="password"
-        value={form.password}
-        onChange={(e) => update({ password: e.target.value })}
-        placeholder="Mínimo 8 caracteres"
+      <DocumentReviewNotice />
+
+      <DocumentUploadSlot
+        title="Cartão CNPJ"
+        required={false}
+        file={files.cnpjCard}
+        onFile={(f) => onFile("cnpjCard", f)}
       />
-      <label className="flex flex-col gap-1">
-        {fieldErrors.consent_lgpd && (
-          <span className="text-xs text-red-600" role="alert">
-            {fieldErrors.consent_lgpd}
-          </span>
-        )}
-        <label className="flex items-start gap-2">
-          <input
-            type="checkbox"
-            checked={form.consent_lgpd}
-            onChange={(e) => update({ consent_lgpd: e.target.checked })}
-            className={`mt-1 rounded ${fieldErrors.consent_lgpd ? "border-red-500" : "border-neutral-300"}`}
-          />
-          <span className="text-sm text-neutral-700">
-            Concordo com o tratamento dos meus dados de acordo com a LGPD (Lei Geral de
-            Proteção de Dados).
-          </span>
-        </label>
-      </label>
+      <DocumentUploadSlot
+        title="Alvará de Funcionamento"
+        required={false}
+        file={files.alvara}
+        onFile={(f) => onFile("alvara", f)}
+      />
+      <DocumentUploadSlot
+        title="RG ou CNH do Responsável"
+        description="Documento de identidade do responsável"
+        required={false}
+        file={files.idDoc}
+        onFile={(f) => onFile("idDoc", f)}
+      />
+
+      {onSkipUploads && <SkipUploadButton onClick={onSkipUploads} />}
     </div>
   );
 }

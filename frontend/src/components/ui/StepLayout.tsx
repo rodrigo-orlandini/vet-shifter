@@ -1,13 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
-import { StepIndicator } from "./StepIndicator";
+import { ArrowRightIcon } from "@/components/icons/ArrowRightIcon";
 import { Button } from "./Button";
 
 export interface StepLayoutProps {
-  currentStep: number;
-  totalSteps: number;
-  stepLabels?: string[];
   onBack?: () => void;
   onNext?: () => void;
   onSubmit?: () => void;
@@ -22,15 +19,12 @@ export interface StepLayoutProps {
 }
 
 export function StepLayout({
-  currentStep,
-  totalSteps,
-  stepLabels,
   onBack,
   onNext,
   onSubmit,
   isFirstStep,
   isLastStep,
-  nextLabel = "Continuar",
+  nextLabel = "Próximo",
   submitLabel = "Enviar",
   loading = false,
   submitDisabled = false,
@@ -76,19 +70,13 @@ export function StepLayout({
 
   return (
     <div ref={rootRef} className={`flex flex-col gap-6 ${className}`}>
-      <StepIndicator
-        currentStep={currentStep}
-        totalSteps={totalSteps}
-        stepLabels={stepLabels}
-      />
+      <div className="min-h-[120px]">{children}</div>
 
-      <div className="min-h-[200px]">{children}</div>
-
-      <div className="flex gap-3 justify-between">
-        <div>
+      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-stretch sm:justify-between sm:gap-4">
+        <div className="sm:flex-1">
           {!isFirstStep && onBack && (
-            <Button variant="secondary" type="button" onClick={onBack} disabled={loading}>
-              Voltar
+            <Button variant="back" type="button" onClick={onBack} disabled={loading} className="w-full sm:w-auto">
+              ← Voltar
             </Button>
           )}
         </div>
@@ -98,8 +86,16 @@ export function StepLayout({
           onClick={handlePrimary}
           loading={loading}
           disabled={isLastStep && submitDisabled}
+          className={`w-full sm:min-w-[160px] ${!isFirstStep ? "sm:flex-1" : "sm:ml-auto"}`}
         >
-          {isLastStep ? submitLabel : nextLabel}
+          {isLastStep ? (
+            submitLabel
+          ) : (
+            <span className="inline-flex items-center gap-2">
+              {nextLabel}
+              <ArrowRightIcon className="h-4 w-4" />
+            </span>
+          )}
         </Button>
       </div>
     </div>
