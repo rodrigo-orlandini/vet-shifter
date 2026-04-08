@@ -31,7 +31,7 @@ func NewGetUserTypeController() *GetUserTypeController {
 //	@Param			email	query		string	true	"User email"
 //	@Success		200		{object}	GetUserTypeResponse	"company_owner or shift_veterinary"
 //	@Failure		400		{object}	api.ApiErrorResponse	"E-mail inválido"
-//	@Failure		404		{object}	api.ApiErrorResponse	"E-mail não encontrado"
+//	@Failure		401		{object}	api.ApiErrorResponse	"Credenciais inválidas"
 //	@Router			/auth/user-type [get]
 func (c *GetUserTypeController) Handle(ctx *gin.Context) {
 	internalErr := &customerror.InternalServerError{}
